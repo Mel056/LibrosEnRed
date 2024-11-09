@@ -6,7 +6,10 @@ def main():
 
     @app.route('/')
     def Home():
-        generos = {"Acción","Arte","Autoayuda","Aventuras","Biografías","Cocina","Contemporáneo","Cs. Ficción","Distopía","Divulgativos","Drama","Fantasía","Historia","Infantil","Manuales","Memorias","Paranormal","Poesía","Romance","Salud","Suspenso","Terror"}
+        generos = {"Acción","Arte","Autoayuda","Aventuras","Biografías","Cocina",
+                   "Contemporáneo","Cs. Ficción","Distopía","Divulgativos","Drama",
+                   "Fantasía","Historia","Infantil","Manuales","Memorias","Paranormal",
+                   "Poesía","Romance","Salud","Suspenso","Terror"}
         return render_template('home.html',generos=generos)
 
     @app.route('/Login')

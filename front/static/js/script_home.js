@@ -23,9 +23,9 @@ const flechaIzquierdaLibros = document.getElementById('flecha-izquierda-libros')
 const flechaDerechaLibros = document.getElementById('flecha-derecha-libros');
 
 flechaDerechaLibros.addEventListener('click', () => {
-    filaLibros.scrollLeft += fila.offsetWidth;
+    filaLibros.scrollLeft += filaLibros.offsetWidth;
 });
 
 flechaIzquierdaLibros.addEventListener('click', () => {
-    filaLibros.scrollLeft -= fila.offsetWidth;
+    filaLibros.scrollLeft -= filaLibros.offsetWidth;
 });
