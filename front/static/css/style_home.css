@@ -14,13 +14,15 @@ body {
     margin: 0;
 }
 
-.logo {
-    height: 200px;
+/* Estilos del nav */
+#logo {
     position: absolute;
-    left: 1cm;
+    color: white;
+    left: 3%;
+    top: 20%;
+    font-size: 60px;
 }
 
-/* Estilos del nav */
 .search-container {
     position: absolute;
     display: flex;
@@ -122,10 +124,9 @@ nav li a {
     border-color: white;
     cursor: pointer;
     font-size: 16px;
-    margin-top: 20px;
+    margin: 20px;
+    left: 22%;
     position: relative;
-    bottom: 10px;
-    left: 320px;
     border-style: solid;
 }
 
@@ -250,7 +251,6 @@ nav li a {
 .libros .contenedor-carousel-libros .carousel-libros {
     display: flex;
     flex-wrap: nowrap;
-    gap: 20px;
     justify-content: space-between;
 }
 
@@ -274,18 +274,17 @@ nav li a {
     perspective: 1500px;
 }
 
+.contenedor-flip:hover .flip-libro {
+    transform: rotateY(180deg);
+}
+
 .flip-libro {
-    width: 354px;
-    height: 400px;
+    width: 186.75px;
+    height: 200px;
     transform-style: preserve-3d;
     transition: transform 0.7s ease-in-out;
     position: relative;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
     border-radius: 15px;
-}
-
-.contenedor-flip:hover .flip-libro {
-    transform: rotateY(180deg);
 }
 
 .libro-frente,
@@ -298,14 +297,7 @@ nav li a {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
-    border-radius: 15px;
-    color: #fff;
-    text-align: center;
-}
 
-.libro-frente {
-    background: white;
 }
 
 .libro-frente img {
@@ -315,6 +307,10 @@ nav li a {
 .libro-atras {
     background: white;
     transform: rotateY(180deg);
+    padding: 20px;
+    border-radius: 15px;
+    color: #fff;
+    text-align: center;
 }
 
 .libro-atras h3 {
@@ -346,6 +342,11 @@ nav li a {
 
 .libro-atras .button:hover {
     background-color: #0b6070;
+}
+
+.libro-atras a{
+    color: white;
+    text-decoration: none;
 }
 
 /* Estilos del footer*/

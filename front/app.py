@@ -19,6 +19,10 @@ def main():
     @app.route('/Home/<genero>')
     def Genero(genero):
         return render_template('home.html')
+    
+    @app.route('/Detalle/<idLibro>')
+    def Detalle(idLibro):
+        return render_template('detalle.html')
 
     app.run(debug=True)
 
