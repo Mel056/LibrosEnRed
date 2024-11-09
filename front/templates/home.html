@@ -14,8 +14,7 @@
     <nav>
         <img class="logo" src="{{url_for('static', filename='images/Logo.png')}}">
         <ul>
-            <li><a href="#"><i class="fa-solid fa-home nav-icon"></i> Inicio</a></li>
-            <li><a href="#"><i class="fa-solid fa-book nav-icon"></i> Libros</a></li>
+            <li><a href="{{url_for('Home')}}"><i class="fa-solid fa-home nav-icon"></i> Inicio</a></li>
             <li><a href="#"><i class="fa-solid fa-mobile nav-icon"></i> App</a></li>
         </ul>
         <div class="search-container">
@@ -24,53 +23,84 @@
                 <i class="fa-solid fa-search"></i>
             </button>
         </div>
-        <button class="cta-button"> <a class="sign-in" href="{{url_for('login')}}">Sign In</a></button>
+        <button class="cta-button"> <a class="links" href="{{url_for('Login')}}">Sign In</a></button>
     </nav>
-
+    <div class="categorias">
+        <button role="button" id="flecha-izquierda" class="flecha-izquierda"><i class="fas fa-angle-left"></i></button>
+        <div class="contenedor-carousel">
+            <div class="carousel">
+                {% for genero in generos %}
+                    <div class="categoria">
+                        <button class="button-genero"><a class="links" href="{{url_for('Genero', genero=genero)}}">{{ genero }}</a></button>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <button role="button" id="flecha-derecha" class="flecha-derecha"><i class="fas fa-angle-right"></i></button>
+    </div>
+    
     <div class="main-content">
-        <div class="section">
-            <h2>Libros</h2>
-            <div class="product-grid">
-                <div class="product-card">
-                    <img src="https://images.pexels.com/photos/90946/pexels-photo-90946.jpeg?auto=compress&cs=tinysrgb&w=800"
-                        alt="Product 1">
-                    <div class="info">
-                        <h3>Product 1</h3>
-                        <p>Description of product 1.</p>
-                        <div class="price">$99.99</div>
+        <h2>Libros</h2>
+        <div class="libros">
+            <button role="button" id="flecha-izquierda-libros" class="flecha-izquierda-libros"><i class="fas fa-angle-left"></i></button>
+            <div class="contenedor-carousel-libros">
+                <div class="carousel-libros">
+                    
+                    <div class="libro">
+                        <img src="{{url_for('static', filename='images/Logo.png')}}" alt="Libro 1">
+                        <div class="info">
+                            <h3>Libro 1</h3>
+                            <p>Descripcion de libro 1.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="product-card">
-                    <img src="https://images.pexels.com/photos/18105/pexels-photo.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                        alt="Product 2">
-                    <div class="info">
-                        <h3>Product 2</h3>
-                        <p>Description of product 2.</p>
-                        <div class="price">$89.99</div>
+                    <div class="libro">
+                        <img src="{{url_for('static', filename='images/Logo.png')}}" alt="Libro 1">
+                        <div class="info">
+                            <h3>Libro 1</h3>
+                            <p>Descripcion de libro 1.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="product-card">
-                    <img src="https://images.pexels.com/photos/3020129/pexels-photo-3020129.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
-                        alt="Product 3">
-                    <div class="info">
-                        <h3>Product 3</h3>
-                        <p>Description of product 3.</p>
-                        <div class="price">$79.99</div>
+                    <div class="libro">
+                        <img src="{{url_for('static', filename='images/Logo.png')}}" alt="Libro 1">
+                        <div class="info">
+                            <h3>Libro 1</h3>
+                            <p>Descripcion de libro 1.</p>
+                        </div>
                     </div>
-                </div>
-                <div class="product-card">
-                    <img src="https://images.pexels.com/photos/4110337/pexels-photo-4110337.jpeg?auto=compress&cs=tinysrgb&w=800&lazy=load"
-                        alt="Product 4">
-                    <div class="info">
-                        <h3>Product 4</h3>
-                        <p>Description of product 4.</p>
-                        <div class="price">$69.99</div>
+                    <div class="libro">
+                        <img src="{{url_for('static', filename='images/Logo.png')}}" alt="Libro 1">
+                        <div class="info">
+                            <h3>Libro 1</h3>
+                            <p>Descripcion de libro 1.</p>
+                        </div>
+                    </div>
+                    <div class="libro">
+                        <img src="{{url_for('static', filename='images/Logo.png')}}" alt="Libro 1">
+                        <div class="info">
+                            <h3>Libro 1</h3>
+                            <p>Descripcion de libro 1.</p>
+                        </div>
+                    </div>
+                    <div class="libro">
+                        <img src="{{url_for('static', filename='images/Logo.png')}}" alt="Libro 1">
+                        <div class="info">
+                            <h3>Libro 1</h3>
+                            <p>Descripcion de libro 1.</p>
+                        </div>
+                    </div>
+                    <div class="libro">
+                        <img src="{{url_for('static', filename='images/Logo.png')}}" alt="Libro 1">
+                        <div class="info">
+                            <h3>Libro 1</h3>
+                            <p>Descripcion de libro 1.</p>
+                        </div>
                     </div>
                 </div>
             </div>
+            <button role="button" id="flecha-derecha-libros" class="flecha-derecha-libros"><i class="fas fa-angle-right"></i></button>
         </div>
     </div>
-    <script src="{{ url_for('static', filename='js/script_home.js') }}"></script>
+    <script src="{{url_for('static', filename='js/script_home.js')}}"></script>
     <footer>
         <div class="footer-content">
             <div class="footer-top">

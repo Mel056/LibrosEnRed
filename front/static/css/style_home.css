@@ -19,7 +19,7 @@ body {
     left: 1cm;
 }
 
-/* General styles for search input and button */
+/* Estilos del nav */
 .search-container {
     position: absolute;
     display: flex;
@@ -107,7 +107,7 @@ nav li a {
     font-size: 20px;
 }
 
-.sign-in {
+.links {
     text-decoration: none;
     color: white;
     font-weight: 700;
@@ -115,7 +115,6 @@ nav li a {
 
 .cta-button {
     background-color: #0b6070;
-    color: white;
     padding: 12px 25px;
     border-width: 3px;
     border-radius: 60px;
@@ -126,19 +125,147 @@ nav li a {
     position: relative;
     bottom: 10px;
     left: 320px;
+    border-style: solid;
 }
 
+/* Estilos de generos */
+.button-genero {
+    background-color: #0b6070;
+    padding: 12px 25px;
+    border-width: 3px;
+    border-radius: 60px;
+    border-color: white;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 5px;
+    border-style: solid;
+    width: 250px;
+}
+
+.categorias {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.categorias .flecha-izquierda,
+.categorias .flecha-derecha {
+    position: absolute;
+    border: none;
+    background: rgba(0,0,0,.3);
+    font-size: 20px;
+    top: calc(50% - 20%);
+    line-height: 40px;
+    color: white;
+    cursor: pointer;
+    z-index: 500;
+    transition: .2s ease all;
+    border-radius: 60px;
+    padding: 0px 10px;
+}
+
+.categorias .flecha-izquierda:hover,
+.categorias .flecha-derecha:hover {
+    background: rgba(0,0,0,.9);
+}
+
+.categorias .flecha-izquierda {
+    left: 0;
+}
+
+.categorias .flecha-derecha {
+    right: 0;
+}
+
+.categorias .contenedor-carousel {
+    width: 100%;
+    padding: 20px 0;
+    overflow: hidden;
+    scroll-behavior: smooth;
+}
+
+.categorias .contenedor-carousel .carousel {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.categorias .contenedor-carousel .carousel .categoria {
+    transition: .3s ease all;
+}
+
+.categorias .contenedor-carousel .carousel .categoria {
+    width: 100%;
+    vertical-align: top;
+}
+
+.libros {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.libros .flecha-izquierda-libros,
+.libros .flecha-derecha-libros {
+    position: absolute;
+    border: none;
+    background: rgba(0,0,0,.3);
+    font-size: 20px;
+    top: calc(60% - 15%);
+    line-height: 40px;
+    color: white;
+    cursor: pointer;
+    z-index: 500;
+    transition: .2s ease all;
+    border-radius: 60px;
+    padding: 0px 10px;
+}
+
+.libros .flecha-izquierda-libros:hover,
+.libros .flecha-derecha-libros:hover {
+    background: rgba(0,0,0,.9);
+}
+
+.libros .flecha-izquierda-libros {
+    left: -40px;
+}
+
+.libros .flecha-derecha-libros {
+    right: -40px;
+}
+
+.libros .contenedor-carousel-libros {
+    width: 100%;
+    padding: 20px 0;
+    overflow: hidden;
+    scroll-behavior: smooth;
+}
+
+.libros .contenedor-carousel-libros .carousel-libros {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+
+.libros .contenedor-carousel-libros .carousel-libros .libro {
+    transition: .3s ease all;
+}
+
+.libros .contenedor-carousel-libros .carousel-libros .libro {
+    width: 20%;
+    vertical-align: top;
+}
 .main-content {
     padding: 20px;
-    max-width: 1200px;
     margin: auto;
+    width: 100%;
 }
 
-.section {
-    margin-bottom: 40px;
-}
-
-.section h2 {
+.main-content h2 {
     font-size: 32px;
     margin-bottom: 20px;
     text-align: center;
@@ -146,57 +273,32 @@ nav li a {
     color: white;
 }
 
-.product-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: space-between;
-}
-
-.product-card {
+.libro {
     background: #fff;
-    border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    flex: 1 1 calc(25% - 20px);
-    /* 4 items per row with space between */
     margin-bottom: 20px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
 }
 
-.product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.product-card img {
+.libro img {
     width: 100%;
     height: 200px;
     object-fit: cover;
 }
 
-.product-card .info {
+.libro .info {
     padding: 15px;
 }
 
-.product-card h3 {
+.libro h3 {
     font-size: 20px;
     margin-bottom: 10px;
     font-weight: 700;
 }
 
-.product-card p {
+.libro p {
     font-size: 16px;
     color: #666;
-}
-
-.product-card .price {
-    font-size: 18px;
-    font-weight: 700;
-    margin-top: 10px;
-    color: #0b6070;
 }
 
 .footer-content {
