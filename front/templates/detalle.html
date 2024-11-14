@@ -19,18 +19,12 @@
         <input type="radio" id="star4" name="rating" value="4"><label for="star4" class="star"></label>
         <input type="radio" id="star5" name="rating" value="5"><label for="star5" class="star"></label>
     </div>
-    <!-- Detalles del libro -->
     <div class="book-details">
-        <!-- Nombre del autor -->
         <h1>J.K. Rowling</h1>
-
-        <!-- Título del libro -->
         <h2>Harry Potter y la piedra filosofal</h2>
 
-        <!-- Botón para solicitar intercambio -->
         <button class="exchange-button" onclick="openMaps()">Solicitar Intercambio</button>
 
-        <!-- Descripción del libro -->
         <div class="book-description">
             <h3>Descripción</h3>
             <p>Harry Potter, un niño huérfano que vive con sus crueles tías y tíos, descubre en su undécimo cumpleaños que es un mago. A partir de ese momento, su vida da un giro inesperado cuando es invitado a estudiar en el prestigioso colegio de magia Hogwarts. Allí, Harry forja nuevas amistades, como Hermione Granger y Ron Weasley, y se enfrenta a desafíos que pondrán a prueba su valentía. Mientras explora los secretos del colegio, Harry descubre que tiene un vínculo especial con el oscuro hechicero que asesinó a sus padres, el temido Lord Voldemort. En esta primera entrega de la saga, Harry se embarca en una aventura llena de magia, misterio y un destino único.</p>
@@ -43,10 +37,7 @@
             <button class="search-button" onclick="goToGenre('Suspenso')">Suspenso</button>
             <button class="search-button" onclick="goToGenre('Terror')">Terror</button>
         </div>
-
-        <!-- Contenedor para el iframe del mapa -->
         <div id="map-container">
-            <!-- Botón de cierre del mapa -->
             <button class="close-map-btn" onclick="closeMaps()">Cerrar</button>
             <iframe id="map" src="" frameborder="0" allowfullscreen></iframe>
         </div>
@@ -57,10 +48,7 @@
     © 2024 Libros En Red
 </footer>
 
-<!-- Fondo semi-transparente cuando el mapa está abierto -->
 <div id="map-overlay" onclick="closeMaps()"></div>
-
-<!-- Llamar al archivo JavaScript externo -->
 <script src="{{url_for('static', filename='js/script_details.js')}}"></script>
 
 
