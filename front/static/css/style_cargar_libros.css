@@ -209,6 +209,16 @@ body {
     justify-content: right;
     margin-top: 30px; 
 }
+/*BOTON CARGAR ARCHIVO*/
+.portada-form {
+    display: flex;
+    justify-content: center; 
+}
+
+input[type="file"] {
+    margin: RIGHT; 
+    width: 30%; 
+}
 
 /*BOTON ENVIAR FORM*/
 
