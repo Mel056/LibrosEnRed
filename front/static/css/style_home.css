@@ -11,15 +11,18 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    margin: 0;
 }
 
-.logo {
-    height: 200px;
+/* Estilos del nav */
+#logo {
     position: absolute;
-    left: 1cm;
+    color: white;
+    left: 3%;
+    top: 20%;
+    font-size: 60px;
 }
 
-/* General styles for search input and button */
 .search-container {
     position: absolute;
     display: flex;
@@ -78,6 +81,8 @@ nav {
     justify-content: center;
     height: 80px;
     position: sticky;
+    top: 0;
+    overflow: hidden;
 }
 
 nav ul {
@@ -107,7 +112,7 @@ nav li a {
     font-size: 20px;
 }
 
-.sign-in {
+.links {
     text-decoration: none;
     color: white;
     font-weight: 700;
@@ -115,30 +120,150 @@ nav li a {
 
 .cta-button {
     background-color: #0b6070;
-    color: white;
     padding: 12px 25px;
     border-width: 3px;
     border-radius: 60px;
     border-color: white;
     cursor: pointer;
     font-size: 16px;
-    margin-top: 20px;
+    margin: 20px;
+    left: 18%;
     position: relative;
-    bottom: 10px;
-    left: 320px;
+    border-style: solid;
+}
+
+/* Estilos carousel de categorias */
+.button-genero {
+    background-color: #0b6070;
+    padding: 12px 25px;
+    border-width: 3px;
+    border-radius: 60px;
+    border-color: white;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 5px;
+    border-style: solid;
+    width: 250px;
+}
+
+.categorias {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.categorias .flecha-izquierda,
+.categorias .flecha-derecha {
+    position: absolute;
+    border: none;
+    background: rgba(0,0,0,.3);
+    font-size: 20px;
+    top: calc(50% - 20%);
+    line-height: 40px;
+    color: white;
+    cursor: pointer;
+    z-index: 500;
+    transition: .2s ease all;
+    border-radius: 60px;
+    padding: 0px 10px;
+}
+
+.categorias .flecha-izquierda:hover,
+.categorias .flecha-derecha:hover {
+    background: rgba(0,0,0,.9);
+}
+
+.categorias .flecha-izquierda {
+    left: -40px;
+}
+
+.categorias .flecha-derecha {
+    right: -40px;
+}
+
+.categorias .contenedor-carousel {
+    width: 100%;
+    padding: 20px 0;
+    overflow: hidden;
+    scroll-behavior: smooth;
+}
+
+.categorias .contenedor-carousel .carousel {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.categorias .contenedor-carousel .carousel .categoria {
+    transition: .3s ease all;
+}
+
+.categorias .contenedor-carousel .carousel .categoria {
+    width: 100%;
+    vertical-align: top;
+}
+
+/* Estilos carousel de libros*/
+
+.libros {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.libros .flecha-izquierda-libros,
+.libros .flecha-derecha-libros {
+    position: absolute;
+    border: none;
+    background: rgba(0,0,0,.3);
+    font-size: 20px;
+    top: calc(60% - 15%);
+    line-height: 40px;
+    color: white;
+    cursor: pointer;
+    z-index: 500;
+    transition: .2s ease all;
+    border-radius: 60px;
+    padding: 0px 10px;
+}
+
+.libros .flecha-izquierda-libros:hover,
+.libros .flecha-derecha-libros:hover {
+    background: rgba(0,0,0,.9);
+}
+
+.libros .flecha-izquierda-libros {
+    left: -40px;
+}
+
+.libros .flecha-derecha-libros {
+    right: -40px;
+}
+
+.libros .contenedor-carousel-libros {
+    width: 100%;
+    padding: 20px 0;
+    overflow: hidden;
+    scroll-behavior: smooth;
+}
+
+.libros .contenedor-carousel-libros .carousel-libros {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
 }
 
 .main-content {
+    flex: 1;
     padding: 20px;
-    max-width: 1200px;
     margin: auto;
+    width: 100%;
 }
 
-.section {
-    margin-bottom: 40px;
-}
-
-.section h2 {
+.main-content h2 {
     font-size: 32px;
     margin-bottom: 20px;
     text-align: center;
@@ -146,117 +271,82 @@ nav li a {
     color: white;
 }
 
-.product-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: space-between;
+/* Estilos de libros */
+.contenedor-flip {
+    perspective: 1500px;
 }
 
-.product-card {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    flex: 1 1 calc(25% - 20px);
-    /* 4 items per row with space between */
-    margin-bottom: 20px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
+.contenedor-flip:hover .flip-libro {
+    transform: rotateY(180deg);
 }
 
-.product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.product-card img {
-    width: 100%;
+.flip-libro {
+    width: 186.75px;
     height: 200px;
-    object-fit: cover;
+    transform-style: preserve-3d;
+    transition: transform 0.7s ease-in-out;
+    position: relative;
+    border-radius: 15px;
 }
 
-.product-card .info {
-    padding: 15px;
-}
-
-.product-card h3 {
-    font-size: 20px;
-    margin-bottom: 10px;
-    font-weight: 700;
-}
-
-.product-card p {
-    font-size: 16px;
-    color: #666;
-}
-
-.product-card .price {
-    font-size: 18px;
-    font-weight: 700;
-    margin-top: 10px;
-    color: #0b6070;
-}
-
-.footer-content {
+.libro-frente,
+.libro-atras {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
-}
-
-.footer-top {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.footer-logo {
-    font-size: 28px;
-    font-weight: 700;
-    color: #fff;
-}
-
-.footer-links {
-    display: flex;
-    flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
+
 }
 
-.footer-link-section h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-    font-weight: 700;
+.libro-frente img {
+    height: 100%;
 }
 
-.footer-link-section ul {
-    list-style: none;
-}
-
-.footer-link-section ul li a {
+.libro-atras {
+    background: white;
+    transform: rotateY(180deg);
+    padding: 20px;
+    border-radius: 15px;
     color: #fff;
-    text-decoration: none;
+    text-align: center;
 }
 
-.footer-bottom {
-    margin-top: 20px;
+.libro-atras h3 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: bold;
+    color: #0b6070;
 }
 
-footer p {
+.libro-atras p {
     font-size: 14px;
-    color: #ccc;
+    margin-top: 10px;
+    line-height: 1.5;
+    color: black;
 }
 
-footer {
+.libro-atras .button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #143449;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.libro-atras .button:hover {
     background-color: #0b6070;
-    font-weight: 700;
-    padding: 60px;
-    text-align: center;
-    position: relative;
-    bottom: 0;
-    width: 100%;
-    color: #fff;
-    text-align: center;
+}
+
+.libro-atras a{
+    color: white;
+    text-decoration: none;
 }
