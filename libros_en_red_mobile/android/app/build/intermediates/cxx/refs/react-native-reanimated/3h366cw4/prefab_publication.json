@@ -1,0 +1,41 @@
+{
+  "installationFolder": "/Users/ignacioramos/facultad/2024/c2/intro_des_soft/LibrosEnRed/libros_en_red_mobile/node_modules/react-native-reanimated/android/build/intermediates/prefab_package/debug/prefab",
+  "gradlePath": ":react-native-reanimated",
+  "packageInfo": {
+    "packageName": "react-native-reanimated",
+    "packageSchemaVersion": 2,
+    "packageDependencies": [],
+    "modules": [
+      {
+        "moduleName": "reanimated",
+        "moduleHeaders": "/Users/ignacioramos/facultad/2024/c2/intro_des_soft/LibrosEnRed/libros_en_red_mobile/node_modules/react-native-reanimated/android/build/prefab-headers/reanimated",
+        "moduleExportLibraries": [],
+        "abis": [
+          {
+            "abiName": "arm64-v8a",
+            "abiApi": 24,
+            "abiNdkMajor": 26,
+            "abiStl": "c++_shared",
+            "abiLibrary": "/Users/ignacioramos/facultad/2024/c2/intro_des_soft/LibrosEnRed/libros_en_red_mobile/node_modules/react-native-reanimated/android/build/intermediates/cxx/Debug/2376c292/obj/arm64-v8a/libreanimated.so",
+            "abiAndroidGradleBuildJsonFile": "/Users/ignacioramos/facultad/2024/c2/intro_des_soft/LibrosEnRed/libros_en_red_mobile/node_modules/react-native-reanimated/android/.cxx/Debug/2376c292/arm64-v8a/android_gradle_build.json"
+          }
+        ]
+      },
+      {
+        "moduleName": "worklets",
+        "moduleHeaders": "/Users/ignacioramos/facultad/2024/c2/intro_des_soft/LibrosEnRed/libros_en_red_mobile/node_modules/react-native-reanimated/android/build/prefab-headers/worklets",
+        "moduleExportLibraries": [],
+        "abis": [
+          {
+            "abiName": "arm64-v8a",
+            "abiApi": 24,
+            "abiNdkMajor": 26,
+            "abiStl": "c++_shared",
+            "abiLibrary": "/Users/ignacioramos/facultad/2024/c2/intro_des_soft/LibrosEnRed/libros_en_red_mobile/node_modules/react-native-reanimated/android/build/intermediates/cxx/Debug/2376c292/obj/arm64-v8a/libworklets.so",
+            "abiAndroidGradleBuildJsonFile": "/Users/ignacioramos/facultad/2024/c2/intro_des_soft/LibrosEnRed/libros_en_red_mobile/node_modules/react-native-reanimated/android/.cxx/Debug/2376c292/arm64-v8a/android_gradle_build.json"
+          }
+        ]
+      }
+    ]
+  }
+}
