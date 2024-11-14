@@ -81,6 +81,8 @@ nav {
     justify-content: center;
     height: 80px;
     position: sticky;
+    top: 0;
+    overflow: hidden;
 }
 
 nav ul {
@@ -347,67 +349,4 @@ nav li a {
 .libro-atras a{
     color: white;
     text-decoration: none;
-}
-
-/* Estilos del footer*/
-footer {
-    background-color: #0b6070;
-    font-weight: 700;
-    padding: 60px;
-    text-align: center;
-    position: relative;
-    bottom: 0;
-    width: 100%;
-    color: #fff;
-    text-align: center;
-    margin-top: auto;
-}   
-.footer-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-}
-
-.footer-top {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.footer-logo {
-    font-size: 28px;
-    font-weight: 700;
-    color: #fff;
-}
-
-.footer-links {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-}
-
-.footer-link-section h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-    font-weight: 700;
-}
-
-.footer-link-section ul {
-    list-style: none;
-}
-
-.footer-link-section ul li a {
-    color: #fff;
-    text-decoration: none;
-}
-
-.footer-bottom {
-    margin-top: 20px;
-}
-
-footer p {
-    font-size: 14px;
-    color: #ccc;
 }

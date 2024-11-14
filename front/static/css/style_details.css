@@ -6,7 +6,6 @@ body {
     padding: 20px; 
 }
 
-
 main {
     display: flex;
     align-items: flex-start;
@@ -16,7 +15,6 @@ main {
     border: none; 
     margin-top: 18px; 
 }
-
 
 .book-container {
     display: flex;
@@ -28,13 +26,11 @@ main {
     margin-top: 18px;
 }
 
-
 .book-cover img {
     width: 220px; 
     height: auto;
     margin-top: 10px; 
 }
-
 
 .book-details {
     background-color: transparent;
@@ -90,7 +86,6 @@ footer {
     font-size: 16px; 
 }
 
-
 #map-container {
     width: 80%;
     height: 400px;
@@ -103,14 +98,13 @@ footer {
     transform: translate(-50%, -50%); 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     z-index: 1000; 
-
+}
 
 iframe {
     width: 100%;
     height: 100%;
     border: none;
 }
-
 
 #map-overlay {
     display: none; 
@@ -173,14 +167,12 @@ iframe {
     margin-top: 370px;
     margin-left: 30px;
     position: absolute;
-    
+    transform: rotateY(180deg);
 }
-
 
 .star-rating input {
     display: none;
 }
-
 
 .star-rating label {
     font-size: 40px; 
@@ -189,21 +181,14 @@ iframe {
     transition: color 0.3s ease;
 }
 
-
 .star-rating label:before {
     content: "☆"; 
 }
 
-
+.star-rating input:checked + label,
 .star-rating label:hover,
 .star-rating input:checked ~ label {
     color: #ffcc00; 
-}
-
-
-.star-rating input:checked + label,
-.star-rating input:checked ~ label {
-    color: #ffcc00;
 }
 
 .star-rating input:checked + label:before,

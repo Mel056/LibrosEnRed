@@ -7,15 +7,15 @@
     <title>LibrosEnRed</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="{{url_for('static',filename='css/style_home.css')}}"
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="{{url_for('static',filename='css/style_cargar_libros.css')}}">>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Lato' type='text/css'>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/style_home.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/style_cargar_libros.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/style_footer.css')}}">
 </head>
 
 <body>
     <nav>
-
         <i id="logo" class="fa-solid fa-book nav-icon"></i>
         <ul>
             <li><a href="{{url_for('Home')}}"><i class="fa-solid fa-home nav-icon"></i> Inicio</a></li>
@@ -28,19 +28,6 @@
             </button>
         </div>
     </nav>
-    <div class="categorias">
-        <button role="button" id="flecha-izquierda" class="flecha-izquierda"><i class="fas fa-angle-left"></i></button>
-        <div class="contenedor-carousel">
-            <div class="carousel">
-                {% for genero in generos %}
-                    <div class="categoria">
-                        <button class="button-genero"><a class="links" href="{{url_for('Genero', genero=genero)}}">{{ genero }}</a></button>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-        <button role="button" id="flecha-derecha" class="flecha-derecha"><i class="fas fa-angle-right"></i></button>
-    </div>
 
 <h2 class="cargar-libro">Cargar un libro</h2>
     
@@ -81,7 +68,6 @@
 {% include 'footer.html' %}
 
 <script src="{{url_for('static', filename='js/script_home.js')}}"></script>
-<script src="{{url_for('static', filename='js/script_prueba.js')}}"></script>
 
 
 </body>

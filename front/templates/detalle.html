@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalles</title>
     <link rel="stylesheet" href="{{url_for('static',filename='css/style_details.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/style_footer.css')}}">
 </head>
 <body>
 
@@ -44,9 +45,7 @@
     </div>
 </main>
 
-<footer>
-    © 2024 Libros En Red
-</footer>
+{% include 'footer.html' %}
 
 <div id="map-overlay" onclick="closeMaps()"></div>
 <script src="{{url_for('static', filename='js/script_details.js')}}"></script>

@@ -8,24 +8,28 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="{{url_for('static',filename='css/style_home.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/style_footer.css')}}">
 </head>
 
 <body>
     <nav>
-
         <i id="logo" class="fa-solid fa-book nav-icon"></i>
         <ul>
             <li><a href="{{url_for('Home')}}"><i class="fa-solid fa-home nav-icon"></i> Inicio</a></li>
             <li><a href="#"><i class="fa-solid fa-mobile nav-icon"></i> App</a></li>
+<<<<<<< HEAD
             <li><a href="{{url_for('Cargar')}}"><i class="fa-solid fa-upload nav-icon"></i> Cargar</a></li>
+=======
+            <li><a href="{{url_for('Cargar')}}"><i class="fa-solid fa-upload nav-icon"></i> Subir libro</a></li>
+>>>>>>> f69e312 (Cambios generales en los estilos.)
         </ul>
+        <button class="cta-button"> <a class="links" href="{{url_for('Login')}}">Sign In</a></button>
         <div class="search-container">
             <input type="text" id="searchInput" class="search-input" placeholder="Search..." />
             <button id="searchButton" class="search-button">
                 <i class="fa-solid fa-search"></i>
             </button>
         </div>
-        <button class="cta-button"> <a class="links" href="{{url_for('Login')}}">Sign In</a></button>
     </nav>
     <div class="categorias">
         <button role="button" id="flecha-izquierda" class="flecha-izquierda"><i class="fas fa-angle-left"></i></button>
@@ -173,7 +177,7 @@
         </div>
     </div>
 
-{% include 'footer.html'   %}
+{% include 'footer.html' %}
 
     <script src="{{url_for('static', filename='js/script_home.js')}}"></script>
 </body>
