@@ -23,7 +23,11 @@ def main():
     @app.route('/Detalle/<idLibro>')
     def Detalle(idLibro):
         return render_template('detalle.html')
-
+        
+    @app.route('/CargarLibro')
+    def Cargar():
+        return render_template('cargar_libro.html')
+        
     app.run(debug=True)
 
 
