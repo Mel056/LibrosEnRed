@@ -1,0 +1,586 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: #143449;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Estilos del nav */
+#logo {
+    position: absolute;
+    color: white;
+    left: 3%;
+    top: 20%;
+    font-size: 60px;
+}
+
+.search-container {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    left: 81%;
+}
+
+.search-input {
+    width: 0;
+    padding: 0;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    background-color: #fff;
+    transition: width 0.4s ease-in-out, padding 0.4s ease-in-out;
+    font-size: 16px;
+    color: #333;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.search-input.open {
+    width: 250px;
+    padding: 10px;
+}
+
+.search-button {
+    background-color: #0b6070;
+    border: none;
+    border-radius: 20px;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 10px 20px;
+    margin-left: 10px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.search-button:hover {
+    background-color: #0b6070;
+    transform: scale(1.05);
+}
+
+.search-container i {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #fff;
+    font-size: 18px;
+}
+
+nav {
+    background-color: #143449;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    position: sticky;
+}
+
+nav ul {
+    display: flex;
+    gap: 30px;
+    list-style: none;
+    padding: 0;
+}
+
+nav li {
+    font-size: 16px;
+    font-weight: 600;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+nav li a {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nav-icon {
+    font-size: 20px;
+}
+
+.links {
+    text-decoration: none;
+    color: white;
+    font-weight: 700;
+}
+
+.cta-button {
+    background-color: #0b6070;
+    padding: 12px 25px;
+    border-width: 3px;
+    border-radius: 60px;
+    border-color: white;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 20px;
+    left: 22%;
+    position: relative;
+    border-style: solid;
+}
+.cargar-libro {
+    font-family: 'Georgia', serif; 
+    font-size: 44px; 
+    color: white; 
+    text-align: center; 
+    margin: 20px 0; 
+}
+
+.main-content h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 700;
+    color: white;
+}
+
+/*STYLE FORM*/
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 70px 0; 
+}
+.contact-page {
+
+    max-width: 800px; 
+    width: 100%; 
+
+    margin: auto; 
+
+    background-color: #0b5f7069; 
+    background-size: cover; 
+
+    background-position: center; 
+
+    padding: 100px; 
+
+    border-radius: 50px; 
+
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+
+}
+fieldset {
+    border: none; 
+    margin: 0 auto; 
+    text-align: center; 
+}
+input[type="text"], textarea {
+    width: 100%; 
+    max-width: 300px; 
+    padding: 10px; 
+    margin: 10px 0; 
+    border: 1px solid #ccc; 
+    border-radius: px; 
+}
+button {
+    margin: 10px 0; 
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background-color: #143449;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.portada-form {
+    display: flex;
+    justify-content: right;
+    margin-top: 30px; 
+}
+
+/*BOTON ENVIAR FORM*/
+
+.btn {
+	border: none;
+	font-family: 'Lato';
+	font-size: inherit;
+	color: inherit;
+	background: none;
+	cursor: pointer;
+	padding: 25px 80px;
+	display: block;
+	margin: auto;
+    margin-top: 34px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-weight: 700;
+	outline: none;
+	position: relative;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.btn:after {
+	content: '';
+	position: absolute;
+	z-index: -1;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.btn:before {
+	font-family: 'FontAwesome';
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	position: relative;
+	-webkit-font-smoothing: antialiased;
+}
+
+
+.btn-sep {
+	padding: 25px 60px 25px 120px;
+}
+
+.btn-sep:before {
+	background: rgba(0,0,0,0.15);
+}
+
+.btn-4 {
+	background: #143449;
+	color: #fff;
+}
+
+.btn-4:hover {
+	background: #2c3e50;
+}
+
+.btn-4:active {
+	background: #2c3e50;
+	top: 2px;
+}
+
+.btn-4:before {
+	position: absolute;
+	height: 100%;
+	left: 0;
+	top: 0;
+	line-height: 3;
+	font-size: 140%;
+	width: 60px;
+}
+
+
+.icon-cart:before {
+	content: "\f07a";
+}
+
+.icon-heart:before {
+	content: "\f55a";
+}
+
+.icon-info:before {
+	content: "\f05a";
+}
+
+.icon-send:before {
+	content: "\f1d8";
+}
+
+/* Estilos carousel de categorias */
+.button-genero {
+    background-color: #0b6070;
+    padding: 12px 25px;
+    border-width: 3px;
+    border-radius: 60px;
+    border-color: white;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 5px;
+    border-style: solid;
+    width: 250px;
+}
+
+.categorias {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.categorias .flecha-izquierda,
+.categorias .flecha-derecha {
+    position: absolute;
+    border: none;
+    background: rgba(0,0,0,.3);
+    font-size: 20px;
+    top: calc(50% - 20%);
+    line-height: 40px;
+    color: white;
+    cursor: pointer;
+    z-index: 500;
+    transition: .2s ease all;
+    border-radius: 60px;
+    padding: 0px 10px;
+}
+
+.categorias .flecha-izquierda:hover,
+.categorias .flecha-derecha:hover {
+    background: rgba(0,0,0,.9);
+}
+
+.categorias .flecha-izquierda {
+    left: -40px;
+}
+
+.categorias .flecha-derecha {
+    right: -40px;
+}
+
+.categorias .contenedor-carousel {
+    width: 100%;
+    padding: 20px 0;
+    overflow: hidden;
+    scroll-behavior: smooth;
+}
+
+.categorias .contenedor-carousel .carousel {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.categorias .contenedor-carousel .carousel .categoria {
+    transition: .3s ease all;
+}
+
+.categorias .contenedor-carousel .carousel .categoria {
+    width: 100%;
+    vertical-align: top;
+}
+
+/* Estilos carousel de libros*/
+
+.libros {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.libros .flecha-izquierda-libros,
+.libros .flecha-derecha-libros {
+    position: absolute;
+    border: none;
+    background: rgba(0,0,0,.3);
+    font-size: 20px;
+    top: calc(60% - 15%);
+    line-height: 40px;
+    color: white;
+    cursor: pointer;
+    z-index: 500;
+    transition: .2s ease all;
+    border-radius: 60px;
+    padding: 0px 10px;
+}
+
+.libros .flecha-izquierda-libros:hover,
+.libros .flecha-derecha-libros:hover {
+    background: rgba(0,0,0,.9);
+}
+
+.libros .flecha-izquierda-libros {
+    left: -40px;
+}
+
+.libros .flecha-derecha-libros {
+    right: -40px;
+}
+
+.libros .contenedor-carousel-libros {
+    width: 100%;
+    padding: 20px 0;
+    overflow: hidden;
+    scroll-behavior: smooth;
+}
+
+.libros .contenedor-carousel-libros .carousel-libros {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    margin: auto;
+    width: 100%;
+}
+
+.main-content h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 700;
+    color: white;
+}
+
+/* Estilos de libros */
+.contenedor-flip {
+    perspective: 1500px;
+}
+
+.contenedor-flip:hover .flip-libro {
+    transform: rotateY(180deg);
+}
+
+.flip-libro {
+    width: 186.75px;
+    height: 200px;
+    transform-style: preserve-3d;
+    transition: transform 0.7s ease-in-out;
+    position: relative;
+    border-radius: 15px;
+}
+
+.libro-frente,
+.libro-atras {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.libro-frente img {
+    height: 100%;
+}
+
+.libro-atras {
+    background: white;
+    transform: rotateY(180deg);
+    padding: 20px;
+    border-radius: 15px;
+    color: #fff;
+    text-align: center;
+}
+
+.libro-atras h3 {
+    margin: 0;
+    font-size: 22px;
+    font-weight: bold;
+    color: #0b6070;
+}
+
+.libro-atras p {
+    font-size: 14px;
+    margin-top: 10px;
+    line-height: 1.5;
+    color: black;
+}
+
+.libro-atras .button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #143449;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.libro-atras .button:hover {
+    background-color: #0b6070;
+}
+
+.libro-atras a{
+    color: white;
+    text-decoration: none;
+}
+
+/* Estilos del footer*/
+footer {
+    background-color: #0b6070;
+    font-weight: 700;
+    padding: 60px;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    color: #fff;
+    text-align: center;
+    margin-top: auto;
+}   
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.footer-top {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.footer-logo {
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.footer-link-section h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.footer-link-section ul {
+    list-style: none;
+}
+
+.footer-link-section ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.footer-bottom {
+    margin-top: 20px;
+}
+
+footer p {
+    font-size: 14px;
+    color: #ccc;
+}
