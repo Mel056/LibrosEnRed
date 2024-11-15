@@ -1,20 +1,22 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
+body{
+    height: 100vh;
+    width: 100vh;
+    display: grid;
+    grid-template-columns: 40% 1fr;
+    grid-template-rows: 5% 1fr;
+    grid-template-areas: 
+    "side header"
+    "side main"
+    ;
 }
-
-body {
-    background-color: #143449;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    margin: 0;
+/*Estilos del header*/
+.header{
+    background-color: rgb(255, 255, 255);
+    grid-area: header;
 }
-
-/* Estilos del nav */
+a {
+    text-decoration: none;
+}
 #logo {
     position: absolute;
     color: white;
@@ -64,7 +66,6 @@ body {
     background-color: #0b6070;
     transform: scale(1.05);
 }
-
 .search-container i {
     position: absolute;
     right: 10px;
@@ -73,7 +74,6 @@ body {
     color: #fff;
     font-size: 18px;
 }
-
 nav {
     background-color: #143449;
     display: flex;
@@ -84,14 +84,12 @@ nav {
     top: 0;
     overflow: hidden;
 }
-
 nav ul {
     display: flex;
     gap: 30px;
     list-style: none;
     padding: 0;
 }
-
 nav li {
     font-size: 16px;
     font-weight: 600;
@@ -99,7 +97,6 @@ nav li {
     display: flex;
     align-items: center;
 }
-
 nav li a {
     color: white;
     text-decoration: none;
@@ -107,17 +104,14 @@ nav li a {
     align-items: center;
     gap: 8px;
 }
-
 .nav-icon {
     font-size: 20px;
 }
-
 .links {
     text-decoration: none;
     color: white;
     font-weight: 700;
 }
-
 .cta-button {
     background-color: #0b6070;
     padding: 12px 25px;
@@ -132,88 +126,121 @@ nav li a {
     border-style: solid;
 }
 
-/* Estilos carousel de categorias */
-.button-genero {
-    background-color: #0b6070;
-    padding: 12px 25px;
-    border-width: 3px;
-    border-radius: 60px;
-    border-color: white;
-    cursor: pointer;
-    font-size: 16px;
-    margin-left: 5px;
-    border-style: solid;
-    width: 250px;
+/*Estilos del sidebar*/
+.sidebar{
+    background-color: rgb(32, 32, 32);
+    grid-area: side;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: 
+    "Header"
+    "List"
+    "footer"
+    ;
 }
 
-.categorias {
-    width: 90%;
-    margin: auto;
+.sidebar header {
+    height: 100px;
+    min-height: 100px;
     display: flex;
     align-items: center;
-    position: relative;
+    padding: 0 20px;
+    grid-area: Header;
 }
-
-.categorias .flecha-izquierda,
-.categorias .flecha-derecha {
-    position: absolute;
-    border: none;
-    background: rgba(0,0,0,.3);
-    font-size: 20px;
-    top: calc(50% - 20%);
-    line-height: 40px;
-    color: white;
-    cursor: pointer;
-    z-index: 500;
-    transition: .2s ease all;
-    border-radius: 60px;
-    padding: 0px 10px;
+.sidebar header img{
+    width: 40%;
+    height: auto;
+    border-radius: 50px;
+    margin-right: 10px;
+    margin-top: 20px;
 }
-
-.categorias .flecha-izquierda:hover,
-.categorias .flecha-derecha:hover {
-    background: rgba(0,0,0,.9);
+.sidebar #Name_profile{
+    list-style-type: none;
+    padding: 5px;
+    margin: 10px;
 }
-
-.categorias .flecha-izquierda {
-    left: -40px;
-}
-
-.categorias .flecha-derecha {
-    right: -40px;
-}
-
-.categorias .contenedor-carousel {
-    width: 100%;
-    padding: 20px 0;
-    overflow: hidden;
-    scroll-behavior: smooth;
-}
-
-.categorias .contenedor-carousel .carousel {
+.sidebar .footer {
     display: flex;
-    flex-wrap: nowrap;
+    justify-content: center; 
+    margin-top: auto;
+    position: absolute;
+    grid-area: Footer;
+}
+.sidebar.list_items{
+    grid-area: List;
+}
+.sidebar .list_items ul{
+    list-style-type: none;
+    padding: 5px;
+    margin: 10px;
+}
+.sidebar .list_items a{ 
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding: 0 20px;
+    color: #00e257;
+}
+.sidebar .list_items a .menu-icon{
+    font-size: 1.2rem;
+    width: 35px;
+    min-width: 35px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    display: inline-block;
+    margin-right: 10px;
 }
 
-.categorias .contenedor-carousel .carousel .categoria {
-    transition: .3s ease all;
+
+.star-rating {
+    display: flex;
+    justify-content: center; 
+    margin-top: 35%;
+    margin-left: 30px;
+    position: absolute;
+    transform: rotateY(180deg);
 }
-
-.categorias .contenedor-carousel .carousel .categoria {
-    width: 100%;
-    vertical-align: top;
+.star-rating input {
+    display: none;
 }
+.star-rating label {
+    font-size: 40px; 
+    color: #ddd; 
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+.star-rating label:before {
+    content: "☆"; 
+}
+.star-rating input:checked + label,
+.star-rating label:hover,
+.star-rating input:checked ~ label {
+    color: #ffcc00; 
+}
+.star-rating input:checked + label:before,
+.star-rating input:checked ~ label:before {
+    content: "★"; 
+}
+    /*Estilos del main*/
 
-/* Estilos carousel de libros*/
-
+.main{
+    background-color: rgb(105, 103, 103);
+    padding: 20px;  
+    grid-area: main;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: 
+    "libros"
+    "Comentarios"
+    ;
+}
 .libros {
     width: 90%;
     margin: auto;
     display: flex;
     align-items: center;
     position: relative;
+    grid-area: Libros;
 }
-
 .libros .flecha-izquierda-libros,
 .libros .flecha-derecha-libros {
     position: absolute;
@@ -229,57 +256,33 @@ nav li a {
     border-radius: 60px;
     padding: 0px 10px;
 }
-
 .libros .flecha-izquierda-libros:hover,
 .libros .flecha-derecha-libros:hover {
     background: rgba(0,0,0,.9);
 }
-
 .libros .flecha-izquierda-libros {
     left: -40px;
 }
-
 .libros .flecha-derecha-libros {
     right: -40px;
 }
-
 .libros .contenedor-carousel-libros {
     width: 100%;
     padding: 20px 0;
     overflow: hidden;
     scroll-behavior: smooth;
 }
-
 .libros .contenedor-carousel-libros .carousel-libros {
     display: flex;
     flex-wrap: nowrap;
     justify-content: space-between;
 }
-
-.main-content {
-    flex: 1;
-    padding: 20px;
-    margin: auto;
-    width: 100%;
-}
-
-.main-content h2 {
-    font-size: 32px;
-    margin-bottom: 20px;
-    text-align: center;
-    font-weight: 700;
-    color: white;
-}
-
-/* Estilos de libros */
 .contenedor-flip {
     perspective: 1500px;
 }
-
 .contenedor-flip:hover .flip-libro {
     transform: rotateY(180deg);
 }
-
 .flip-libro {
     width: 186.75px;
     height: 200px;
@@ -288,7 +291,6 @@ nav li a {
     position: relative;
     border-radius: 15px;
 }
-
 .libro-frente,
 .libro-atras {
     position: absolute;
@@ -301,35 +303,29 @@ nav li a {
     justify-content: center;
 
 }
-
 .libro-frente img {
     height: 100%;
     border-radius: 15px;
 }
-
 .libro-atras {
     background: white;
     transform: rotateY(180deg);
-    padding: 20px;
     border-radius: 15px;
     color: #fff;
     text-align: center;
 }
-
 .libro-atras h3 {
     margin: 0;
     font-size: 22px;
     font-weight: bold;
     color: #0b6070;
 }
-
 .libro-atras p {
     font-size: 14px;
     margin-top: 10px;
     line-height: 1.5;
     color: black;
 }
-
 .libro-atras .button {
     margin-top: 20px;
     padding: 10px 20px;
@@ -342,11 +338,9 @@ nav li a {
     cursor: pointer;
     transition: background-color 0.3s;
 }
-
 .libro-atras .button:hover {
     background-color: #0b6070;
 }
-
 .libro-atras a{
     color: white;
     text-decoration: none;

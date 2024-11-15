@@ -6,11 +6,11 @@ def main():
 
     @app.route('/')
     def Home():
-        generos = {"Acción","Arte","Autoayuda","Aventuras","Biografías","Cocina",
-                   "Contemporáneo","Cs. Ficción","Distopía","Divulgativos","Drama",
-                   "Fantasía","Historia","Infantil","Manuales","Memorias","Paranormal",
-                   "Poesía","Romance","Salud","Suspenso","Terror"}
-        return render_template('home.html',generos=generos)
+        generos = {"Acción", "Arte", "Autoayuda", "Aventuras", "Biografías", "Cocina",
+                   "Contemporáneo", "Cs. Ficción", "Distopía", "Divulgativos", "Drama",
+                   "Fantasía", "Historia", "Infantil", "Manuales", "Memorias", "Paranormal",
+                   "Poesía", "Romance", "Salud", "Suspenso", "Terror"}
+        return render_template('home.html', generos=generos)
 
     @app.route('/Login')
     def Login():
@@ -19,15 +19,19 @@ def main():
     @app.route('/Home/<genero>')
     def Genero(genero):
         return render_template('home.html')
-    
+
     @app.route('/Detalle/<idLibro>')
     def Detalle(idLibro):
         return render_template('detalle.html')
-        
+
     @app.route('/CargarLibro')
     def Cargar():
         return render_template('cargar_libro.html')
-        
+
+    @app.route('/Perfil')
+    def Perfil():
+        return render_template('profile.html')
+
     app.run(debug=True)
 
 

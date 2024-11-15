@@ -4,45 +4,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LibrosEnRed</title>
+    <title>Document</title>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link rel="stylesheet" href="{{url_for('static',filename='css/style_home.css')}}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&amp;display=swap">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/style_profile.css')}}">
     <link rel="stylesheet" href="{{url_for('static',filename='css/style_footer.css')}}">
 </head>
 
 <body>
-    <nav>
-        <i id="logo" class="fa-solid fa-book nav-icon"></i>
-        <ul>
-            <li><a href="{{url_for('Home')}}"><i class="fa-solid fa-home nav-icon"></i> Inicio</a></li>
-            <li><a href="#"><i class="fa-solid fa-mobile nav-icon"></i> App</a></li>
-            <li><a href="{{url_for('Cargar')}}"><i class="fa-solid fa-upload nav-icon"></i> Cargar</a></li>
-            <li><a href="{{url_for('Perfil')}}"><i class="fa-solid fa-user nav-icon"></i>Perfil</a></li>
-        </ul>
-        <button class="cta-button"> <a class="links" href="{{url_for('Login')}}">Sign In</a></button>
-        <div class="search-container">
-            <input type="text" id="searchInput" class="search-input" placeholder="Search..." />
-            <button id="searchButton" class="search-button">
-                <i class="fa-solid fa-search"></i>
-            </button>
-        </div>
-    </nav>
-    <div class="categorias">
-        <button role="button" id="flecha-izquierda" class="flecha-izquierda"><i class="fas fa-angle-left"></i></button>
-        <div class="contenedor-carousel">
-            <div class="carousel">
-                {% for genero in generos %}
-                    <div class="categoria">
-                        <button class="button-genero"><a class="links" href="{{url_for('Genero', genero=genero)}}">{{ genero }}</a></button>
-                    </div>
-                {% endfor %}
+    <header class="header">
+        <nav>
+            <i id="logo" class="fa-solid fa-book nav-icon"></i>
+            <ul>
+                <li><a href="{{url_for('Home')}}"><i class="fa-solid fa-home nav-icon"></i> Inicio</a></li>
+                <li><a href="#"><i class="fa-solid fa-mobile nav-icon"></i> App</a></li>
+                <li><a href="{{url_for('Cargar')}}"><i class="fa-solid fa-upload nav-icon"></i> Cargar</a></li>
+            </ul>
+            <div class="search-container">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search..." />
+                <button id="searchButton" class="search-button">
+                    <i class="fa-solid fa-search"></i>
+                </button>
             </div>
+        </nav>
+    </header>
+    <section class="sidebar">
+        <header>
+            <div id="Name_profile">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora, iusto!</div>
+            <img id="Profile" src="{{url_for('static', filename='images/Perfil.jpg')}}">
+      
+        </header>
+        <div class="list_items">
+            <ul>
+                <li class="menu-item sub-menu">
+                    <a href="{{url_for('Home')}}">
+                      <span class="menu-icon">
+                        <i class="fa-solid fa-home nav-icon"></i>
+                      </span>
+                      <span class="menu-title">Home</span>
+                    </a>
+                  </li>
+                  <li class="menu-item sub-menu">
+                    <a href="#">
+                      <span class="menu-icon">
+                        <i class="fa-solid fa-map-location"></i>
+                      </span>
+                      <span class="menu-title">Maps</span>
+                    </a>
+                  </li>
+            </ul>
         </div>
-        <button role="button" id="flecha-derecha" class="flecha-derecha"><i class="fas fa-angle-right"></i></button>
-    </div>
-    
-    <div class="main-content">
-        <h2>Libros</h2>
+        <div class="footer">         
+            <span>Puntua este perfil</span>
+            <div class="star-rating">
+                <input type="radio" id="star1" name="rating" value="1"><label for="star1" class="star"></label>
+                <input type="radio" id="star2" name="rating" value="2"><label for="star2" class="star"></label>
+                <input type="radio" id="star3" name="rating" value="3"><label for="star3" class="star"></label>
+                <input type="radio" id="star4" name="rating" value="4"><label for="star4" class="star"></label>
+                <input type="radio" id="star5" name="rating" value="5"><label for="star5" class="star"></label>
+            </div>   
+        <button id="Edit_profile">Editar perfil</button>
+        </div>
+    </section>
+    <main class="main">
         <div class="libros">
             <button role="button" id="flecha-izquierda-libros" class="flecha-izquierda-libros"><i class="fas fa-angle-left"></i></button>
             <div class="contenedor-carousel-libros">
@@ -171,11 +196,10 @@
             </div>
             <button role="button" id="flecha-derecha-libros" class="flecha-derecha-libros"><i class="fas fa-angle-right"></i></button>
         </div>
-    </div>
-
-{% include 'footer.html' %}
+    </main>
 
     <script src="{{url_for('static', filename='js/script_home.js')}}"></script>
+    <script src="{{url_for('static', filename='js/script_details.js')}}"></script>
 </body>
 
 </html>
