@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
-from flask_SQLAlchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine, text
-from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import exc
 
 app = Flask(__name__)
 
@@ -17,7 +17,7 @@ def run_query(query, parameters=None):
             result = conn.execute(text(query), parameters)
             conn.commit()
             return result
-    except SQLAlchemyError as e:
+    except exc.SQLAlchemyError as e:
         return jsonify({"error": str(e)}), 500
 
 
