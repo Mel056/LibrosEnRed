@@ -1,5 +1,5 @@
 body {
-    background-color: #240046; 
+    background-color: #3c096c; 
     margin: 0;
     font-family: 'Roboto', sans-serif;
     color: #ffffff;
@@ -79,7 +79,7 @@ footer {
     left: 50%; 
     transform: translateX(-50%); 
     padding: 10px 0;
-    background-color: #5A189A 
+    background-color: #5A189A ;
     width: 100%; 
     text-align: center; 
     color: #ffffff; 
@@ -122,7 +122,7 @@ iframe {
     position: absolute;
     top: 10px;
     right: 10px;
-    background-color: #2874A6;
+    background-color: #5A189A ;
     color: white;
     border: none;
     padding: 8px 15px;
@@ -131,11 +131,11 @@ iframe {
 }
 
 .close-map-btn:hover {
-    background-color: #1B4F72;
+    background-color: #5A189A ;
 }
 
 .search-button {
-    background-color: #143449;
+    background-color: #5A189A ;
     border: white;
     border-radius: 20px;
     color: #fff;
@@ -148,7 +148,7 @@ iframe {
 }
 
 .search-button:hover {
-    background-color: #1b7688;
+    background-color: #5A189A ;
     transform: scale(1.05); 
 }
 
