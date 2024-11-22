@@ -5,7 +5,7 @@
 .cargar-libro {
     font-family: 'Georgia', serif; 
     font-size: 44px; 
-    color: 10002b; 
+    color: rgb(255, 255, 255); 
     text-align: center; 
     margin: 20px 0; 
 }
@@ -40,7 +40,7 @@ fieldset {
 input[type="text"], textarea, input[type="file"] {
     width: 100%;
     padding: 10px;
-    border: 1px solid #10002b;
+    border: 1px solid #ddd;
     border-radius: 10px;
     transition: border-color 0.3s;
 }
