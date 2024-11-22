@@ -1,5 +1,5 @@
 body {
-    background-color: #143449; 
+    background-color: #240046; 
     margin: 0;
     font-family: 'Roboto', sans-serif;
     color: #ffffff;
@@ -62,7 +62,7 @@ main {
     padding: 10px 15px;
     font-size: 16px;
     color: #ffffff;
-    background-color: #2874A6;
+    background-color: #240046;
     border: none;
     border-radius: 20px;
     cursor: pointer;
@@ -70,7 +70,7 @@ main {
 }
 
 .exchange-button:hover {
-    background-color: #1B4F72;
+    background-color: #3c096c;
 }
 
 footer {
@@ -79,7 +79,7 @@ footer {
     left: 50%; 
     transform: translateX(-50%); 
     padding: 10px 0;
-    background-color: #2874A6; 
+    background-color: #5A189A 
     width: 100%; 
     text-align: center; 
     color: #ffffff; 
