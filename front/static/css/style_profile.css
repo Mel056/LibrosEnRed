@@ -1,6 +1,6 @@
 body{
-    height: 100vh;
-    width: 100vh;
+    height: 80vh;
+    width: 90vh;
     display: grid;
     grid-template-columns: 40% 1fr;
     grid-template-rows: 5% 1fr;
@@ -50,7 +50,7 @@ a {
 }
 
 .search-button {
-    background-color: #5A189A;
+    background-color: #3c096c;
     border: none;
     border-radius: 20px;
     color: #fff;
@@ -63,7 +63,7 @@ a {
 }
 
 .search-button:hover {
-    background-color: #5A189A;
+    background-color: #3c096c;
     transform: scale(1.05);
 }
 .search-container i {
