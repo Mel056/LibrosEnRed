@@ -61,7 +61,7 @@ body {
 }
 
 .search-button:hover {
-    background-color: #5a189a;
+    background-color: #3c096c;
     transform: scale(1.05);
 }
 
@@ -119,7 +119,7 @@ nav li a {
 }
 
 .cta-button {
-    background-color: #5a189a;
+    background-color: #3c096c;
     padding: 12px 25px;
     border-width: 3px;
     border-radius: 60px;
@@ -134,7 +134,7 @@ nav li a {
 
 /* Estilos carousel de categorias */
 .button-genero {
-    background-color: #7b2cbf;
+    background-color: #3c096c;
     padding: 12px 25px;
     border-width: 3px;
     border-radius: 60px;
