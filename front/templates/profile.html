@@ -7,7 +7,8 @@
     <title>Document</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&amp;display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&amp;display=swap">
     <link rel="stylesheet" href="{{url_for('static',filename='css/style_profile.css')}}">
     <link rel="stylesheet" href="{{url_for('static',filename='css/style_footer.css')}}">
 </head>
@@ -33,29 +34,29 @@
         <header>
             <div id="Name_profile">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora, iusto!</div>
             <img id="Profile" src="{{url_for('static', filename='images/Perfil.jpg')}}">
-      
+
         </header>
         <div class="list_items">
             <ul>
                 <li class="menu-item sub-menu">
                     <a href="{{url_for('Home')}}">
-                      <span class="menu-icon">
-                        <i class="fa-solid fa-home nav-icon"></i>
-                      </span>
-                      <span class="menu-title">Home</span>
+                        <span class="menu-icon">
+                            <i class="fa-solid fa-home nav-icon"></i>
+                        </span>
+                        <span class="menu-title">Home</span>
                     </a>
-                  </li>
-                  <li class="menu-item sub-menu">
+                </li>
+                <li class="menu-item sub-menu">
                     <a href="#">
-                      <span class="menu-icon">
-                        <i class="fa-solid fa-map-location"></i>
-                      </span>
-                      <span class="menu-title">Maps</span>
+                        <span class="menu-icon">
+                            <i class="fa-solid fa-map-location"></i>
+                        </span>
+                        <span class="menu-title">Maps</span>
                     </a>
-                  </li>
+                </li>
             </ul>
         </div>
-        <div class="footer">         
+        <div class="footer">
             <span>Puntua este perfil</span>
             <div class="star-rating">
                 <input type="radio" id="star1" name="rating" value="1"><label for="star1" class="star"></label>
@@ -63,139 +64,132 @@
                 <input type="radio" id="star3" name="rating" value="3"><label for="star3" class="star"></label>
                 <input type="radio" id="star4" name="rating" value="4"><label for="star4" class="star"></label>
                 <input type="radio" id="star5" name="rating" value="5"><label for="star5" class="star"></label>
-            </div>   
-        <button id="Edit_profile">Editar perfil</button>
+            </div>
+            <button id="Edit_profile">Editar perfil</button>
         </div>
     </section>
     <main class="main">
         <div class="libros">
-            <button role="button" id="flecha-izquierda-libros" class="flecha-izquierda-libros"><i class="fas fa-angle-left"></i></button>
-            <div class="contenedor-carousel-libros">
-                <div class="carousel-libros">
-                    <div class="contenedor-flip">
-                        <div class="flip-libro">
-                            <div class="libro-frente">
-                                <img src="{{url_for('static', filename='images/Libro1.jpg')}}" alt="Libro 1">
-                            </div>
-                            <div class="libro-atras">
-                                <h3>Libro 1</h3>
-                                <p>Estado de libro</p>
-                                <button class="button"><a href="{{url_for('Detalle',idLibro='idLibro')}}">Ver más.</a></button>
-                            </div>
-                        </div>
+            <div class="contenedor-flip">
+                <div class="flip-libro">
+                    <div class="libro-frente">
+                        <img src="{{url_for('static', filename='images/Libro1.jpg')}}" alt="Libro 1">
                     </div>
-                    <div class="contenedor-flip">
-                        <div class="flip-libro">
-                            <div class="libro-frente">
-                                <img src="{{url_for('static', filename='images/Libro1.jpg')}}" alt="Libro 1">
-                            </div>
-                            <div class="libro-atras">
-                                <h3>Libro 2</h3>
-                                <p>Estado de libro</p>
-                                <button class="button"><a href="{{url_for('Detalle',idLibro='idLibro')}}">Ver más.</a></button>
-                            </div>
-                        </div>
+                    <div class="libro-atras">
+                        <h3>Libro 1</h3>
+                        <p>Estado de libro</p>
+                        <button class="button"><a href="{{url_for('Detalle',idLibro='idLibro')}}">Ver más.</a></button>
                     </div>
-                    <div class="contenedor-flip">
-                        <div class="flip-libro">
-                            <div class="libro-frente">
-                                <img src="{{url_for('static', filename='images/Libro1.jpg')}}" alt="Libro 1">
-                            </div>
-                            <div class="libro-atras">
-                                <h3>Libro 3</h3>
-                                <p>Estado de libro</p>
-                                <button class="button"><a href="{{url_for('Detalle',idLibro='idLibro')}}">Ver más.</a></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="contenedor-flip">
-                        <div class="flip-libro">
-                            <div class="libro-frente">
-                                <img src="{{url_for('static', filename='images/Libro1.jpg')}}" alt="Libro 1">
-                            </div>
-                            <div class="libro-atras">
-                                <h3>Libro 4</h3>
-                                <p>Estado de libro</p>
-                                <button class="button"><a href="{{url_for('Detalle',idLibro='idLibro')}}">Ver más.</a></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="contenedor-flip">
-                        <div class="flip-libro">
-                            <div class="libro-frente">
-                                <img src="{{url_for('static', filename='images/Libro1.jpg')}}" alt="Libro 1">
-                            </div>
-                            <div class="libro-atras">
-                                <h3>Libro 5</h3>
-                                <p>Estado de libro</p>
-                                <button class="button"><a href="{{url_for('Detalle',idLibro='idLibro')}}">Ver más.</a></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="contenedor-flip">
-                        <div class="flip-libro">
-                            <div class="libro-frente">
-                                <img src="{{url_for('static', filename='images/Libro1.jpg')}}" alt="Libro 1">
-                            </div>
-                            <div class="libro-atras">
-                                <h3>Libro 6</h3>
-                                <p>Estado de libro</p>
-                                <button class="button"><a href="{{url_for('Detalle',idLibro='idLibro')}}">Ver más.</a></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="contenedor-flip">
-                        <div class="flip-libro">
-                            <div class="libro-frente">
-                                <img src="{{url_for('static', filename='images/Libro1.jpg')}}" alt="Libro 1">
-                            </div>
-                            <div class="libro-atras">
-                                <h3>Libro 7</h3>
-                                <p>Estado de libro</p>
-                                <button class="button"><a href="{{url_for('Detalle',idLibro='idLibro')}}">Ver más.</a></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="contenedor-flip">
-                        <div class="flip-libro">
-                            <div class="libro-frente">
-                                <img src="{{url_for('static', filename='images/Libro1.jpg')}}" alt="Libro 1">
-                            </div>
-                            <div class="libro-atras">
-                                <h3>Libro 8</h3>
-                                <p>Estado de libro</p>
-                                <button class="button"><a href="{{url_for('Detalle',idLibro='idLibro')}}">Ver más.</a></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="contenedor-flip">
-                        <div class="flip-libro">
-                            <div class="libro-frente">
-                                <img src="{{url_for('static', filename='images/Libro1.jpg')}}" alt="Libro 1">
-                            </div>
-                            <div class="libro-atras">
-                                <h3>Libro 9</h3>
-                                <p>Estado de libro</p>
-                                <button class="button"><a href="{{url_for('Detalle',idLibro='idLibro')}}">Ver más.</a></button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="contenedor-flip">
-                        <div class="flip-libro">
-                            <div class="libro-frente">
-                                <img src="{{url_for('static', filename='images/Libro1.jpg')}}" alt="Libro 1">
-                            </div>
-                            <div class="libro-atras">
-                                <h3>Libro 10</h3>
-                                <p>Estado de libro</p>
-                                <button class="button"><a href="{{url_for('Detalle',idLibro='idLibro')}}">Ver más.</a></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>    
+                </div>
             </div>
-            <button role="button" id="flecha-derecha-libros" class="flecha-derecha-libros"><i class="fas fa-angle-right"></i></button>
-        </div>
+            <div class="contenedor-flip">
+                <div class="flip-libro">
+                    <div class="libro-frente">
+                        <img src="{{url_for('static', filename='images/Libro1.jpg')}}" alt="Libro 1">
+                    </div>
+                    <div class="libro-atras">
+                        <h3>Libro 2</h3>
+                        <p>Estado de libro</p>
+                        <button class="button"><a href="{{url_for('Detalle',idLibro='idLibro')}}">Ver más.</a></button>
+                    </div>
+                </div>
+            </div>
+            <div class="contenedor-flip">
+                <div class="flip-libro">
+                    <div class="libro-frente">
+                        <img src="{{url_for('static', filename='images/Libro1.jpg')}}" alt="Libro 1">
+                    </div>
+                    <div class="libro-atras">
+                        <h3>Libro 3</h3>
+                        <p>Estado de libro</p>
+                        <button class="button"><a href="{{url_for('Detalle',idLibro='idLibro')}}">Ver más.</a></button>
+                    </div>
+                </div>
+            </div>
+            <div class="contenedor-flip">
+                <div class="flip-libro">
+                    <div class="libro-frente">
+                        <img src="{{url_for('static', filename='images/Libro1.jpg')}}" alt="Libro 1">
+                    </div>
+                    <div class="libro-atras">
+                        <h3>Libro 4</h3>
+                        <p>Estado de libro</p>
+                        <button class="button"><a href="{{url_for('Detalle',idLibro='idLibro')}}">Ver más.</a></button>
+                    </div>
+                </div>
+            </div>
+            <div class="contenedor-flip">
+                <div class="flip-libro">
+                    <div class="libro-frente">
+                        <img src="{{url_for('static', filename='images/Libro1.jpg')}}" alt="Libro 1">
+                    </div>
+                    <div class="libro-atras">
+                        <h3>Libro 5</h3>
+                        <p>Estado de libro</p>
+                        <button class="button"><a href="{{url_for('Detalle',idLibro='idLibro')}}">Ver más.</a></button>
+                    </div>
+                </div>
+            </div>
+            <div class="contenedor-flip">
+                <div class="flip-libro">
+                    <div class="libro-frente">
+                        <img src="{{url_for('static', filename='images/Libro1.jpg')}}" alt="Libro 1">
+                    </div>
+                    <div class="libro-atras">
+                        <h3>Libro 6</h3>
+                        <p>Estado de libro</p>
+                        <button class="button"><a href="{{url_for('Detalle',idLibro='idLibro')}}">Ver más.</a></button>
+                    </div>
+                </div>
+            </div>
+            <div class="contenedor-flip">
+                <div class="flip-libro">
+                    <div class="libro-frente">
+                        <img src="{{url_for('static', filename='images/Libro1.jpg')}}" alt="Libro 1">
+                    </div>
+                    <div class="libro-atras">
+                        <h3>Libro 7</h3>
+                        <p>Estado de libro</p>
+                        <button class="button"><a href="{{url_for('Detalle',idLibro='idLibro')}}">Ver más.</a></button>
+                    </div>
+                </div>
+            </div>
+            <div class="contenedor-flip">
+                <div class="flip-libro">
+                    <div class="libro-frente">
+                        <img src="{{url_for('static', filename='images/Libro1.jpg')}}" alt="Libro 1">
+                    </div>
+                    <div class="libro-atras">
+                        <h3>Libro 8</h3>
+                        <p>Estado de libro</p>
+                        <button class="button"><a href="{{url_for('Detalle',idLibro='idLibro')}}">Ver más.</a></button>
+                    </div>
+                </div>
+            </div>
+            <div class="contenedor-flip">
+                <div class="flip-libro">
+                    <div class="libro-frente">
+                        <img src="{{url_for('static', filename='images/Libro1.jpg')}}" alt="Libro 1">
+                    </div>
+                    <div class="libro-atras">
+                        <h3>Libro 9</h3>
+                        <p>Estado de libro</p>
+                        <button class="button"><a href="{{url_for('Detalle',idLibro='idLibro')}}">Ver más.</a></button>
+                    </div>
+                </div>
+            </div>
+            <div class="contenedor-flip">
+                <div class="flip-libro">
+                    <div class="libro-frente">
+                        <img src="{{url_for('static', filename='images/Libro1.jpg')}}" alt="Libro 1">
+                    </div>
+                    <div class="libro-atras">
+                        <h3>Libro 10</h3>
+                        <p>Estado de libro</p>
+                        <button class="button"><a href="{{url_for('Detalle',idLibro='idLibro')}}">Ver más.</a></button>
+                    </div>
+                </div>
+            </div>
     </main>
 
     <script src="{{url_for('static', filename='js/script_home.js')}}"></script>
