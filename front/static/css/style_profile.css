@@ -40,7 +40,7 @@ a {
     background-color: #fff;
     transition: width 0.4s ease-in-out, padding 0.4s ease-in-out;
     font-size: 16px;
-    color: #333;
+    color: #5A189A;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -50,7 +50,7 @@ a {
 }
 
 .search-button {
-    background-color: #0b6070;
+    background-color: #5A189A;
     border: none;
     border-radius: 20px;
     color: #fff;
@@ -63,7 +63,7 @@ a {
 }
 
 .search-button:hover {
-    background-color: #0b6070;
+    background-color: #5A189A;
     transform: scale(1.05);
 }
 .search-container i {
@@ -75,7 +75,7 @@ a {
     font-size: 18px;
 }
 nav {
-    background-color: #143449;
+    background-color: #3c096c;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -113,7 +113,7 @@ nav li a {
     font-weight: 700;
 }
 .cta-button {
-    background-color: #0b6070;
+    background-color: #3c096c;
     padding: 12px 25px;
     border-width: 3px;
     border-radius: 60px;
@@ -224,7 +224,7 @@ nav li a {
     /*Estilos del main*/
 
 .main{
-    background-color: rgb(105, 103, 103);
+    background-color: #240046;
     padding: 20px;  
     grid-area: main;
     grid-template-rows: 1fr 1fr;
@@ -318,7 +318,7 @@ nav li a {
     margin: 0;
     font-size: 22px;
     font-weight: bold;
-    color: #0b6070;
+    color: #5A189A;
 }
 .libro-atras p {
     font-size: 14px;
@@ -329,7 +329,7 @@ nav li a {
 .libro-atras .button {
     margin-top: 20px;
     padding: 10px 20px;
-    background-color: #143449;
+    background-color: #3c096c;
     color: white;
     border: none;
     border-radius: 5px;
@@ -339,7 +339,7 @@ nav li a {
     transition: background-color 0.3s;
 }
 .libro-atras .button:hover {
-    background-color: #0b6070;
+    background-color: #5A189A;
 }
 .libro-atras a{
     color: white;
