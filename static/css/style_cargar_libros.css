@@ -14,7 +14,7 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #143449;
+    background-color: #3c096c;
     color: #333;
 }
 
@@ -22,7 +22,7 @@ body {
     max-width: 1000px;
     margin: 110px auto;
     padding: 60px;
-    background: #0b6070;
+    background: #5A189A;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
@@ -46,7 +46,7 @@ input[type="text"], textarea, input[type="file"] {
 }
 
 input[type="text"]:focus, textarea:focus {
-    border-color: #007bff;
+    border-color: #7B2cbf;
     outline: none;
 }
 
@@ -60,7 +60,7 @@ textarea {
 }
 
 .btn {
-    background-color: #007bff;
+    background-color: #7B2cbf;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -70,7 +70,7 @@ textarea {
 }
 
 .btn:hover {
-    background-color: #0056b3;
+    background-color: #7B2cbf;
 }
 
 input[type="file"] {
@@ -132,16 +132,16 @@ input[type="file"] {
 }
 
 .btn-4 {
-	background: #143449;
+	background: #3c096c;
 	color: #fff;
 }
 
 .btn-4:hover {
-	background: #2c3e50;
+	background: #3c096c;
 }
 
 .btn-4:active {
-	background: #2c3e50;
+	background: #3c096c;
 	top: 2px;
 }
 

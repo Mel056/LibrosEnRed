@@ -1,6 +1,6 @@
 :root {
-    --primary-color: #0b6070;
-    --secondary-color: #0b6070;
+    --primary-color: #3c096c;
+    --secondary-color: #5A189A;
     --black: #000000;
     --white: #ffffff;
     --gray: #efefef;
@@ -209,5 +209,5 @@ body {
 }
 
 html {
-    background-color: #143449;
+    background-color: #3c096c;
 }

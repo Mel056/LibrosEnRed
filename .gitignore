@@ -399,3 +399,7 @@ FodyWeavers.xsd
 
 #Pipfile
 Pipfile*
+
+
+venv
+.venv
