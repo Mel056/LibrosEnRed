@@ -7,17 +7,14 @@ CREATE TABLE Users (
     username VARCHAR(50) NOT NULL,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL,
-    maps VARCHAR(200) NOT NULL,
-    password VARCHAR(300) NOT NULL,
-    profile_photo VARCHAR(255)
+    profile_photo VARCHAR(255) NOT NULL
 );
-
 
 CREATE TABLE Books (
     id_books INT AUTO_INCREMENT PRIMARY KEY,
     name_book VARCHAR(150) NOT NULL,
     author VARCHAR(100) NOT NULL,
-    owner INT,  
+    owner INT NOT NULL,  
     photo VARCHAR(255),
     description TEXT,
     status VARCHAR(250),
@@ -25,22 +22,60 @@ CREATE TABLE Books (
     FOREIGN KEY (owner) REFERENCES Users(id_users)  
 );
 
-INSERT INTO Users (username, name, email, maps, password, profile_photo)
+
+CREATE TABLE Book_Exchange (
+    id_exchange INT AUTO_INCREMENT PRIMARY KEY,
+    book_id INT NOT NULL,
+    user_1 INT NOT NULL,
+    user_2 INT NOT NULL,
+    exchange_status BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (book_id) REFERENCES Books(id_books),
+    FOREIGN KEY (user_1) REFERENCES Users(id_users),
+    FOREIGN KEY (user_2) REFERENCES Users(id_users)
+);
+
+CREATE TABLE Maps (
+    id_map INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    street VARCHAR(255) NOT NULL,
+    height VARCHAR(50) NOT NULL,
+    locality VARCHAR(100) NOT NULL,
+    province VARCHAR(100) NOT NULL,
+    country VARCHAR(100) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES Users(id_users) ON DELETE CASCADE
+)
+
+CREATE TABLE Users_keys (
+    users_id INT AUTO_INCREMENT PRIMARY KEY,
+    fernet_key BLOB NOT NULL,
+    FOREIGN KEY (users_id) REFERENCES Users(id_users)
+)
+
+
+CREATE TABLE Comments(
+    id_comments INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    comments TEXT,
+    FOREIGN KEY (user_id) REFERENCES Users(id_users)   
+)
+
+INSERT INTO Users (username, name, email, profile_photo)
 VALUES 
-('user1', 'Nombre1', 'mail1@gmail.com', 'maps1', 'pbkdf2_sha256$260000$LxOpzqbpptgJpVO5$M7/TJHlhzKlBf4g5VsSx+u54DiBBj0AwbBHKQWQBrX0=', 'https://images.unsplash.com/photo-1599488879763-bc34d1796448?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-('user2', 'Nombre2', 'mail2@gmail.com', 'maps2', 'pbkdf2_sha256$260000$zR5PrzjbZ6+FUpAa$X2wUs0Hv5/p7HEH7GcXKPke5t94+j6YVrS6gnydCwL4=', 'https://images.unsplash.com/photo-1651570095137-500ac393a2d9?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-('user3', 'Nombre3', 'mail3@gmail.com', 'maps3', 'pbkdf2_sha256$260000$N2ik9fzLnbMlAfhz$3Ztq3G8Xn7MFzUK8UO2M1vl3lDBuIsXtL27XUHz4FPY=', 'https://images.unsplash.com/photo-1602924097911-a78ca1af38c6?q=80&w=1433&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-('user4', 'Nombre4', 'mail4@gmail.com', 'maps4', 'pbkdf2_sha256$260000$7fyzm7OYydo/45Pf$KkGHdUQKmbf3cOkgc0x+/eA2rLRllrpgYO4B80e4DsA=', 'https://images.unsplash.com/photo-1554579306-94e345617dbc?q=80&w=1331&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-('user5', 'Nombre5', 'mail5@gmail.com', 'maps5', 'pbkdf2_sha256$260000$PFE2zRhz3KlhZm8n$s+Wl0ggTk23wL/BkhCbcV6Axw/nXw/df5pHpqdszG7k=', 'https://images.unsplash.com/photo-1606494554797-279096d01a9a?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-('user6', 'Nombre6', 'mail6@gmail.com', 'maps6', 'pbkdf2_sha256$260000$3e0StokNRrfiZ5l3$0nVpwX9/Tpd8G+ynwxa6rcMwHl9ZWFi1hEJ76Zlz0pM=', 'https://plus.unsplash.com/premium_photo-1667873584049-d9f7b3aa73d4?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-('user7', 'Nombre7', 'mail7@gmail.com', 'maps7', 'pbkdf2_sha256$260000$wXeslf0lUu4ZopCt$kEjkvRYZVeKK0+7Xe51m2H6Ug7G2FwsPSPsdzA9e99k=', 'https://images.unsplash.com/photo-1535930891776-0c2dfb7fda1a?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-('user8', 'Nombre8', 'mail8@gmail.com', 'maps8', 'pbkdf2_sha256$260000$5PpbHj+fb0WpyPob$EuaP4BG3pTBY7EX4nQhEYntc8AcqGR4r6KLwPvq2HL8=', 'https://images.unsplash.com/photo-1549488799-496ecb87b5b3?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-('user9', 'Nombre9', 'mail9@gmail.com', 'maps9', 'pbkdf2_sha256$260000$8H8Bf9TCR7txXXP6$wAnrMn7BBAvlcozOXtRrujdfbyfjj8Z7b7OSYWi31pM=', 'https://images.unsplash.com/photo-1651017414745-96819e87e452?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-('user10', 'Nombre10', 'mail10@gmail.com', 'maps10', 'pbkdf2_sha256$260000$LKexUgBUnlrbh5tm$LOvEjR2cJ28bxbyo2O+nKNQdjNmT3Zk9VgGs7gtvK5I=', 'https://images.unsplash.com/photo-1453227588063-bb302b62f50b?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-('user11', 'Nombre11', 'mail11@gmail.com', 'maps11', 'pbkdf2_sha256$260000$zhrcPQY89YYlRChb$8dFywhzDJNe+rjwbEjRytpGRpGTI0KFTwL1K3uM//dA=', 'https://images.unsplash.com/photo-1477868433719-7c5f2731b310?q=80&w=1474&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-('user12', 'Nombre12', 'mail12@gmail.com', 'maps12', 'pbkdf2_sha256$260000$9zSeyznzqzOjT2vP$wMx1XnU9hlJw2qH0/A5Biwg6+Xdl72O0oPvgsZ4zPbw=', 'https://images.unsplash.com/photo-1607473129014-0afb7ed09c3a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-('user13', 'Nombre13', 'mail13@gmail.com', 'maps13', 'pbkdf2_sha256$260000$RlS1H2kYld5bAb3Y$w1PS6iZhrJqdtZY6zqfmsi0T3D9rjVeYdhtz9WktOEk=', 'https://images.unsplash.com/photo-1544822688-c5f41d2c1972?q=80&w=1419&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-('user14', 'Nombre14', 'mail14@gmail.com', 'maps14', 'pbkdf2_sha256$260000$93z1D1eWTeGwsaCo$aOfNk9vskZDwXehHg06zspM6gdXq1HKnFgZXJmn/dsc=', 'https://images.unsplash.com/photo-1523920290228-4f321a939b4c?q=80&w=1476&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+('user1', 'Name1', 'mail1@gmail.com', 'https://images.unsplash.com/photo-1599488879763-bc34d1796448?q=80&w=1469&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('user2', 'Name2', 'mail2@gmail.com', 'https://images.unsplash.com/photo-1651570095137-500ac393a2d9?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('user3', 'Name3', 'mail3@gmail.com', 'https://images.unsplash.com/photo-1602924097911-a78ca1af38c6?q=80&w=1433&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('user4', 'Name4', 'mail4@gmail.com', 'https://images.unsplash.com/photo-1554579306-94e345617dbc?q=80&w=1331&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('user5', 'Name5', 'mail5@gmail.com', 'https://images.unsplash.com/photo-1606494554797-279096d01a9a?q=80&w=1335&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('user6', 'Name6', 'mail6@gmail.com', 'https://plus.unsplash.com/premium_photo-1667873584049-d9f7b3aa73d4?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('user7', 'Name7', 'mail7@gmail.com', 'https://images.unsplash.com/photo-1535930891776-0c2dfb7fda1a?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('user8', 'Name8', 'mail8@gmail.com', 'https://images.unsplash.com/photo-1549488799-496ecb87b5b3?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('user9', 'Name9', 'mail9@gmail.com', 'https://images.unsplash.com/photo-1651017414745-96819e87e452?q=80&w=1332&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('user10', 'Name10', 'mail10@gmail.com', 'https://images.unsplash.com/photo-1453227588063-bb302b62f50b?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('user11', 'Name11', 'mail11@gmail.com', 'https://images.unsplash.com/photo-1477868433719-7c5f2731b310?q=80&w=1474&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('user12', 'Name12', 'mail12@gmail.com', 'https://images.unsplash.com/photo-1607473129014-0afb7ed09c3a?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('user13', 'Name13', 'mail13@gmail.com', 'https://images.unsplash.com/photo-1544822688-c5f41d2c1972?q=80&w=1419&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+('user14', 'Name14', 'mail14@gmail.com', 'https://images.unsplash.com/photo-1523920290228-4f321a939b4c?q=80&w=1476&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+
 
 
 INSERT INTO Books (name_book, owner, photo, description, status, genre)
@@ -69,3 +104,22 @@ El mundo de los influencers, sus representantes, las marcas, la rivalidad entre 
 
 Cinco influencers candidatos a un premio. ¿Se esconde un asesino tras uno de ellos? TODO VALE POR UN LIKE.
 ', 'Disponible', 'Suspenso')
+
+INSERT INTO Book_Exchange (book_id, user_1, user_2, exchange_status)
+VALUES (1, 1, 2, TRUE);
+
+INSERT INTO Maps (user_id, street, height, locality, province, country)
+VALUES ('1', 'street1', 'height2', 'locality1', 'province1', 'country1'),
+('2', 'street2', 'height2', 'locality2', 'province2', 'country2'),
+('3', 'street3', 'height3', 'locality3', 'province3', 'country3'),
+('4', 'street4', 'height4', 'locality4', 'province4', 'country4'),
+('5', 'street5', 'height5', 'locality5', 'province5', 'country5'),
+('6', 'street6', 'height6', 'locality6', 'province6', 'country6'),
+('7', 'street7', 'height7', 'locality7', 'province7', 'country7'),
+('8', 'street8', 'height8', 'locality8', 'province8', 'country8'),
+('9', 'street9', 'height9', 'locality9', 'province9', 'country9'),
+('10', 'street10', 'height10', 'locality10', 'province10', 'country10'),
+('11', 'street11', 'height11', 'locality11', 'province11', 'country11'),
+('12', 'street12', 'height12', 'locality12', 'province12', 'country12'),
+('13', 'street13', 'height13', 'locality13', 'province13', 'country13'),
+('14', 'street14', 'height14', 'locality14', 'province14', 'country14')
