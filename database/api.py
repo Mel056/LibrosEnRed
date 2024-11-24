@@ -1,11 +1,14 @@
 from flask import Flask, request, jsonify
+from flask_cors import CORS
+
 import mysql.connector
 
 app = Flask(__name__)
+CORS(app)  # Esto habilita CORS para todas las rutas
 
 DB_CONFIG = {
     'host': 'localhost',
-    'user': 'test',
+    'user': 'nacho',
     'password': '123',
     'database': 'LibrosEnRed'
 }
@@ -169,4 +172,4 @@ def delete_book(book_id):
     return jsonify({"message": "Book deleted successfully"}), 200
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5001)
