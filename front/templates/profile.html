@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <header class="header">
+    <header>
         <nav>
             <i id="logo" class="fa-solid fa-book nav-icon"></i>
             <ul>
@@ -32,31 +32,13 @@
     </header>
     <section class="sidebar">
         <header>
-            <div id="Name_profile">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempora, iusto!</div>
+            <div id="Name_profile">Leonardo Alberto Alcantara Masias</div>
             <img id="Profile" src="{{url_for('static', filename='images/Perfil.jpg')}}">
-
         </header>
-        <div class="list_items">
-            <ul>
-                <li class="menu-item sub-menu">
-                    <a href="{{url_for('Home')}}">
-                        <span class="menu-icon">
-                            <i class="fa-solid fa-home nav-icon"></i>
-                        </span>
-                        <span class="menu-title">Home</span>
-                    </a>
-                </li>
-                <li class="menu-item sub-menu">
-                    <a href="#">
-                        <span class="menu-icon">
-                            <i class="fa-solid fa-map-location"></i>
-                        </span>
-                        <span class="menu-title">Maps</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="footer">
+        <section id="comments">
+
+        </section>
+        <section class="footer">
             <span>Puntua este perfil</span>
             <div class="star-rating">
                 <input type="radio" id="star1" name="rating" value="1"><label for="star1" class="star"></label>
@@ -66,7 +48,7 @@
                 <input type="radio" id="star5" name="rating" value="5"><label for="star5" class="star"></label>
             </div>
             <button id="Edit_profile">Editar perfil</button>
-        </div>
+        </section>
     </section>
     <main class="main">
         <div class="libros">

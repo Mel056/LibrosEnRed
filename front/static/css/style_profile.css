@@ -34,7 +34,7 @@ a {
     position: absolute;
     display: flex;
     align-items: center;
-    left: 81%;
+    left: 71%;
 }
 
 .search-input {
@@ -141,16 +141,14 @@ nav li a {
 
 /*Estilos del sidebar*/
 .sidebar {
-    background-color: rgb(32, 32, 32);
+    background-color: rgb(36, 9, 70);
     width: 100%;
     max-width: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
     grid-area: side;
-    grid-template-rows: 1fr 1fr 1fr;
-    grid-template-areas:
-        "Header"
-        "List"
-        "footer"
-    ;
 }
 
 .sidebar header {
@@ -163,9 +161,9 @@ nav li a {
 }
 
 .sidebar header img {
-    width: 40%;
+    width: 50%;
     height: auto;
-    border-radius: 50px;
+    border-radius: 70px;
     margin-right: 10px;
     margin-top: 20px;
 }
@@ -173,53 +171,29 @@ nav li a {
 .sidebar #Name_profile {
     list-style-type: none;
     padding: 5px;
-    margin: 10px;
+    margin-top: 10px;
+    font-size: 2vh;
 }
 
 .sidebar .footer {
     display: flex;
-    justify-content: center;
-    margin-top: auto;
-    position: absolute;
-    grid-area: Footer;
-}
-
-.sidebar.list_items {
-    grid-area: List;
-}
-
-.sidebar .list_items ul {
-    list-style-type: none;
-    padding: 5px;
-    margin: 10px;
-}
-
-.sidebar .list_items a {
-    display: flex;
+    flex-direction: column;
     align-items: center;
-    height: 50px;
-    padding: 0 20px;
-    color: #00e257;
+    justify-content: flex-end;
+    position: relative;
+    height: 100%;
 }
 
-.sidebar .list_items a .menu-icon {
-    font-size: 1.2rem;
-    width: 35px;
-    min-width: 35px;
-    height: 35px;
-    line-height: 35px;
+.sidebar .footer span {
+    font-size: 16px;
+    color: rgb(174, 24, 204);
+    margin-bottom: 10px;
     text-align: center;
-    display: inline-block;
-    margin-right: 10px;
 }
-
 
 .star-rating {
     display: flex;
     justify-content: center;
-    margin-top: 35%;
-    margin-left: 30px;
-    position: absolute;
     transform: rotateY(180deg);
 }
 
@@ -257,11 +231,7 @@ nav li a {
     padding: 20px;
     overflow-y: auto;
     grid-area: main;
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas:
-        "libros"
-        "Comentarios"
-    ;
+
 }
 
 .libros {
