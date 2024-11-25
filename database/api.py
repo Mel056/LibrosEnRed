@@ -45,6 +45,8 @@ def get_users():
     user_id = request.args.get('id')
     username = request.args.get('username')
     email = request.args.get('email')
+    latitude = request.args.get('latitude')
+    longitude = request.args.get('longitude')
 
     filters = []
     params = []
@@ -57,6 +59,12 @@ def get_users():
     if email:
         filters.append("email LIKE %s")
         params.append(f"%{email}%")
+    if latitude:
+        filters.append("latitude = %s")
+        params.append(latitude)
+    if longitude:
+        filters.append("longitude = %s")
+        params.append(longitude)
 
     where_clause = f"WHERE {' AND '.join(filters)}" if filters else ""
     query = f"SELECT * FROM Users {where_clause}"
