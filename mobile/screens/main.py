@@ -11,6 +11,9 @@ from kivy.metrics import dp
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.graphics import Color, Rectangle
 from kivy.uix.widget import Widget
+from kivy.uix.image import Image
+from kivy.graphics.texture import Texture
+import qrcode
 
 
 class StarRating(BoxLayout):
@@ -29,6 +32,8 @@ class StarRating(BoxLayout):
                 size=(dp(20), dp(20))
             )
             self.add_widget(star)
+            
+       
 
 class BookCard(BoxLayout):
     def __init__(self, title, author, description, rating, image_url, **kwargs):
@@ -106,6 +111,8 @@ class BookCard(BoxLayout):
             background_color=(0.2, 0.6, 1, 1)
         )
         
+        exchange_btn.bind(on_press=self.generate_qr_code)
+        
         # Add all widgets
         self.add_widget(image_container)
         self.add_widget(title_label)
@@ -113,10 +120,38 @@ class BookCard(BoxLayout):
         self.add_widget(rating_widget)
         self.add_widget(description_label)
         self.add_widget(exchange_btn)
+        
+        # QR code display
+        self.qr_image = Image()
+        self.add_widget(self.qr_image)
     
     def _update_rect(self, instance, value):
         self.rect.pos = instance.pos
         self.rect.size = instance.size
+        
+    def generate_qr_code(self, instance):
+        user_id = "1234"
+        book_id = "1234"
+
+        if not user_id or not book_id:
+            ""
+
+        # Combine user ID and book ID
+        qr_data = f"UserID: {user_id}, BookID: {book_id}"
+
+        # Generate QR code
+        qr = qrcode.make(qr_data)
+
+        # Convert QR code to a Kivy texture
+        qr_image = qr.convert('RGB')
+        qr_image_data = qr_image.tobytes()
+        texture = Texture.create(size=qr_image.size, colorfmt='rgb')
+        texture.blit_buffer(qr_image_data, bufferfmt='ubyte', colorfmt='rgb')
+        texture.flip_vertical()
+
+        # Display QR code in the Image widget
+        self.qr_image.texture = texture
+        # self.generate_button.text = "Generate QR Code"
 
 class MainScreen(Screen):
     def __init__(self, **kwargs):
