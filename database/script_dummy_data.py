@@ -3,7 +3,7 @@ import mysql.connector
 
 DB_CONFIG = {
     "host": "localhost",
-    "user": "test", # Cambiar si se usa un usuario diferente
+    "user": "leo", # Cambiar si se usa un usuario diferente
     "password": "123", # Cambiar si se usa un usuario diferente
     "database": "LibrosEnRed"
 }
