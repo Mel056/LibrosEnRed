@@ -4,7 +4,7 @@ from random import uniform, choice
 
 DB_CONFIG = {
     "host": "localhost",
-    "user": "nacho",
+    "user": "leo",
     "password": "123",
     "database": "LibrosEnRed"
 }

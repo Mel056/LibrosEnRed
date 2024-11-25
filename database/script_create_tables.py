@@ -2,8 +2,10 @@ import mysql.connector
 
 DB_CONFIG = {
     "host": "localhost",
-    "user": "nacho",  # Cambiar si se usa un usuario diferente
+    "port":"3306",
+    "user": "leo",  # Cambiar si se usa un usuario diferente
     "password": "123",  # Cambiar si se usa una contraseña diferente
+    "auth_plugin":"mysql_native_password"
 }
 
 def create_database_and_tables():
@@ -37,7 +39,7 @@ def create_database_and_tables():
             descripcion TEXT,
             status BOOLEAN DEFAULT FALSE,
             genre VARCHAR(50),
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
         """
         cursor.execute(create_books_table)
