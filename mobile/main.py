@@ -5,6 +5,7 @@ from kivy.core.window import Window
 from screens.login import LoginScreen
 from screens.main import MainScreen
 from screens.map import MapScreen
+from screens.qrscanner import QRCodeScanner
 
 # Set window size for desktop testing
 Window.size = (360, 640)
@@ -15,6 +16,7 @@ class BookExchangeApp(App):
         sm.add_widget(LoginScreen(name='login'))
         sm.add_widget(MainScreen(name='main'))
         sm.add_widget(MapScreen(name='map'))
+        sm.add_widget(QRCodeScanner(name='qrscanner'))
         return sm
 
 if __name__ == '__main__':

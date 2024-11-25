@@ -173,12 +173,20 @@ class MainScreen(Screen):
             size_hint_x=None,
             width=dp(100)
         )
+        qrscanner_btn = Button(
+            text='📷 QR',
+            background_color=(0.2, 0.6, 1, 1),
+            size_hint_x=None,
+            width=dp(100)
+        )
         
         map_btn.bind(on_press=lambda x: setattr(self.manager, 'current', 'map'))
+        qrscanner_btn.bind(on_press=lambda x: setattr(self.manager, 'current', 'qrscanner'))
         
         top_bar.add_widget(profile_btn)
         top_bar.add_widget(title_label)
         top_bar.add_widget(map_btn)
+        top_bar.add_widget(qrscanner_btn)
         
         # Books list
         scroll_layout = ScrollView()
