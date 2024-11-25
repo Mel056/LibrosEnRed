@@ -66,6 +66,17 @@ def create_database_and_tables():
         """
         cursor.execute(create_comments_table)
         
+        create_rating_table = """
+        CREATE TABLE IF NOT EXISTS Rating (
+            id_rating INT AUTO_INCREMENT PRIMARY KEY,
+            id_users INT NOT NULL,
+            rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
+            FOREIGN KEY (id_users) REFERENCES Users(id_users)
+        )
+        """
+        cursor.execute(create_rating_table)
+
+        
     finally:
         if cursor:
             cursor.close()

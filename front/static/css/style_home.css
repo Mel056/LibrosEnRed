@@ -127,8 +127,8 @@ nav li a {
     cursor: pointer;
     font-size: 16px;
     margin: 20px;
-    left: 18%;
-    position: relative;
+    left: 72%;
+    position: absolute;
     border-style: solid;
 }
 

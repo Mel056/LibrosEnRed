@@ -81,6 +81,14 @@ def insert_test_data():
             )
 
         connection.commit()
+        
+        rating = randint(1, 5)
+        cursor.execute(
+        """INSERT INTO Rating (id_users, rating) 
+        VALUES (%s, %s)""",
+        (cursor.lastrowid, rating)
+        )
+        connection.commit()
         print("Datos de prueba insertados exitosamente.")
 
     except mysql.connector.Error as e:
