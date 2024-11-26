@@ -1,14 +1,13 @@
-function openMaps() {
-    document.getElementById("map-container").style.display = "block";
-    document.getElementById("map-overlay").style.display = "block";
+function initMap(latitude, longitude) {
+    const map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: latitude, lng: longitude },
+        zoom: 12
+    });
 
-    const map = document.getElementById("map");
-    const query = encodeURIComponent("Buenos Aires"); 
-    map.src = `https://www.google.com/maps?q=${query}&output=embed`;
-}
 
-function closeMaps() {
-    document.getElementById("map-container").style.display = "none";
-    document.getElementById("map-overlay").style.display = "none";
-    document.getElementById("map").src = "";
+    new google.maps.Marker({
+        position: { lat: latitude, lng: longitude },
+        map: map,
+        title: 'Ubicación'
+    });
 }
