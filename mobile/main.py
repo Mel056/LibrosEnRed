@@ -11,14 +11,13 @@ from screens.location import LocationSelectScreen
 from screens.success import SuccessScreen
 from screens.book_detail import BookDetailScreen
 from screens.profile import ProfileScreen
+from screens.exchange_location import ExchangeLocationScreen
 
-# from kivy.lang import Builder
-# Builder.load_file('bookexchange.kv')
 
 # Set window size for desktop testing
 Window.size = (360, 640)
 
-class BookExchangeApp(MDApp):
+class LibrosEnRedApp(MDApp):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.user_data = None  # Para almacenar los datos del usuario
@@ -37,4 +36,4 @@ class BookExchangeApp(MDApp):
         return sm
 
 if __name__ == '__main__':
-    BookExchangeApp().run()
+    LibrosEnRedApp().run()

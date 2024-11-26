@@ -1,8 +1,8 @@
 # buildozer.spec
 [app]
-title = Book Exchange
-package.name = bookexchange
-package.domain = org.bookexchange
+title = LibrosEnRedApp
+package.name = LibrosEnRedApp
+package.domain = org.LibrosEnRedApp
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas
 version = 0.1

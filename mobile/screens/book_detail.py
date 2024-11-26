@@ -408,4 +408,7 @@ class BookDetailScreen(Screen, ResponsiveView):
     
     def request_exchange(self, instance):
         if self.book_data:
-            print(f"Solicitud de intercambio para el libro ID: {self.book_data['id']}")
+            # Navegar a la pantalla de intercambio
+            exchange_screen = self.manager.get_screen('exchange_location')
+            exchange_screen.show_exchange_location(self.book_data)
+            self.manager.current = 'exchange_location'
