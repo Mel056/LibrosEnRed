@@ -10,6 +10,10 @@ from screens.register import RegisterScreen
 from screens.location import LocationSelectScreen
 from screens.success import SuccessScreen
 from screens.book_detail import BookDetailScreen
+from screens.profile import ProfileScreen
+
+# from kivy.lang import Builder
+# Builder.load_file('bookexchange.kv')
 
 # Set window size for desktop testing
 Window.size = (360, 640)
@@ -25,6 +29,7 @@ class BookExchangeApp(MDApp):
         sm.add_widget(RegisterScreen(name='register'))
         sm.add_widget(SuccessScreen(name='success'))
         sm.add_widget(BookDetailScreen(name='book_detail'))
+        sm.add_widget(ProfileScreen(name='profile'))
         return sm
 
 if __name__ == '__main__':
