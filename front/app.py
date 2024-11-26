@@ -31,7 +31,6 @@ def main():
     def Detalle(idLibro):
         return render_template('detalle.html')
 
-
     @app.route('/cargar_libro')
     def Cargar():
         return render_template('cargar_libro.html')

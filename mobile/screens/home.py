@@ -9,7 +9,7 @@ from kivy.uix.image import AsyncImage
 from kivy.core.window import Window
 from kivy.metrics import dp
 from kivy.uix.anchorlayout import AnchorLayout
-from kivy.graphics import Color, Rectangle
+from kivy.graphics import Color, Rectangle, RoundedRectangle
 from kivy.uix.widget import Widget
 from kivy.uix.image import Image
 from kivy.graphics.texture import Texture
@@ -17,6 +17,32 @@ from kivy.uix.behaviors import ButtonBehavior
 from kivymd.app import MDApp
 import qrcode
 import requests
+
+class RoundedButton(Button):
+    def __init__(self, background_color=(0.2, 0.6, 0.8, 1), radius=15, **kwargs):
+        super().__init__(**kwargs)
+
+        self.background_normal = ''  # Remove default background
+        self.background_color = (0, 0, 0, 0)  # Transparent background
+
+        # Customizable button size
+        self.size_hint = (None, None)
+        self.size = kwargs.get('size', (dp(150), dp(50)))  # Default size if not provided
+
+        # Customizing with rounded corners and border
+        with self.canvas.before:
+            # Button background color
+            Color(*background_color)
+            self.rect = RoundedRectangle(size=self.size, pos=self.pos, radius=[dp(radius)])  # Rounded corners
+
+        self.bind(pos=self.update_canvas, size=self.update_canvas)
+
+    def update_canvas(self, *args):
+        # Update the position and size of the button and border
+        self.rect.pos = self.pos
+        self.rect.size = self.size
+        self.border.pos = self.pos
+        self.border.size = self.size
 
 
 class StarRating(BoxLayout):
@@ -50,7 +76,7 @@ class BookCard(ButtonBehavior, BoxLayout):
         
         # Card background
         with self.canvas.before:
-            Color(0.95, 0.95, 0.95, 1)
+            Color(.1, .02, .3, 1)
             self.rect = Rectangle(pos=self.pos, size=self.size)
         self.bind(pos=self._update_rect, size=self._update_rect)
         
@@ -80,7 +106,7 @@ class BookCard(ButtonBehavior, BoxLayout):
             bold=True,
             size_hint_y=None,
             height=dp(30),
-            color=(0.2, 0.2, 0.2, 1)
+            color=(1, 1, 1, 1)
         )
         
         author_label = Label(
@@ -88,7 +114,7 @@ class BookCard(ButtonBehavior, BoxLayout):
             font_size=dp(14),
             size_hint_y=None,
             height=dp(25),
-            color=(0.4, 0.4, 0.4, 1)
+            color=(1, 1, 1, 1)
         )
         
         description_label = Label(
@@ -98,19 +124,18 @@ class BookCard(ButtonBehavior, BoxLayout):
             size_hint_y=None,
             height=dp(60),
             halign='center',
-            color=(0.3, 0.3, 0.3, 1)
+            color=(1, 1, 1, 1)
         )
         
         # Star rating
         rating_widget = StarRating(rating)
         
         # Exchange button
-        self.exchange_btn = Button(
-            text='Solicitar Intercambio',
-            size_hint=(None, None),
-            size=(dp(200), dp(40)),
-            pos_hint={'center_x': 0.5},
-            background_color=(0.2, 0.6, 1, 1)
+        exchange_btn = RoundedButton(            
+            text="Solicitar Intercambio",
+            background_color=(.09, .01, .2, 1), 
+            radius=20, 
+            size=(dp(200), dp(40))
         )
         
         self.exchange_btn.bind(on_press=self.generate_qr_code)
@@ -171,7 +196,7 @@ class HomeScreen(Screen):
         super().__init__(**kwargs)
         
         with self.canvas.before:
-            Color(0.9, 0.9, 0.95, 1)
+            Color(0.2, 0.03, 0.4, 1)  # Color de fondo suave
             self.rect = Rectangle(size=Window.size)
         Window.bind(size=self._update_rect)
         
@@ -183,12 +208,20 @@ class HomeScreen(Screen):
             spacing=dp(10)
         )
         
+        # Title bar
+        title_bar = BoxLayout(
+            size_hint_y=None,
+            height=dp(50),
+            spacing=dp(10),
+            padding=dp(5)
+        )
+        
         # Top bar
         top_bar = BoxLayout(
             size_hint_y=None,
             height=dp(50),
             spacing=dp(10),
-            padding=dp(5)
+            padding=dp(5),
         )
         
         # App title
@@ -198,28 +231,28 @@ class HomeScreen(Screen):
             bold=True,
             size_hint_y=None,
             height=dp(50),
-            color=(0.2, 0.2, 0.2, 1)
+            color=(1, 1, 1, 1),
         )
         
-        # Navigation buttons
-        profile_btn = Button(
-            text='👤 Perfil',
-            background_color=(0.2, 0.6, 1, 1),
-            size_hint_x=None,
-            width=dp(100)
+        
+        profile_btn = RoundedButton(
+            text="Perfil",
+            background_color=(.1, .02, .3, 1), 
+            radius=20, 
+            size=(dp(100), dp(50))
         )
-
-        qrscanner_btn = Button(
-            text='📷 QR',
-            background_color=(0.2, 0.6, 1, 1),
-            size_hint_x=None,
-            width=dp(100)
+        qrscanner_btn = RoundedButton(
+            text="QR",
+            background_color=(.1, .02, .3, 1), 
+            radius=20, 
+            size=(dp(100), dp(50))
         )
         
+        profile_btn.bind(on_press=lambda x: setattr(self.manager, 'current', 'profile'))
         qrscanner_btn.bind(on_press=lambda x: setattr(self.manager, 'current', 'qrscanner'))
         
+        title_bar.add_widget(title_label)
         top_bar.add_widget(profile_btn)
-        top_bar.add_widget(title_label)
         top_bar.add_widget(qrscanner_btn)
         
         # Books list
@@ -235,6 +268,7 @@ class HomeScreen(Screen):
         self.scroll_layout.add_widget(self.books_layout)
         
         # Add all elements to main layout
+        main_layout.add_widget(title_bar)
         main_layout.add_widget(top_bar)
         main_layout.add_widget(self.scroll_layout)
         
