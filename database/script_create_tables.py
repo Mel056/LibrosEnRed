@@ -78,7 +78,18 @@ def create_database_and_tables():
         """
         cursor.execute(create_rating_table)
 
-        
+        create_rating_books_table = """
+        CREATE TABLE IF NOT EXISTS Rating_Books (
+        id_rating_book INT AUTO_INCREMENT PRIMARY KEY,
+        id_book INT,
+        id_users INT,
+        rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
+        FOREIGN KEY (id_book) REFERENCES Libros(id_book),
+        FOREIGN KEY (id_users) REFERENCES Users(id_users)
+    )
+    """
+        cursor.execute(create_rating_books_table)
+    
     finally:
         if cursor:
             cursor.close()

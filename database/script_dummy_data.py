@@ -98,7 +98,7 @@ def insert_test_data():
         """INSERT INTO Libro_Ratings (libro_id, rating)
         VALUES (%s, %s)""",
         (book_id, book_rating)
-     )
+        )
         connection.commit()
         print("Datos de prueba insertados exitosamente.")
 
