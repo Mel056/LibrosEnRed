@@ -102,6 +102,7 @@ def get_users():
     email = request.args.get('email')
     latitude = request.args.get('latitude')
     longitude = request.args.get('longitude')
+    profile_photo = request.args.get('profile_photo')
 
     filters = []
     params = []
@@ -120,6 +121,13 @@ def get_users():
     if longitude:
         filters.append("longitude = %s")
         params.append(longitude)
+    if profile_photo is not None:
+        filters.append("profile_photo IS NOT NULL" if profile_photo == 'true' else "profile_photo IS NULL")
+    
+    query = "SELECT * FROM users"
+    
+    if filters:
+        query += " WHERE " + " AND ".join(filters)
         
     query = f"""
     SELECT 
