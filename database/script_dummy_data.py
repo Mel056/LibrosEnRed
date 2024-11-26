@@ -82,12 +82,23 @@ def insert_test_data():
 
         connection.commit()
         
+        # Insertar puntuaciones de los usuarios
         rating = randint(1, 5)
         cursor.execute(
         """INSERT INTO Rating (id_users, rating) 
         VALUES (%s, %s)""",
         (user_id, rating)
         )
+        connection.commit()
+        
+        # Insertar puntuacines de los libros
+        book_id = choice(book_ids)  
+        book_rating = randint(1, 5)
+        cursor.execute(
+        """INSERT INTO Libro_Ratings (libro_id, rating)
+        VALUES (%s, %s)""",
+        (book_id, book_rating)
+     )
         connection.commit()
         print("Datos de prueba insertados exitosamente.")
 
