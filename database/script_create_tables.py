@@ -88,6 +88,7 @@ def create_database_and_tables():
             FOREIGN KEY (id_users) REFERENCES Users(id_users)
         )
         """
+        
         cursor.execute(create_rating_books_table)
 
         
