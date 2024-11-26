@@ -83,6 +83,7 @@ nav {
     position: sticky;
     top: 0;
     overflow: hidden;
+    z-index: 600;
 }
 
 nav ul {
@@ -303,7 +304,8 @@ nav li a {
 }
 
 .libro-frente img {
-    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
     border-radius: 15px;
 }
 
@@ -317,21 +319,21 @@ nav li a {
 }
 
 .libro-atras h3 {
-    margin: 0;
-    font-size: 22px;
+    font-size: 15px;
     font-weight: bold;
     color: #5a189a;
+    position: absolute;
+    top: 10px;
+    margin-bottom: 10px;
 }
 
 .libro-atras p {
     font-size: 14px;
-    margin-top: 10px;
     line-height: 1.5;
     color: black;
 }
 
 .libro-atras .button {
-    margin-top: 20px;
     padding: 10px 20px;
     background-color: #5a189a;
     color: white;
@@ -340,7 +342,8 @@ nav li a {
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s;
+    position: absolute;
+    bottom: 10px;
 }
 
 .libro-atras .button:hover {
