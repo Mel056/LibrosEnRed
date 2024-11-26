@@ -22,7 +22,7 @@ async function cargarLibros() {
                             <p>Género: ${libro.genre}</p>
                             <p>Estado: ${libro.status}</p>
                             <button class="button">
-                                <a href="/Detalle/${libro.id_books}">Ver más</a>
+                                <a href="/detalle/${libro.id_books}">Ver más</a>
                             </button>
                         </div>
                     </div>
