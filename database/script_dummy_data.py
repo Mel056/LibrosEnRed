@@ -2,11 +2,22 @@ from faker import Faker
 import mysql.connector
 from random import uniform, choice, randint
 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+# Clave Fernet desde el archivo .env
+DB_HOST = os.getenv("DB_HOST")
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_DATABASE = os.getenv("DB_DATABASE")
+
 DB_CONFIG = {
-    "host": "localhost",
-    "user": "nacho",
-    "password": "123",
-    "database": "LibrosEnRed"
+    'host': DB_HOST,
+    'user': DB_USER,
+    'password': DB_PASSWORD,
+    'database': DB_DATABASE
 }
 
 fake = Faker()

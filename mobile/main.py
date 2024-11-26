@@ -8,6 +8,7 @@ from screens.map import MapScreen
 from screens.qrscanner import QRCodeScanner
 from screens.register import RegisterScreen
 from screens.location import LocationSelectScreen
+from screens.success import SuccessScreen
 
 # Set window size for desktop testing
 Window.size = (360, 640)
@@ -21,6 +22,7 @@ class BookExchangeApp(MDApp):
         sm.add_widget(LocationSelectScreen(name='location_select'))
         sm.add_widget(QRCodeScanner(name='qrscanner'))
         sm.add_widget(RegisterScreen(name='register'))
+        sm.add_widget(SuccessScreen(name='success'))
         return sm
 
 if __name__ == '__main__':

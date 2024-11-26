@@ -4,14 +4,25 @@ from flask_cors import CORS
 import mysql.connector
 from encrypt import encrypt_password, decrypt_password
 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+# Clave Fernet desde el archivo .env
+DB_HOST = os.getenv("DB_HOST")
+DB_USER = os.getenv("DB_USER")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+DB_DATABASE = os.getenv("DB_DATABASE")
+
 app = Flask(__name__)
 CORS(app)  # Esto habilita CORS para todas las rutas
 
 DB_CONFIG = {
-    'host': 'localhost',
-    'user': 'nacho',
-    'password': '123',
-    'database': 'LibrosEnRed'
+    'host': DB_HOST,
+    'user': DB_USER,
+    'password': DB_PASSWORD,
+    'database': DB_DATABASE
 }
 
 def execute_query(query, params=None, fetch_one=False):
@@ -33,14 +44,28 @@ def execute_query(query, params=None, fetch_one=False):
 def register_user():
     data = request.get_json()
     
+    # Verificar campos requeridos
     required_fields = ['username', 'email', 'password', 'latitude', 'longitude']
     missing_fields = [field for field in required_fields if field not in data]
     if missing_fields:
         return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
 
+    # Verificar si el username ya existe
+    check_username_query = "SELECT username FROM Users WHERE username = %s"
+    username_result = execute_query(check_username_query, (data['username'],))  # Sin fetch_one
+    if username_result and len(username_result) > 0:
+        return jsonify({"error": "El nombre de usuario ya está registrado"}), 409
+
+    # Verificar si el email ya existe
+    check_email_query = "SELECT email FROM Users WHERE email = %s"
+    email_result = execute_query(check_email_query, (data['email'],))  # Sin fetch_one
+    if email_result and len(email_result) > 0:
+        return jsonify({"error": "El correo electrónico ya está registrado"}), 409
+
     # Encriptar la contraseña
     encrypted_password = encrypt_password(data['password'])
 
+    # Intentar registrar al usuario
     query = """
         INSERT INTO Users (username, email, password, latitude, longitude, profile_photo) 
         VALUES (%s, %s, %s, %s, %s, NULL)
