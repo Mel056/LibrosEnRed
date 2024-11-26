@@ -3,7 +3,7 @@ import mysql.connector
 DB_CONFIG = {
     "host": "localhost",
     "port":"3306",
-    "user": "leo",  # Cambiar si se usa un usuario diferente
+    "user": "mirko2",  # Cambiar si se usa un usuario diferente
     "password": "123",  # Cambiar si se usa una contraseña diferente
     "auth_plugin":"mysql_native_password"
 }
@@ -71,7 +71,7 @@ def create_database_and_tables():
         create_rating_table = """
         CREATE TABLE IF NOT EXISTS Rating (
             id_rating INT AUTO_INCREMENT PRIMARY KEY,
-            id_users INT NOT NULL,
+            id_users INT,
             rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
             FOREIGN KEY (id_users) REFERENCES Users(id_users)
         )
