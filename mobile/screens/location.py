@@ -12,6 +12,7 @@ from kivymd.uix.snackbar import MDSnackbar
 from geopy.geocoders import Nominatim
 from kivy.properties import ObjectProperty, BooleanProperty
 import threading
+from .success import SuccessScreen
 
 class CustomMapMarker(MapMarker):
     def __init__(self, **kwargs):
@@ -352,13 +353,79 @@ class LocationSelectScreen(MDScreen):
             )
             
             if response.status_code == 201:
-                self.show_success("¡Registro completado exitosamente!")
-                Clock.schedule_once(lambda dt: self.go_to_login(), 2)
+                # Asegurarse de que la pantalla de éxito está registrada
+                if 'success' not in self.manager.screen_names:
+                    self.manager.add_widget(SuccessScreen(name='success'))
+                self.manager.current = 'success'
             else:
-                self.show_error(f"Error en el registro: {response.text}")
+                # Volver a la pantalla de registro y mostrar el error
+                self.manager.current = 'register'
+                try:
+                    error_data = response.json()
+                    error_message = error_data.get('error', 'Error desconocido en el registro')
+                except ValueError:
+                    # Si no podemos decodificar el JSON, usamos el texto de la respuesta
+                    if response.status_code == 500:
+                        error_message = "Error interno del servidor. Por favor, intente más tarde."
+                    else:
+                        error_message = response.text or "Error desconocido en el registro"
+                
+                self.show_error_box(error_message)
         except requests.RequestException as e:
-            self.show_error(f"Error de conexión: {str(e)}")
-    
+            self.manager.current = 'register'
+            self.show_error_box(f"Error de conexión: No se pudo conectar con el servidor")
+
+    def show_error_box(self, message):
+        # Remover error box anterior si existe
+        for child in self.manager.get_screen('register').children:
+            if isinstance(child, MDBoxLayout) and hasattr(child, 'error_box'):
+                self.manager.get_screen('register').remove_widget(child)
+        
+        # Crear el contenedor del error
+        error_container = MDBoxLayout(
+            orientation='vertical',
+            size_hint=(None, None),
+            size=(dp(300), dp(80)),
+            pos_hint={'center_x': 0.5, 'top': 0.95},
+            padding=[dp(20), dp(10)],
+            spacing=dp(5),
+            md_bg_color=(0.8, 0, 0, 0.9)  # Rojo semi-transparente
+        )
+        error_container.error_box = True  # Marca para identificarlo
+        
+        # Título del error
+        error_title = MDLabel(
+            text="Error de Registro",
+            theme_text_color="Custom",
+            text_color=(1, 1, 1, 1),
+            font_style="Subtitle1",
+            bold=True,
+            size_hint_y=None,
+            height=dp(30)
+        )
+        
+        # Mensaje del error
+        error_message = MDLabel(
+            text=message,
+            theme_text_color="Custom",
+            text_color=(1, 1, 1, 1),
+            size_hint_y=None,
+            height=dp(40)
+        )
+        
+        error_container.add_widget(error_title)
+        error_container.add_widget(error_message)
+        
+        # Agregar el contenedor a la pantalla de registro
+        self.manager.get_screen('register').add_widget(error_container)
+        
+        # Programar la eliminación del error después de 5 segundos
+        Clock.schedule_once(
+            lambda dt: self.manager.get_screen('register').remove_widget(error_container)
+            if error_container in self.manager.get_screen('register').children else None, 
+            5
+        )
+        
     def validate_coordinates(self, lat, lon):
         return -90 <= lat <= 90 and -180 <= lon <= 180
     

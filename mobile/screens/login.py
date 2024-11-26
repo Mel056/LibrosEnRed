@@ -95,7 +95,7 @@ class LoginScreen(MDScreen):
             if response.status_code == 200:
                 # Login exitoso
                 print("Login exitoso")
-                self.manager.current = 'main'
+                self.manager.current = 'home'
             else:
                 # Manejar error de login
                 print("Credenciales incorrectas")

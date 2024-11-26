@@ -9,11 +9,40 @@ from kivy.uix.image import AsyncImage
 from kivy.core.window import Window
 from kivy.metrics import dp
 from kivy.uix.anchorlayout import AnchorLayout
-from kivy.graphics import Color, Rectangle
+from kivy.graphics import Color, Rectangle, RoundedRectangle
 from kivy.uix.widget import Widget
 from kivy.uix.image import Image
 from kivy.graphics.texture import Texture
+from kivy.uix.behaviors import ButtonBehavior
+from kivymd.app import MDApp
 import qrcode
+import requests
+
+class RoundedButton(Button):
+    def __init__(self, background_color=(0.2, 0.6, 0.8, 1), radius=15, **kwargs):
+        super().__init__(**kwargs)
+
+        self.background_normal = ''  # Remove default background
+        self.background_color = (0, 0, 0, 0)  # Transparent background
+
+        # Customizable button size
+        self.size_hint = (None, None)
+        self.size = kwargs.get('size', (dp(150), dp(50)))  # Default size if not provided
+
+        # Customizing with rounded corners and border
+        with self.canvas.before:
+            # Button background color
+            Color(*background_color)
+            self.rect = RoundedRectangle(size=self.size, pos=self.pos, radius=[dp(radius)])  # Rounded corners
+
+        self.bind(pos=self.update_canvas, size=self.update_canvas)
+
+    def update_canvas(self, *args):
+        # Update the position and size of the button and border
+        self.rect.pos = self.pos
+        self.rect.size = self.size
+        self.border.pos = self.pos
+        self.border.size = self.size
 
 
 class StarRating(BoxLayout):
@@ -32,11 +61,10 @@ class StarRating(BoxLayout):
                 size=(dp(20), dp(20))
             )
             self.add_widget(star)
-            
-       
 
-class BookCard(BoxLayout):
-    def __init__(self, title, author, description, rating, image_url, **kwargs):
+
+class BookCard(ButtonBehavior, BoxLayout):
+    def __init__(self, title, author, description, rating, image_url, book_data, **kwargs):
         super().__init__(**kwargs)
         self.orientation = 'vertical'
         self.size_hint_y = None
@@ -44,14 +72,15 @@ class BookCard(BoxLayout):
         self.padding = dp(15)
         self.spacing = dp(10)
         self.pos_hint = {'center_x': 0.5}
+        self.book_data = book_data
         
         # Card background
         with self.canvas.before:
-            Color(0.95, 0.95, 0.95, 1)
+            Color(.1, .02, .3, 1)
             self.rect = Rectangle(pos=self.pos, size=self.size)
         self.bind(pos=self._update_rect, size=self._update_rect)
         
-        # Contenedor para la imagen usando AnchorLayout
+        # Image container
         image_container = AnchorLayout(
             size_hint=(1, None),
             height=dp(180),
@@ -68,7 +97,6 @@ class BookCard(BoxLayout):
             size=(dp(120), dp(160))
         )
         
-        # Añadir imagen al contenedor
         image_container.add_widget(self.image)
         
         # Book info
@@ -78,7 +106,7 @@ class BookCard(BoxLayout):
             bold=True,
             size_hint_y=None,
             height=dp(30),
-            color=(0.2, 0.2, 0.2, 1)
+            color=(1, 1, 1, 1)
         )
         
         author_label = Label(
@@ -86,7 +114,7 @@ class BookCard(BoxLayout):
             font_size=dp(14),
             size_hint_y=None,
             height=dp(25),
-            color=(0.4, 0.4, 0.4, 1)
+            color=(1, 1, 1, 1)
         )
         
         description_label = Label(
@@ -96,22 +124,21 @@ class BookCard(BoxLayout):
             size_hint_y=None,
             height=dp(60),
             halign='center',
-            color=(0.3, 0.3, 0.3, 1)
+            color=(1, 1, 1, 1)
         )
         
         # Star rating
         rating_widget = StarRating(rating)
         
         # Exchange button
-        exchange_btn = Button(
-            text='Solicitar Intercambio',
-            size_hint=(None, None),
-            size=(dp(200), dp(40)),
-            pos_hint={'center_x': 0.5},
-            background_color=(0.2, 0.6, 1, 1)
+        exchange_btn = RoundedButton(            
+            text="Solicitar Intercambio",
+            background_color=(.09, .01, .2, 1), 
+            radius=20, 
+            size=(dp(200), dp(40))
         )
         
-        exchange_btn.bind(on_press=self.generate_qr_code)
+        self.exchange_btn.bind(on_press=self.generate_qr_code)
         
         # Add all widgets
         self.add_widget(image_container)
@@ -119,22 +146,34 @@ class BookCard(BoxLayout):
         self.add_widget(author_label)
         self.add_widget(rating_widget)
         self.add_widget(description_label)
-        self.add_widget(exchange_btn)
+        self.add_widget(self.exchange_btn)
         
         # QR code display
         self.qr_image = Image()
         self.add_widget(self.qr_image)
+
+        # Bind the on_press event
+        self.bind(on_press=self.on_card_press)
     
     def _update_rect(self, instance, value):
         self.rect.pos = instance.pos
         self.rect.size = instance.size
+    
+    def on_card_press(self, instance):
+        app = MDApp.get_running_app()
+        screen_manager = app.root
+        
+        if screen_manager:
+            screen_manager.current = 'book_detail'
+            detail_screen = screen_manager.get_screen('book_detail')
+            detail_screen.load_book_data(self.book_data['id'])
         
     def generate_qr_code(self, instance):
         user_id = "1234"
         book_id = "1234"
 
         if not user_id or not book_id:
-            ""
+            return
 
         # Combine user ID and book ID
         qr_data = f"UserID: {user_id}, BookID: {book_id}"
@@ -151,24 +190,16 @@ class BookCard(BoxLayout):
 
         # Display QR code in the Image widget
         self.qr_image.texture = texture
-        # self.generate_button.text = "Generate QR Code"
 
-class MainScreen(Screen):
+class HomeScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         
-        # Set background color
         with self.canvas.before:
-            Color(0.9, 0.9, 0.95, 1)  # Color de fondo suave
+            Color(0.2, 0.03, 0.4, 1)  # Color de fondo suave
             self.rect = Rectangle(size=Window.size)
         Window.bind(size=self._update_rect)
         
-        self.setup_ui()
-    
-    def _update_rect(self, instance, value):
-        self.rect.size = instance.size
-    
-    def setup_ui(self):
         # Main layout with centering
         main_anchor = AnchorLayout(anchor_x='center', anchor_y='center')
         main_layout = BoxLayout(
@@ -177,12 +208,20 @@ class MainScreen(Screen):
             spacing=dp(10)
         )
         
+        # Title bar
+        title_bar = BoxLayout(
+            size_hint_y=None,
+            height=dp(50),
+            spacing=dp(10),
+            padding=dp(5)
+        )
+        
         # Top bar
         top_bar = BoxLayout(
             size_hint_y=None,
             height=dp(50),
             spacing=dp(10),
-            padding=dp(5)
+            padding=dp(5),
         )
         
         # App title
@@ -192,81 +231,88 @@ class MainScreen(Screen):
             bold=True,
             size_hint_y=None,
             height=dp(50),
-            color=(0.2, 0.2, 0.2, 1)
+            color=(1, 1, 1, 1),
         )
         
-        # Navigation buttons
-        profile_btn = Button(
-            text='👤 Perfil',
-            background_color=(0.2, 0.6, 1, 1),
-            size_hint_x=None,
-            width=dp(100)
+        
+        profile_btn = RoundedButton(
+            text="Perfil",
+            background_color=(.1, .02, .3, 1), 
+            radius=20, 
+            size=(dp(100), dp(50))
         )
-
-        qrscanner_btn = Button(
-            text='📷 QR',
-            background_color=(0.2, 0.6, 1, 1),
-            size_hint_x=None,
-            width=dp(100)
+        qrscanner_btn = RoundedButton(
+            text="QR",
+            background_color=(.1, .02, .3, 1), 
+            radius=20, 
+            size=(dp(100), dp(50))
         )
         
+        profile_btn.bind(on_press=lambda x: setattr(self.manager, 'current', 'profile'))
         qrscanner_btn.bind(on_press=lambda x: setattr(self.manager, 'current', 'qrscanner'))
         
+        title_bar.add_widget(title_label)
         top_bar.add_widget(profile_btn)
-        top_bar.add_widget(title_label)
         top_bar.add_widget(qrscanner_btn)
         
         # Books list
-        scroll_layout = ScrollView()
-        books_layout = GridLayout(
+        self.scroll_layout = ScrollView()
+        self.books_layout = GridLayout(
             cols=1,
             spacing=dp(20),
             size_hint_y=None,
             padding=dp(10)
         )
-        books_layout.bind(minimum_height=books_layout.setter('height'))
+        self.books_layout.bind(minimum_height=self.books_layout.setter('height'))
         
-        # Sample books with actual books and descriptions
-        sample_books = [
-            {
-                'title': 'Cien años de soledad',
-                'author': 'Gabriel García Márquez',
-                'description': 'La obra cumbre del realismo mágico que narra la historia de la familia Buendía a lo largo de siete generaciones en el pueblo mítico de Macondo.',
-                'rating': 5,
-                'image_url': 'https://images.cdn3.buscalibre.com/fit-in/360x360/61/8d/618d227e8967274cd9589a549adff52d.jpg'
-            },
-            {
-                'title': '1984',
-                'author': 'George Orwell',
-                'description': 'Una inquietante visión distópica de un futuro dominado por el totalitarismo y la vigilancia masiva.',
-                'rating': 4,
-                'image_url': 'https://images.cdn1.buscalibre.com/fit-in/360x360/6d/d7/6dd771b778bb1e198e9cd6762b721a3d.jpg'
-            },
-            {
-                'title': 'El Principito',
-                'author': 'Antoine de Saint-Exupéry',
-                'description': 'Un clásico atemporal que explora temas de amor, amistad y el significado de la vida a través de los ojos de un pequeño príncipe.',
-                'rating': 5,
-                'image_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/El_principito.jpg/800px-El_principito.jpg'
-            }
-        ]
-        
-        for book in sample_books:
-            books_layout.add_widget(
-                BookCard(
-                    title=book['title'],
-                    author=book['author'],
-                    description=book['description'],
-                    rating=book['rating'],
-                    image_url=book['image_url']
-                )
-            )
-        
-        scroll_layout.add_widget(books_layout)
+        self.scroll_layout.add_widget(self.books_layout)
         
         # Add all elements to main layout
+        main_layout.add_widget(title_bar)
         main_layout.add_widget(top_bar)
-        main_layout.add_widget(scroll_layout)
+        main_layout.add_widget(self.scroll_layout)
         
         main_anchor.add_widget(main_layout)
         self.add_widget(main_anchor)
+        
+        # Cargar libros cuando se inicializa la pantalla
+        self.load_books()
+    
+    def _update_rect(self, instance, value):
+        self.rect.size = instance.size
+
+    def load_books(self):
+        try:
+            response = requests.get('http://localhost:5001/books')
+            if response.status_code == 200:
+                books = response.json()
+                self.update_books_layout(books)
+            else:
+                print(f"Error al obtener libros: {response.status_code}")
+        except requests.RequestException as e:
+            print(f"Error de conexión: {e}")
+    
+    def update_books_layout(self, books):
+        self.books_layout.clear_widgets()
+        
+        for book in books:
+            book_data = {
+                'id': book['id'],
+                'title': book['name'],
+                'author': book['author'],
+                'description': book['description'] or 'Sin descripción disponible',
+                'rating': round(float(book['average_rating'])) if book['average_rating'] else 0,
+                'image_url': book['photo'] or 'ruta/a/imagen/por/defecto.jpg',
+                'availability_status': book['availability_status']
+            }
+            
+            self.books_layout.add_widget(
+                BookCard(
+                    title=book_data['title'],
+                    author=book_data['author'],
+                    description=book_data['description'],
+                    rating=book_data['rating'],
+                    image_url=book_data['image_url'],
+                    book_data=book_data
+                )
+            )

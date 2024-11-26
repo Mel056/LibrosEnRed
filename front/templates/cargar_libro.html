@@ -21,7 +21,6 @@
             <li><a href="{{url_for('Home')}}"><i class="fa-solid fa-home nav-icon"></i> Inicio</a></li>
             <li><a href="#"><i class="fa-solid fa-mobile nav-icon"></i> App</a></li>
             <li><a href="{{url_for('Perfil')}}"><i class="fa-solid fa-user nav-icon"></i>Perfil</a></li>
-
         </ul>
         <div class="search-container">
             <input type="text" id="searchInput" class="search-input" placeholder="Search..." />
@@ -31,47 +30,111 @@
         </div>
     </nav>
 
-<h2 class="cargar-libro">Cargar un libro</h2>
+    <h2 class="cargar-libro">Cargar un libro</h2>
+
+    <div class="form-container">
+        <div class="contact-page">
+            <form id="bookForm">
+                <div class="nombre-form">
+                    <fieldset>
+                        <input type="text" name="nombre" id="nombre" placeholder="Nombre libro" autocomplete="on" required>
+                    </fieldset>
+                </div>
+                <div class="autor-form">
+                    <fieldset>
+                        <input type="text" name="autor" id="autor" placeholder="Autor" autocomplete="on" required>
+                    </fieldset>
+                </div>
+
+                <div class="genero-form">
+                    <fieldset>
+                        <label for="genero"></label>
+                        <select name="genero" id="genero" required>
+                            <option value="" disabled selected>Seleccione un género</option>
+                            <option value="Acción">Acción</option>
+                            <option value="Arte">Arte</option>
+                            <option value="Autoayuda">Autoayuda</option>
+                            <option value="Aventuras">Aventuras</option>
+                            <option value="Biografías">Biografías</option>
+                            <option value="Cocina">Cocina</option>
+                            <option value="Contemporáneo">Contemporáneo</option>
+                            <option value="Cs. Ficción">Cs. Ficción</option>
+                            <option value="Distopía">Distopía</option>
+                            <option value="Divulgativos">Divulgativos</option>
+                            <option value="Drama">Drama</option>
+                            <option value="Fantasía">Fantasía</option>
+                            <option value="Historia">Historia</option>
+                            <option value="Infantil">Infantil</option>
+                            <option value="Manuales">Manuales</option>
+                            <option value="Memorias">Memorias</option>
+                            <option value="Paranormal">Paranormal</option>
+                            <option value="Poesía">Poesía</option>
+                            <option value="Romance">Romance</option>
+                            <option value="Salud">Salud</option>
+                            <option value="Suspenso">Suspenso</option>
+                            <option value="Terror">Terror</option>
+                        </select>
+                    </fieldset>
+                </div>
+                <div class="descripcion-form">
+                    <fieldset>
+                        <textarea name="descripcion" class="form-control" id="descripcion" placeholder="Descripción del libro" required></textarea>  
+                    </fieldset>
+                </div>
+                <div class="portada-form">
+                    <fieldset>        
+                        <input type="text" name="portada" id="portada" placeholder="URL Imagen" autocomplete="on" required>        
+                    </fieldset>        
+                </div>
     
-
-<div class="form-container">
-    <div class="contact-page">
-        <form action="http://127.0.0.1:5001/books" method="post" enctype="multipart/form-data">
-            <div class="nombre-form">
-                <fieldset>
-                    <input type="text" name="nombre" id="nombre" placeholder="Nombre libro" autocomplete="on" required>
-                </fieldset>
-            </div>
-            <div class="genero-form">
-                <fieldset>
-                    <input type="text" name="genero" id="genero" placeholder="Género" autocomplete="on" required>
-                </fieldset>
-            </div>
-            
-            <div class="descripcion-form">
-                <fieldset>
-                    <textarea name="descripcion" class="form-control" id="descripcion" placeholder="Descripción del libro" required></textarea>  
-                </fieldset>
-            </div>
-            
-            <div class="portada-form">
-                <fieldset>        
-                    <input type="file" name="portada" id="portada" accept="image/*" required>        
-                </fieldset>        
-            </div>
-
-            <div class="button-form">
-                <button class="btn btn-4 btn-sep icon-send">Enviar</button>
-            </div>                
-        </form> 
+                <div class="button-form">
+                    <button type="submit" class="btn btn-4 btn-sep icon-send">Enviar</button>
+                </div>                
+            </form> 
+        </div>
     </div>
-</div>
-
-{% include 'footer.html' %}
-
-<script src="{{url_for('static', filename='js/script_home.js')}}"></script>
-
-
-</body>
-
-</html>
+    
+    {% include 'footer.html' %}
+    
+    <script src="{{url_for('static', filename='js/script_home.js')}}"></script>
+    
+    <script>
+    document.getElementById('bookForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+    
+        const formData = new FormData(this);
+        const data = {
+            name_book: formData.get('nombre'),
+            genre: formData.get('genero'),
+            author: formData.get('autor'),
+            status: 1, // LO SETEEE COMO 1 QUE ESTARIA DISPONIBLE SIEMPRE QUE SE SUBA.
+            descripcion: formData.get('descripcion'),
+            photo: formData.get('portada') // LO PUSE COMO TEXTO - NO OLVIDAR DE VER ESTO!
+        };
+    
+        fetch('http://127.0.0.1:5001/books', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'  
+            },
+            body: JSON.stringify(data)  
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error ('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Completado:', data);
+            // LOGICA PARA IMPLEMENTAR DESPUES
+     })
+        .catch((error) => {
+            console.error('Error:', error);
+            // LOGICA PARA IMPLEMENTAR DESPUES
+        });
+    });
+    </script>
+    </body>
+    
+    </html>
