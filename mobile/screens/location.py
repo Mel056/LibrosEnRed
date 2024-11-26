@@ -1,4 +1,3 @@
-import re
 import requests
 from functools import partial
 from kivy.metrics import dp
@@ -11,23 +10,20 @@ from kivymd.uix.label import MDLabel
 from kivymd.uix.textfield import MDTextField
 from kivymd.uix.snackbar import MDSnackbar
 from geopy.geocoders import Nominatim
-from kivy.properties import ObjectProperty
+from kivy.properties import ObjectProperty, BooleanProperty
 import threading
-
 
 class CustomMapMarker(MapMarker):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.source = 'assets/marker.png'
-        # Ajustar el tamaño del marcador
-        self.size = (dp(32), dp(32))  # Tamaño más razonable para el mapa
-        # El punto de anclaje en la parte inferior central del marcador
+        self.size = (dp(32), dp(32))
         self.anchor_x = 0.5
         self.anchor_y = 0.0
 
-
 class LocationSelectScreen(MDScreen):
     map_view = ObjectProperty(None)
+    is_dragging = BooleanProperty(False)
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -35,6 +31,10 @@ class LocationSelectScreen(MDScreen):
         self.selected_location = None
         self.current_marker = None
         self.geolocator = Nominatim(user_agent="librosenred")
+        self.touch_start = None
+        self.start_lat = None
+        self.start_lon = None
+        self.is_dragging = False
         self.setup_ui()
         Clock.schedule_once(self.get_current_location, 1)
     
@@ -185,50 +185,54 @@ class LocationSelectScreen(MDScreen):
         self.add_widget(main_layout)
 
     def on_touch_down(self, touch):
-        if self.map_view.collide_point(*touch.pos):
-            # Convertir la posición del toque a coordenadas dentro del widget del mapa
-            map_coords = self.map_view.to_widget(*touch.pos, relative=True)
+        if self.map_view.collide_point(*touch.pos) and hasattr(touch, 'button') and touch.button == 'left':
+            # Guardamos la posición inicial del toque y las coordenadas actuales del mapa
+            self.touch_start = touch.pos
+            self.start_lat = self.map_view.lat
+            self.start_lon = self.map_view.lon
+            self.is_dragging = False  # Reiniciamos el estado de arrastre
             
-            # Si es un toque simple (no doble tap)
-            if not touch.is_double_tap:
-                # Obtener las coordenadas geográficas del punto tocado
-                lat, lon = self.map_view.get_latlon_at(*map_coords)
-                if lat and lon:
-                    # Actualizar el marcador y obtener la dirección
-                    self.update_marker(lat, lon)
-                    self.get_address_from_coords(lat, lon)
-            # Si es doble tap, manejamos el zoom
-            else:
+            if touch.is_double_tap:
                 self.zoom_in()
             return True
         return super().on_touch_down(touch)
-
-    def adjust_touch_pos(self, x, y):
-        # Ajustar las coordenadas del toque
-        # Puedes necesitar ajustar estos valores según tu configuración específica
-        y_offset = self.map_view.height * 0.1  # Ajusta este valor según sea necesario
-        return x, y + y_offset
-
+    
     def on_touch_move(self, touch):
-        # Permitimos el movimiento del mapa si se mantiene presionado
-        # el botón izquierdo del mouse o se usan dos dedos en móvil
-        if self.map_view.collide_point(*touch.pos) and (touch.button == 'left' or len(touch.ud.get('touch_list', [])) > 1):
-            touch.grab(self)
-            # Calculamos el desplazamiento
-            if hasattr(touch, 'dx') and hasattr(touch, 'dy'):
-                # Ajustamos la sensibilidad del movimiento
-                # Reducimos la sensibilidad para disminuir la velocidad
-                sensitivity = 0.00000001 * (1 / self.map_view.zoom)  # Reducido de 0.0001 a 0.00001
-                self.map_view.center_on(
-                    self.map_view.lat - touch.dy * sensitivity,
-                    self.map_view.lon - touch.dx * sensitivity
-                )
+        if self.touch_start and self.map_view.collide_point(*touch.pos) and hasattr(touch, 'button') and touch.button == 'left':
+            # Calculamos la distancia que se ha movido el touch
+            self.is_dragging = True
+            dx = touch.pos[0] - self.touch_start[0]
+            dy = touch.pos[1] - self.touch_start[1]
+            
+            # Convertimos el desplazamiento en píxeles a coordenadas geográficas
+            # Ajustamos la sensibilidad del movimiento
+            scale_factor = 0.00001 * (20 - self.map_view.zoom)  # Ajusta la sensibilidad según el nivel de zoom
+            
+            # Calculamos las nuevas coordenadas
+            new_lat = self.start_lat - dy * scale_factor
+            new_lon = self.start_lon - dx * scale_factor
+            
+            # Actualizamos la posición del mapa
+            self.map_view.center_on(new_lat, new_lon)
             return True
         return super().on_touch_move(touch)
-
+    
     def on_touch_up(self, touch):
-        if touch.grab_current is self:
-            touch.ungrab(self)
+        if self.map_view.collide_point(*touch.pos) and hasattr(touch, 'button') and touch.button == 'left':
+            # Si no estábamos arrastrando, tratamos el evento como un click normal
+            if not self.is_dragging and not touch.is_double_tap:
+                map_coords = self.map_view.to_widget(*touch.pos, relative=True)
+                lat, lon = self.map_view.get_latlon_at(*map_coords)
+                if lat and lon:
+                    self.update_marker(lat, lon)
+                    self.get_address_from_coords(lat, lon)
+            
+            # Reiniciamos las variables de control
+            self.touch_start = None
+            self.start_lat = None
+            self.start_lon = None
+            self.is_dragging = False
+            return True
         return super().on_touch_up(touch)
         
     def zoom_in(self):
@@ -249,7 +253,7 @@ class LocationSelectScreen(MDScreen):
     def center_map(self, lat, lon):
         self.map_view.center_on(lat, lon)
         Clock.schedule_once(lambda dt: setattr(self.map_view, 'zoom', 15), 0.5)
-    
+
     def update_marker(self, lat, lon):
         if self.current_marker:
             self.map_view.remove_marker(self.current_marker)
@@ -257,11 +261,6 @@ class LocationSelectScreen(MDScreen):
         self.current_marker = CustomMapMarker(lat=lat, lon=lon)
         self.map_view.add_marker(self.current_marker)
         self.selected_location = (lat, lon)
-        
-        # Ya no centramos el mapa en la ubicación seleccionada
-        # para evitar que el mapa se mueva al seleccionar
-
-    # Eliminamos el método on_map_click ya que no lo necesitamos más
     
     def search_location(self, instance):
         search_query = self.search_field.text.strip()
@@ -345,13 +344,14 @@ class LocationSelectScreen(MDScreen):
         }
         
         try:
+            print('registration_data:', registration_data)
             response = requests.post(
                 'http://localhost:5001/register',
                 json=registration_data,
                 timeout=5
             )
             
-            if response.status_code == 200:
+            if response.status_code == 201:
                 self.show_success("¡Registro completado exitosamente!")
                 Clock.schedule_once(lambda dt: self.go_to_login(), 2)
             else:

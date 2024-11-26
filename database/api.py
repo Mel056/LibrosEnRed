@@ -1,22 +1,15 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from dotenv import load_dotenv
-import os
+
 import mysql.connector
 from encrypt import encrypt_password, decrypt_password
 
 app = Flask(__name__)
 CORS(app)  # Esto habilita CORS para todas las rutas
-load_dotenv()
-
-# Clave Fernet desde el archivo .env
-FERNET_KEY = os.getenv("FERNET_KEY")
-if not FERNET_KEY:
-    raise ValueError("FERNET_KEY no encontrada en .env")
 
 DB_CONFIG = {
     'host': 'localhost',
-    'user': 'leo',
+    'user': 'nacho',
     'password': '123',
     'database': 'LibrosEnRed'
 }

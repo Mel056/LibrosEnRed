@@ -2,10 +2,8 @@ import mysql.connector
 
 DB_CONFIG = {
     "host": "localhost",
-    "port":"3306",
-    "user": "leo",  # Cambiar si se usa un usuario diferente
+    "user": "nacho",  # Cambiar si se usa un usuario diferente
     "password": "123",  # Cambiar si se usa una contraseña diferente
-    "auth_plugin":"mysql_native_password"
 }
 
 def create_database_and_tables():
