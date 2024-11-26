@@ -29,8 +29,15 @@ def main():
 
     @app.route('/detalle/<idLibro>')
     def Detalle(idLibro):
-        return render_template('detalle.html')
-
+        try:
+            response = request.get(f'http://localhost:5001/books?id={idLibro}')
+            if response.status_code == 200:
+                book_data = response.json()[0]
+                return render_template('detalle.html', libro=book_data)
+            else:
+                return render_template('detalle.html', libro=None, error="Libro no encontrado")
+        except Exception as e:
+            return render_template('detalle.html', libro=None, error=str(e))
 
     @app.route('/cargar_libro')
     def Cargar():
