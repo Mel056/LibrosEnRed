@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         editProfileModal.style.display = 'block';
     });
 
-    // Cerrar formulario
+    // Cerrar formulario en la X
     closeModalBtn.addEventListener('click', () => {
         editProfileModal.style.display = 'none';
     });
@@ -29,10 +29,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const newUsername = document.getElementById('username').value;
         const newProfilePhoto = document.getElementById('googlePhotosLink').value;
 
-        // Objeto para almacenar actualizaciones
+
         const updateData = {};
 
-        // Solo agregar campos que han sido modificados
         if (newUsername.trim() !== '') {
             updateData.username = newUsername;
         }
@@ -41,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
             updateData.profile_photo = newProfilePhoto;
         }
 
-        // Verifica si hay algo que actualizar
         if (Object.keys(updateData).length === 0) {
             alert('No se han realizado cambios');
             return;

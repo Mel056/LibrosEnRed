@@ -1,5 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect
-
+from flask import Flask, render_template, url_for, request,redirect
 
 def main():
     app = Flask(__name__)
@@ -12,21 +11,31 @@ def main():
                    "Poesía", "Romance", "Salud", "Suspenso", "Terror"}
         return render_template('home.html', generos=generos)
 
-    @app.route('/login')
+    @app.route('/login', methods=['GET', 'POST'])
     def Login():
         return render_template('login.html')
+
+
+
+    @app.route('/register', methods=['GET'])
+    def register_page():
+        return render_template('login.html')
+    
 
     @app.route('/home/<genero>')
     def Genero(genero):
         return render_template('base.html')
 
+
     @app.route('/detalle/<idLibro>')
     def Detalle(idLibro):
         return render_template('detalle.html')
 
+
     @app.route('/cargar_libro')
     def Cargar():
         return render_template('cargar_libro.html')
+
 
     @app.route('/perfil')
     def Perfil():
@@ -42,6 +51,8 @@ def main():
                 return render_template('profile.html', user=None, error="Usuario no encontrado")
         except Exception as e:
             return render_template('profile.html', user=None, error=str(e))
+
+
 
     app.run(debug=True)
 
