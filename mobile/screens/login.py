@@ -6,6 +6,7 @@ from kivy.metrics import dp
 from kivymd.uix.textfield import MDTextField
 from kivymd.uix.button import MDRaisedButton
 from kivymd.uix.screen import MDScreen
+from kivymd.app import MDApp
 
 
 class LoginScreen(MDScreen):
@@ -86,18 +87,20 @@ class LoginScreen(MDScreen):
         password = self.password.text
         
         try:
-            # Llamada a la API de login
             response = requests.post('http://localhost:5001/login', json={
                 'username': username,
                 'password': password
             })
             
             if response.status_code == 200:
-                # Login exitoso
-                print("Login exitoso")
+                # Guardar datos del usuario en la app
+                user_data = response.json()
+                app = MDApp.get_running_app()
+                app.user_data = user_data
+                
+                # Navegar a home
                 self.manager.current = 'home'
             else:
-                # Manejar error de login
                 print("Credenciales incorrectas")
 
         except requests.RequestException as e:

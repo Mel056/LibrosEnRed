@@ -24,7 +24,7 @@ class ProfileScreen(Screen):
 
         # Profile Picture
         profile_picture = AsyncImage(
-            source="https://www.example.com/profile_picture.jpg",  # Add a URL or local path to an image
+            source="https://images.unsplash.com/photo-1511367461989-f85a21fda167",  # Add a URL or local path to an image
             size_hint=(None, None),
             size=(dp(150), dp(150)),
             pos_hint={"center_x": 0.5}

@@ -131,7 +131,7 @@ class BookCard(ButtonBehavior, BoxLayout):
         rating_widget = StarRating(rating)
         
         # Exchange button
-        exchange_btn = RoundedButton(            
+        self.exchange_btn = RoundedButton(            
             text="Solicitar Intercambio",
             background_color=(.09, .01, .2, 1), 
             radius=20, 

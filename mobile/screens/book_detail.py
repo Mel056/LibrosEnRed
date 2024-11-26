@@ -8,8 +8,8 @@ from kivy.uix.anchorlayout import AnchorLayout
 from kivy.graphics import Color, Rectangle, RoundedRectangle
 from kivy.core.window import Window
 from kivymd.uix.button import MDIconButton
-from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.scrollview import ScrollView
+from kivymd.app import MDApp
 import requests
 
 
@@ -76,6 +76,11 @@ class InteractiveStarRating(BoxLayout):
     
     def on_star_press(self, star_button):
         rating_value = star_button.rating_value
+        app = MDApp.get_running_app()
+        
+        if not app.user_data:
+            print("Error: Usuario no logueado")
+            return
         
         # Actualizar visualmente las estrellas
         for i, star in enumerate(self.stars):
@@ -87,7 +92,7 @@ class InteractiveStarRating(BoxLayout):
         try:
             response = requests.post('http://localhost:5001/rating/books', json={
                 'book_id': self.book_id,
-                'rater_id': 1,  # Este ID debería venir del usuario logueado
+                'rater_id': app.user_data['user_id'],  # Usar el ID del usuario logueado
                 'rating': rating_value
             })
             
