@@ -5,7 +5,6 @@ async function cargarLibros() {
         const libros = await response.json();
         const carouselContainer = document.getElementById('carousel-libros');
 
-        // Limpiar el contenedor
         carouselContainer.innerHTML = '';
 
         // Generar HTML para cada libro
@@ -33,7 +32,6 @@ async function cargarLibros() {
             carouselContainer.innerHTML += libroHTML;
         });
 
-        // Inicializar el carousel después de cargar los libros
         inicializarCarousel();
 
     } catch (error) {
@@ -56,5 +54,4 @@ function inicializarCarousel() {
     });
 }
 
-// Cargar los libros cuando se carga la página
 document.addEventListener('DOMContentLoaded', cargarLibros);
