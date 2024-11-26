@@ -59,6 +59,14 @@
         <iframe id="map" frameborder="0" allowfullscreen></iframe>
     </div>
 
+    {% else %}
+    <main>
+        <h1>Error</h1>
+        <p>{{ error }}</p>
+    </main>
+    {% endif %}
+
+
     {% include 'footer.html' %}
 
     <div id="map-overlay" onclick="closeMaps()"></div>
