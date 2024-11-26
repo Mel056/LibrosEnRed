@@ -100,6 +100,14 @@ class RegisterScreen(MDScreen):
             self.show_error("La contraseña debe tener al menos 6 caracteres")
             return
         
+        # Configura el mensaje de éxito antes de proceder a la ubicación
+        success_screen = self.manager.get_screen('success')
+        success_screen.show_success(
+            "¡Usuario registrado correctamente!",
+            "Por favor, inicia sesión para continuar",
+            'login'
+        )
+        
         # Ir a la pantalla de selección de ubicación
         self.manager.get_screen('location_select').set_registration_data(
             username, email, password

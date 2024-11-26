@@ -346,7 +346,8 @@ class BookDetailScreen(Screen, ResponsiveView):
                         'description': book['description'] or 'Sin descripción disponible',
                         'rating': round(float(book['average_rating'])) if book['average_rating'] else 0,
                         'image_url': book['photo'] or 'ruta/a/imagen/por/defecto.jpg',
-                        'availability_status': book['availability_status']
+                        'availability_status': book['availability_status'],
+                        'owner_id': book['owner_id']  # Agregamos el owner_id
                     })
                 else:
                     print("Libro no encontrado")

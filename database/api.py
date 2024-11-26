@@ -635,7 +635,7 @@ def request_exchange():
         SELECT id FROM BookExchanges 
         WHERE book_id = %s 
         AND requester_id = %s 
-        AND status = 'pending'
+        AND status = 'completed'
     """
     existing_request = execute_query(
         check_existing_query, 
@@ -646,14 +646,14 @@ def request_exchange():
     if existing_request:
         return jsonify({"error": "An exchange request already exists for this book"}), 409
 
-    # Crear el intercambio
+    # Crear el intercambio como completado directamente
     exchange_query = """
         INSERT INTO BookExchanges (
             book_id,
             requester_id,
             owner_id,
             status
-        ) VALUES (%s, %s, %s, 'pending')
+        ) VALUES (%s, %s, %s, 'completed')
     """
     result = execute_query(exchange_query, (
         data['book_id'],
@@ -664,16 +664,17 @@ def request_exchange():
     if "error" in result:
         return jsonify(result), 400
 
-    # Actualizar el estado del libro
+    # Actualizar el owner_id y estado del libro
     update_book_query = """
         UPDATE Books 
-        SET availability_status = FALSE 
+        SET availability_status = TRUE, 
+            owner_id = %s
         WHERE id = %s
     """
-    execute_query(update_book_query, (data['book_id'],))
+    execute_query(update_book_query, (data['requesting_user_id'], data['book_id']))
 
     return jsonify({
-        "message": "Exchange request created successfully",
+        "message": "Exchange completed successfully",
         "exchange_details": {
             "exchange_id": result.get('last_id'),
             "book": {
@@ -688,7 +689,7 @@ def request_exchange():
                 "id": requester['id'],
                 "username": requester['username']
             },
-            "status": "pending"
+            "status": "completed"
         }
     }), 201
 

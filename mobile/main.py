@@ -33,6 +33,7 @@ class LibrosEnRedApp(MDApp):
         sm.add_widget(SuccessScreen(name='success'))
         sm.add_widget(BookDetailScreen(name='book_detail'))
         sm.add_widget(ProfileScreen(name='profile'))
+        sm.add_widget(ExchangeLocationScreen(name='exchange_location'))
         return sm
 
 if __name__ == '__main__':

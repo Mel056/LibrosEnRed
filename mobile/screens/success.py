@@ -8,11 +8,22 @@ from kivy.properties import StringProperty
 from kivy.core.window import Window
 
 class SuccessScreen(MDScreen):
-    message = StringProperty("")
-    
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        # Definir las variables antes de setup_ui
+        self.next_screen = 'login'
+        self.message_text = "¡Usuario registrado correctamente!"
+        self.submessage_text = "Por favor, inicia sesión para continuar"
+        # Luego llamar a setup_ui
         self.setup_ui()
+    
+    def show_success(self, message, submessage, next_screen):
+        self.message_text = message
+        self.submessage_text = submessage
+        self.next_screen = next_screen
+        if hasattr(self, 'message_label'):
+            self.message_label.text = message
+            self.submessage_label.text = submessage
         
     def setup_ui(self):
         # Contenedor principal centrado con más padding
@@ -58,7 +69,7 @@ class SuccessScreen(MDScreen):
         
         # Mensaje principal con wrapping y padding adicional
         self.message_label = MDLabel(
-            text="¡Usuario registrado correctamente!",
+            text=self.message_text,
             halign='center',
             theme_text_color="Primary",
             font_style='H5',
@@ -74,7 +85,7 @@ class SuccessScreen(MDScreen):
         
         # Mensaje secundario con wrapping
         self.submessage_label = MDLabel(
-            text="Por favor, inicia sesión para continuar",
+            text=self.submessage_text,
             halign='center',
             theme_text_color="Secondary",
             font_style='Body1',
@@ -115,4 +126,4 @@ class SuccessScreen(MDScreen):
         Clock.schedule_once(self.go_to_login, 3)
     
     def go_to_login(self, dt):
-        self.manager.current = 'login'
+        self.manager.current = self.next_screen

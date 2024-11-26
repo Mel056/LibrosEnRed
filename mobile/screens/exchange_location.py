@@ -1,5 +1,6 @@
 # screens/exchange_location.py
 from kivy.metrics import dp
+from kivymd.app import MDApp
 from kivy_garden.mapview import MapView, MapSource
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.boxlayout import MDBoxLayout
@@ -97,50 +98,75 @@ class ExchangeLocationScreen(MDScreen):
         app = MDApp.get_running_app()
         
         if not app.user_data:
-            self.show_error("Usuario no logueado")
+            self.show_error("Usuario no logueado") 
             return
-        
-        # Primero crear la solicitud de intercambio
+
         try:
-            response = requests.post('http://localhost:5001/exchange/request', json={
-                'book_id': book_data['id'],
-                'requesting_user_id': app.user_data['user_id']
-            })
+            # Obtener datos del dueño
+            owner_response = requests.get(f'http://localhost:5001/users?id={book_data["owner_id"]}')
             
-            if response.status_code == 201:
-                exchange_data = response.json()
-                owner = exchange_data['exchange_details']['owner']
-                
-                # Guardar datos del owner
-                self.owner_data = owner
-                
-                # Actualizar el mapa
-                self.map_view.center_on(
-                    float(owner['location']['latitude']),
-                    float(owner['location']['longitude'])
-                )
-                
-                # Agregar marcador
-                self.map_view.add_marker(CustomMapMarker(
-                    lat=float(owner['location']['latitude']),
-                    lon=float(owner['location']['longitude'])
-                ))
-                
-                # Actualizar información del dueño
-                self.owner_info.text = f"Punto de encuentro con: {owner['username']}"
-                
+            if owner_response.status_code == 200:
+                owners = owner_response.json()
+                if owners:
+                    owner = owners[0]
+                    
+                    # Guardar datos del owner
+                    self.owner_data = owner
+                    
+                    # Actualizar el mapa
+                    self.map_view.center_on(
+                        float(owner['latitude']),
+                        float(owner['longitude'])
+                    )
+                    
+                    # Agregar marcador
+                    self.map_view.add_marker(CustomMapMarker(
+                        lat=float(owner['latitude']),
+                        lon=float(owner['longitude'])
+                    ))
+                    
+                    # Actualizar información del dueño
+                    self.owner_info.text = f"Punto de encuentro con: {owner['username']}"
+                    
+                else:
+                    self.show_error("Dueño no encontrado")
+                    self.go_back(None)
             else:
-                self.show_error("Error al solicitar el intercambio")
+                self.show_error("Error al obtener datos del dueño")
                 self.go_back(None)
-                
+                    
         except requests.RequestException as e:
             self.show_error(f"Error de conexión: {e}")
             self.go_back(None)
-    
+
     def confirm_exchange(self, instance):
-        # Aquí iría la lógica para confirmar el intercambio
-        self.show_info("Intercambio confirmado")
-        self.manager.current = 'home'
+        app = MDApp.get_running_app()
+        
+        try:
+            # Crear la solicitud de intercambio
+            exchange_response = requests.post('http://localhost:5001/exchange/request', json={
+                'book_id': self.book_data['id'],
+                'requesting_user_id': app.user_data['user_id']
+            })
+            
+            if exchange_response.status_code == 201:
+                # Navegar a la pantalla de éxito con mensaje personalizado
+                success_screen = self.manager.get_screen('success')
+                success_screen.show_success(
+                    "¡Intercambio Solicitado!",
+                    "Volviendo al inicio...",
+                    'home'
+                )
+                self.manager.current = 'success'
+            elif exchange_response.status_code == 409:
+                # Ya existe una solicitud pendiente
+                self.show_error("Ya tienes una solicitud pendiente para este libro")
+            else:
+                error_msg = exchange_response.json().get('error', "Error al solicitar el intercambio")
+                self.show_error(error_msg)
+                
+        except requests.RequestException as e:
+            self.show_error(f"Error de conexión: {e}")
     
     def go_back(self, instance):
         self.manager.current = 'book_detail'
