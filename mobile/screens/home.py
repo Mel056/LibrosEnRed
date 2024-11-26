@@ -13,6 +13,8 @@ from kivy.graphics import Color, Rectangle
 from kivy.uix.widget import Widget
 from kivy.uix.image import Image
 from kivy.graphics.texture import Texture
+from kivy.uix.behaviors import ButtonBehavior
+from kivymd.app import MDApp
 import qrcode
 
 
@@ -32,11 +34,10 @@ class StarRating(BoxLayout):
                 size=(dp(20), dp(20))
             )
             self.add_widget(star)
-            
-       
 
-class BookCard(BoxLayout):
-    def __init__(self, title, author, description, rating, image_url, **kwargs):
+
+class BookCard(ButtonBehavior, BoxLayout):
+    def __init__(self, title, author, description, rating, image_url, book_data, **kwargs):
         super().__init__(**kwargs)
         self.orientation = 'vertical'
         self.size_hint_y = None
@@ -44,6 +45,7 @@ class BookCard(BoxLayout):
         self.padding = dp(15)
         self.spacing = dp(10)
         self.pos_hint = {'center_x': 0.5}
+        self.book_data = book_data
         
         # Card background
         with self.canvas.before:
@@ -51,7 +53,7 @@ class BookCard(BoxLayout):
             self.rect = Rectangle(pos=self.pos, size=self.size)
         self.bind(pos=self._update_rect, size=self._update_rect)
         
-        # Contenedor para la imagen usando AnchorLayout
+        # Image container
         image_container = AnchorLayout(
             size_hint=(1, None),
             height=dp(180),
@@ -68,7 +70,6 @@ class BookCard(BoxLayout):
             size=(dp(120), dp(160))
         )
         
-        # Añadir imagen al contenedor
         image_container.add_widget(self.image)
         
         # Book info
@@ -103,7 +104,7 @@ class BookCard(BoxLayout):
         rating_widget = StarRating(rating)
         
         # Exchange button
-        exchange_btn = Button(
+        self.exchange_btn = Button(
             text='Solicitar Intercambio',
             size_hint=(None, None),
             size=(dp(200), dp(40)),
@@ -111,7 +112,7 @@ class BookCard(BoxLayout):
             background_color=(0.2, 0.6, 1, 1)
         )
         
-        exchange_btn.bind(on_press=self.generate_qr_code)
+        self.exchange_btn.bind(on_press=self.generate_qr_code)
         
         # Add all widgets
         self.add_widget(image_container)
@@ -119,22 +120,37 @@ class BookCard(BoxLayout):
         self.add_widget(author_label)
         self.add_widget(rating_widget)
         self.add_widget(description_label)
-        self.add_widget(exchange_btn)
+        self.add_widget(self.exchange_btn)
         
         # QR code display
         self.qr_image = Image()
         self.add_widget(self.qr_image)
+
+        # Bind the on_press event
+        self.bind(on_press=self.on_card_press)
     
     def _update_rect(self, instance, value):
         self.rect.pos = instance.pos
         self.rect.size = instance.size
+    
+    def on_card_press(self, instance):
+        # Obtiene el screen_manager a través del árbol de widgets
+        app = MDApp.get_running_app()
+        screen_manager = app.root
+        
+        if screen_manager:
+            screen_manager.current = 'book_detail'
+            detail_screen = screen_manager.get_screen('book_detail')
+            detail_screen.update_book_data(self.book_data)
+        else:
+            print("Error: No se pudo encontrar el screen_manager")
         
     def generate_qr_code(self, instance):
         user_id = "1234"
         book_id = "1234"
 
         if not user_id or not book_id:
-            ""
+            return
 
         # Combine user ID and book ID
         qr_data = f"UserID: {user_id}, BookID: {book_id}"
@@ -151,15 +167,15 @@ class BookCard(BoxLayout):
 
         # Display QR code in the Image widget
         self.qr_image.texture = texture
-        # self.generate_button.text = "Generate QR Code"
 
-class MainScreen(Screen):
+
+class HomeScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         
         # Set background color
         with self.canvas.before:
-            Color(0.9, 0.9, 0.95, 1)  # Color de fondo suave
+            Color(0.9, 0.9, 0.95, 1)
             self.rect = Rectangle(size=Window.size)
         Window.bind(size=self._update_rect)
         
@@ -258,10 +274,11 @@ class MainScreen(Screen):
                     author=book['author'],
                     description=book['description'],
                     rating=book['rating'],
-                    image_url=book['image_url']
+                    image_url=book['image_url'],
+                    book_data=book  # Elimina el parámetro screen_manager
                 )
             )
-        
+            
         scroll_layout.add_widget(books_layout)
         
         # Add all elements to main layout
