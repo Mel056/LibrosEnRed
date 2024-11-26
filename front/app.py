@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request,redirect, requests
+from flask import Flask, render_template, url_for, request,redirect
 
 def main():
     app = Flask(__name__)
@@ -30,7 +30,7 @@ def main():
     @app.route('/detalle/<int:idLibro>')
     def Detalle(idLibro):
         try:
-            response = requests.get(f'http://localhost:5001/books?id={idLibro}')
+            response = request.get(f'http://localhost:5001/books?id={idLibro}')
             if response.status_code == 200:
                 book_data = response.json()[0]  
                 return render_template('detalle.html', libro=book_data)
