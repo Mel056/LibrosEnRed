@@ -1,10 +1,10 @@
 from faker import Faker
 import mysql.connector
-from random import uniform, choice
+from random import uniform, choice, randint
 
 DB_CONFIG = {
     "host": "localhost",
-    "user": "leo",
+    "user": "mirko2",
     "password": "123",
     "database": "LibrosEnRed"
 }
@@ -86,7 +86,7 @@ def insert_test_data():
         cursor.execute(
         """INSERT INTO Rating (id_users, rating) 
         VALUES (%s, %s)""",
-        (cursor.lastrowid, rating)
+        (user_id, rating)
         )
         connection.commit()
         print("Datos de prueba insertados exitosamente.")
