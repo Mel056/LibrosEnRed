@@ -26,48 +26,32 @@
         </div>
     </nav>
 
+    {% if libro %}
     <main>
         <div class="book-cover">
-            <img src="{{url_for('static', filename='images/Libro1.jpg')}}" alt="Portada del Libro">
+            <img src="{{ libro['photo'] if libro['photo'] else 'path/to/default-image.jpg' }}" alt="Portada del Libro">
         </div>
-
-        <div class="star-rating">
-            <input type="radio" id="star1" name="rating" value="1"><label for="star1" class="star"></label>
-            <input type="radio" id="star2" name="rating" value="2"><label for="star2" class="star"></label>
-            <input type="radio" id="star3" name="rating" value="3"><label for="star3" class="star"></label>
-            <input type="radio" id="star4" name="rating" value="4"><label for="star4" class="star"></label>
-            <input type="radio" id="star5" name="rating" value="5"><label for="star5" class="star"></label>
-        </div>
-
-        <div class="book-details">
-            <h1>J.K. Rowling</h1>
-            <h2>Harry Potter y la piedra filosofal</h2>
+        
+        <section class="book-details">
+            <h1>{{ libro['author'] }}</h1>
+            <h2>{{ libro['name_book'] }}</h2>
 
             <button class="exchange-button" onclick="openMaps()">Solicitar Intercambio</button>
-
+            
             <div class="book-description">
                 <h3>Descripción</h3>
-                <p>Harry Potter, un niño huérfano que vive con sus crueles tías y tíos, descubre en su undécimo
-                    cumpleaños que es un mago. A partir de ese momento, su vida da un giro inesperado cuando es invitado
-                    a estudiar en el prestigioso colegio de magia Hogwarts. Allí, Harry forja nuevas amistades, como
-                    Hermione Granger y Ron Weasley, y se enfrenta a desafíos que pondrán a prueba su valentía. Mientras
-                    explora los secretos del colegio, Harry descubre que tiene un vínculo especial con el oscuro
-                    hechicero que asesinó a sus padres, el temido Lord Voldemort. En esta primera entrega de la saga,
-                    Harry se embarca en una aventura llena de magia, misterio y un destino único.</p>
+                <p>{{ libro['descripcion'] }}</p>
             </div>
-
             <div class="book-genres">
-                <button class="search-button" onclick="goToGenre('Acción')">Acción</button>
-                <button class="search-button" onclick="goToGenre('Aventuras')">Aventuras</button>
-                <button class="search-button" onclick="goToGenre('Fantasía')">Fantasía</button>
-                <button class="search-button" onclick="goToGenre('Suspenso')">Suspenso</button>
-                <button class="search-button" onclick="goToGenre('Terror')">Terror</button>
+                {% if libro['genre'] %}
+                    {% for genero in libro['genre'].split(',') %}
+                        <button class="search-button" onclick="goToGenre('{{ genero }}')">{{ genero }}</button>
+                    {% endfor %}
+                {% else %}
+                    <p>No géneros disponibles.</p>
+                {% endif %}
             </div>
-            <div id="map-container">
-                <button class="close-map-btn" onclick="closeMaps()">Cerrar</button>
-                <iframe id="map" src="" frameborder="0" allowfullscreen></iframe>
-            </div>
-        </div>
+        </section>
     </main>
 
     {% include 'footer.html' %}
