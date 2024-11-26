@@ -1,10 +1,18 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-
+from dotenv import load_dotenv
+import os
 import mysql.connector
+from encrypt import encrypt_password, decrypt_password
 
 app = Flask(__name__)
 CORS(app)  # Esto habilita CORS para todas las rutas
+load_dotenv()
+
+# Clave Fernet desde el archivo .env
+FERNET_KEY = os.getenv("FERNET_KEY")
+if not FERNET_KEY:
+    raise ValueError("FERNET_KEY no encontrada en .env")
 
 DB_CONFIG = {
     'host': 'localhost',
@@ -28,17 +36,64 @@ def execute_query(query, params=None, fetch_one=False):
         cursor.close()
         connection.close()
 
-@app.route('/users', methods=['POST'])
-def create_user():
+@app.route('/register', methods=['POST'])
+def register_user():
     data = request.get_json()
+    
+    required_fields = ['username', 'email', 'password', 'latitude', 'longitude']
+    missing_fields = [field for field in required_fields if field not in data]
+    if missing_fields:
+        return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
+
+    # Encriptar la contraseña
+    encrypted_password = encrypt_password(data['password'])
+
     query = """
-        INSERT INTO Users (username, email, password, profile_photo) 
-        VALUES (%s, %s, %s, %s)
+        INSERT INTO Users (username, email, password, latitude, longitude, profile_photo) 
+        VALUES (%s, %s, %s, %s, %s, NULL)
     """
-    result = execute_query(query, (data['username'], data['email'], data['password'], data['profile_photo']))
+    result = execute_query(query, (
+        data['username'], 
+        data['email'], 
+        encrypted_password, 
+        data['latitude'], 
+        data['longitude']
+    ))
+    
     if "error" in result:
         return jsonify(result), 400
-    return jsonify({"message": "User created successfully"}), 201
+    
+    return jsonify({"message": "User registered successfully"}), 201
+
+
+@app.route('/login', methods=['POST'])
+def login_user():
+    data = request.get_json()
+    
+    required_fields = ['username', 'password']
+    missing_fields = [field for field in required_fields if field not in data]
+    if missing_fields:
+        return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
+
+    query = "SELECT id_users, username, password FROM Users WHERE username = %s"
+    user = execute_query(query, (data['username'],), fetch_one=True)
+    
+    if not user:
+        return jsonify({"error": "Invalid username or password"}), 401
+
+    # Desencriptar y comparar contraseñas
+    try:
+        decrypted_password = decrypt_password(user['password'])
+        if decrypted_password != data['password']:
+            return jsonify({"error": "Invalid username or password"}), 401
+    except Exception as e:
+        return jsonify({"error": "Password decryption failed"}), 500
+
+    return jsonify({
+        "message": "Login successful",
+        "user_id": user['id_users'],
+        "username": user['username']
+    }), 200
 
 @app.route('/users', methods=['GET'])
 def get_users():
