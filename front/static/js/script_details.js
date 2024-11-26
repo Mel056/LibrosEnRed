@@ -33,3 +33,13 @@ async function cargarUbicacion() {
 
 cargarUbicacion();
 
+function openMaps() {
+    document.getElementById('map-container').style.display = 'block'; 
+    cargarUbicacion(); 
+}
+
+
+function closeMaps() {
+    document.getElementById('map-container').style.display = 'none'; 
+}
+
