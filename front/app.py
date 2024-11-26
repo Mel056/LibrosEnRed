@@ -30,7 +30,18 @@ def main():
 
     @app.route('/perfil')
     def Perfil():
-        return render_template('profile.html')
+        try:
+            #Integrar autenticacion de sesion   
+            user_id = 1  
+            response = request.get(f'http://localhost:5001/users?id={user_id}')
+
+            if response.status_code == 200:
+                user_data = response.json()[0] 
+                return render_template('profile.html', user=user_data)
+            else:
+                return render_template('profile.html', user=None, error="Usuario no encontrado")
+        except Exception as e:
+            return render_template('profile.html', user=None, error=str(e))
 
     app.run(debug=True)
 
