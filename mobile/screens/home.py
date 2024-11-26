@@ -16,6 +16,7 @@ from kivy.graphics.texture import Texture
 from kivy.uix.behaviors import ButtonBehavior
 from kivymd.app import MDApp
 import qrcode
+import requests
 
 
 class StarRating(BoxLayout):
@@ -134,16 +135,13 @@ class BookCard(ButtonBehavior, BoxLayout):
         self.rect.size = instance.size
     
     def on_card_press(self, instance):
-        # Obtiene el screen_manager a través del árbol de widgets
         app = MDApp.get_running_app()
         screen_manager = app.root
         
         if screen_manager:
             screen_manager.current = 'book_detail'
             detail_screen = screen_manager.get_screen('book_detail')
-            detail_screen.update_book_data(self.book_data)
-        else:
-            print("Error: No se pudo encontrar el screen_manager")
+            detail_screen.load_book_data(self.book_data['id'])
         
     def generate_qr_code(self, instance):
         user_id = "1234"
@@ -168,23 +166,15 @@ class BookCard(ButtonBehavior, BoxLayout):
         # Display QR code in the Image widget
         self.qr_image.texture = texture
 
-
 class HomeScreen(Screen):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         
-        # Set background color
         with self.canvas.before:
             Color(0.9, 0.9, 0.95, 1)
             self.rect = Rectangle(size=Window.size)
         Window.bind(size=self._update_rect)
         
-        self.setup_ui()
-    
-    def _update_rect(self, instance, value):
-        self.rect.size = instance.size
-    
-    def setup_ui(self):
         # Main layout with centering
         main_anchor = AnchorLayout(anchor_x='center', anchor_y='center')
         main_layout = BoxLayout(
@@ -233,57 +223,62 @@ class HomeScreen(Screen):
         top_bar.add_widget(qrscanner_btn)
         
         # Books list
-        scroll_layout = ScrollView()
-        books_layout = GridLayout(
+        self.scroll_layout = ScrollView()
+        self.books_layout = GridLayout(
             cols=1,
             spacing=dp(20),
             size_hint_y=None,
             padding=dp(10)
         )
-        books_layout.bind(minimum_height=books_layout.setter('height'))
+        self.books_layout.bind(minimum_height=self.books_layout.setter('height'))
         
-        # Sample books with actual books and descriptions
-        sample_books = [
-            {
-                'title': 'Cien años de soledad',
-                'author': 'Gabriel García Márquez',
-                'description': 'La obra cumbre del realismo mágico que narra la historia de la familia Buendía a lo largo de siete generaciones en el pueblo mítico de Macondo.',
-                'rating': 5,
-                'image_url': 'https://images.cdn3.buscalibre.com/fit-in/360x360/61/8d/618d227e8967274cd9589a549adff52d.jpg'
-            },
-            {
-                'title': '1984',
-                'author': 'George Orwell',
-                'description': 'Una inquietante visión distópica de un futuro dominado por el totalitarismo y la vigilancia masiva.',
-                'rating': 4,
-                'image_url': 'https://images.cdn1.buscalibre.com/fit-in/360x360/6d/d7/6dd771b778bb1e198e9cd6762b721a3d.jpg'
-            },
-            {
-                'title': 'El Principito',
-                'author': 'Antoine de Saint-Exupéry',
-                'description': 'Un clásico atemporal que explora temas de amor, amistad y el significado de la vida a través de los ojos de un pequeño príncipe.',
-                'rating': 5,
-                'image_url': 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/El_principito.jpg/800px-El_principito.jpg'
-            }
-        ]
-        
-        for book in sample_books:
-            books_layout.add_widget(
-                BookCard(
-                    title=book['title'],
-                    author=book['author'],
-                    description=book['description'],
-                    rating=book['rating'],
-                    image_url=book['image_url'],
-                    book_data=book  # Elimina el parámetro screen_manager
-                )
-            )
-            
-        scroll_layout.add_widget(books_layout)
+        self.scroll_layout.add_widget(self.books_layout)
         
         # Add all elements to main layout
         main_layout.add_widget(top_bar)
-        main_layout.add_widget(scroll_layout)
+        main_layout.add_widget(self.scroll_layout)
         
         main_anchor.add_widget(main_layout)
         self.add_widget(main_anchor)
+        
+        # Cargar libros cuando se inicializa la pantalla
+        self.load_books()
+    
+    def _update_rect(self, instance, value):
+        self.rect.size = instance.size
+
+    def load_books(self):
+        try:
+            response = requests.get('http://localhost:5001/books')
+            if response.status_code == 200:
+                books = response.json()
+                self.update_books_layout(books)
+            else:
+                print(f"Error al obtener libros: {response.status_code}")
+        except requests.RequestException as e:
+            print(f"Error de conexión: {e}")
+    
+    def update_books_layout(self, books):
+        self.books_layout.clear_widgets()
+        
+        for book in books:
+            book_data = {
+                'id': book['id'],
+                'title': book['name'],
+                'author': book['author'],
+                'description': book['description'] or 'Sin descripción disponible',
+                'rating': round(float(book['average_rating'])) if book['average_rating'] else 0,
+                'image_url': book['photo'] or 'ruta/a/imagen/por/defecto.jpg',
+                'availability_status': book['availability_status']
+            }
+            
+            self.books_layout.add_widget(
+                BookCard(
+                    title=book_data['title'],
+                    author=book_data['author'],
+                    description=book_data['description'],
+                    rating=book_data['rating'],
+                    image_url=book_data['image_url'],
+                    book_data=book_data
+                )
+            )

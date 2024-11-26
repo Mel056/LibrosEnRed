@@ -10,6 +10,7 @@ from kivy.core.window import Window
 from kivymd.uix.button import MDIconButton
 from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.scrollview import ScrollView
+import requests
 
 
 class ResponsiveView:
@@ -34,13 +35,13 @@ class StarButton(MDIconButton):
         self.size_hint = (None, None)
 
 class InteractiveStarRating(BoxLayout):
-    def __init__(self, book_data, **kwargs):
+    def __init__(self, book_id, **kwargs):
         super().__init__(**kwargs)
+        self.book_id = book_id
         self.orientation = 'horizontal'
         self.size_hint_y = None
         self.height = dp(60)
         self.spacing = dp(5)
-        self.book_data = book_data
         self.stars = []
         
         # Main container for centering
@@ -75,11 +76,28 @@ class InteractiveStarRating(BoxLayout):
     
     def on_star_press(self, star_button):
         rating_value = star_button.rating_value
+        
+        # Actualizar visualmente las estrellas
         for i, star in enumerate(self.stars):
             is_filled = i < rating_value
             star.icon = 'star' if is_filled else 'star-outline'
             star.text_color = (1, 0.8, 0, 1) if is_filled else (0.7, 0.7, 0.7, 1)
-        print(f"Rating {rating_value} seleccionado para el libro {self.book_data['title']}")
+        
+        # Enviar calificación a la API
+        try:
+            response = requests.post('http://localhost:5001/rating/books', json={
+                'book_id': self.book_id,
+                'rater_id': 1,  # Este ID debería venir del usuario logueado
+                'rating': rating_value
+            })
+            
+            if response.status_code == 200:
+                print("Calificación guardada exitosamente")
+            else:
+                print(f"Error al guardar la calificación: {response.status_code}")
+                
+        except requests.RequestException as e:
+            print(f"Error de conexión: {e}")
 
 class AvailabilityBadge(AnchorLayout):
     def __init__(self, is_available, **kwargs):
@@ -309,6 +327,29 @@ class BookDetailScreen(Screen, ResponsiveView):
                 radius=[dp(8)]
             )
     
+    def load_book_data(self, book_id):
+        try:
+            response = requests.get(f'http://localhost:5001/books?id={book_id}')
+            if response.status_code == 200:
+                books = response.json()
+                if books:
+                    book = books[0]  # Tomamos el primer libro ya que buscamos por ID
+                    self.update_book_data({
+                        'id': book['id'],
+                        'title': book['name'],
+                        'author': book['author'],
+                        'description': book['description'] or 'Sin descripción disponible',
+                        'rating': round(float(book['average_rating'])) if book['average_rating'] else 0,
+                        'image_url': book['photo'] or 'ruta/a/imagen/por/defecto.jpg',
+                        'availability_status': book['availability_status']
+                    })
+                else:
+                    print("Libro no encontrado")
+            else:
+                print(f"Error al obtener el libro: {response.status_code}")
+        except requests.RequestException as e:
+            print(f"Error de conexión: {e}")
+
     def go_back(self, instance):
         self.manager.current = 'home'
     
@@ -329,8 +370,8 @@ class BookDetailScreen(Screen, ResponsiveView):
         self.title_label.text = book_data.get('title', '')
         self.author_label.text = f"{book_data.get('author', '')}"
         
-        import random
-        is_available = random.choice([True, False])
+        # Usar el estado real del libro
+        is_available = book_data.get('availability_status', False)
         
         self.availability_container.clear_widgets()
         self.availability_container.add_widget(AvailabilityBadge(is_available))
@@ -342,7 +383,7 @@ class BookDetailScreen(Screen, ResponsiveView):
         self.rating_container.add_widget(self.rating_label)
         self.rating_container.add_widget(
             InteractiveStarRating(
-                book_data=book_data,
+                book_id=book_data['id']
             )
         )
         
@@ -357,5 +398,9 @@ class BookDetailScreen(Screen, ResponsiveView):
                 color=(1, 1, 1, 1),
                 bold=True
             )
-            exchange_button.bind(on_press=lambda x: print(f"Solicitud de intercambio para: {self.book_data['title']}"))
+            exchange_button.bind(on_press=self.request_exchange)
             self.exchange_button_container.add_widget(exchange_button)
+    
+    def request_exchange(self, instance):
+        if self.book_data:
+            print(f"Solicitud de intercambio para el libro ID: {self.book_data['id']}")
