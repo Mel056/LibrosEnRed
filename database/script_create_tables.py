@@ -84,10 +84,10 @@ def create_database_and_tables():
         id_book INT,
         id_users INT,
         rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
-        FOREIGN KEY (id_book) REFERENCES Libros(id_book),
+        FOREIGN KEY (id_book) REFERENCES Book(id_book),
         FOREIGN KEY (id_users) REFERENCES Users(id_users)
-    )
-    """
+        )
+        """
         cursor.execute(create_rating_books_table)
     
     finally:
