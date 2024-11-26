@@ -4,7 +4,7 @@ from random import uniform, choice, randint
 
 DB_CONFIG = {
     "host": "localhost",
-    "user": "mirko2",
+    "user": "leo",
     "password": "123",
     "database": "LibrosEnRed"
 }
@@ -95,7 +95,7 @@ def insert_test_data():
         book_id = choice(book_ids)  
         book_rating = randint(1, 5)
         cursor.execute(
-        """INSERT INTO Libro_Ratings (libro_id, rating)
+        """INSERT INTO Rating_Books (id_book, rating)
         VALUES (%s, %s)""",
         (book_id, book_rating)
      )

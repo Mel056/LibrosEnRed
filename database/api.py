@@ -8,7 +8,7 @@ CORS(app)  # Esto habilita CORS para todas las rutas
 
 DB_CONFIG = {
     'host': 'localhost',
-    'user': 'mirko2',
+    'user': 'leo',
     'password': '123',
     'database': 'LibrosEnRed'
 }

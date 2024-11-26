@@ -7,7 +7,7 @@ def generate_fernet_key():
 def store_fernet_key(user_id, fernet_key):
     conn = mysql.connector.connect(
         host='localhost',          
-        user='mirko2',               
+        user='leo',               
         password='123',  
         database='LibrosEnRed'     
     )
