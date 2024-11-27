@@ -4,8 +4,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeModalBtn = document.querySelector('.close');
     const editProfileForm = document.getElementById('editProfileForm');
 
+    // Función para obtener el userId desde el backend
+    async function getUserId() {
+        try {
+            const response = await fetch('/get-current-user');
+            const userData = await response.json();
+            return userData.user_id;
+        } catch (error) {
+            console.error('Error obteniendo ID de usuario:', error);
+            return null;
+        }
+    }
+
     // Abrir formulario
-    editProfileBtn.addEventListener('click', () => {
+    editProfileBtn.addEventListener('click', async () => {
+        const userId = await getUserId();
+
+        if (!userId) {
+            alert('No se pudo obtener el ID de usuario');
+            return;
+        }
 
         editProfileModal.style.display = 'block';
     });
@@ -25,9 +43,15 @@ document.addEventListener('DOMContentLoaded', () => {
     editProfileForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
+        const userId = await getUserId();
+
+        if (!userId) {
+            alert('No se pudo obtener el ID de usuario');
+            return;
+        }
+
         const newUsername = document.getElementById('username').value;
         const newProfilePhoto = document.getElementById('googlePhotosLink').value;
-
 
         const updateData = {};
 
@@ -43,9 +67,9 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('No se han realizado cambios');
             return;
         }
-        // Integrar login 
+
         try {
-            const response = await fetch(`http://localhost:5001/users/1`, {
+            const response = await fetch(`http://localhost:5001/users/${userId}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',

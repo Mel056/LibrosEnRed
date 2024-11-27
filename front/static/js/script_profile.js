@@ -16,12 +16,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-
-async function cargarPerfil() {
+async function cargarPerfil(userId) {
     try {
-        // Integrar autenticación de sesión
+        // Validar que se proporcione un ID de usuario
+        if (!userId) {
+            throw new Error('Se requiere un ID de usuario');
+        }
 
-        const response = await fetch(`http://localhost:5001/users?id=1`);
+        const response = await fetch(`http://localhost:5001/users?id=${userId}`);
 
         if (!response.ok) {
             throw new Error('Error al obtener datos del perfil');
@@ -43,4 +45,3 @@ async function cargarPerfil() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', cargarPerfil);

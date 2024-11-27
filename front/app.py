@@ -110,6 +110,7 @@ def main():
 
     @app.route('/perfil')
     @login_required
+
     def perfil():  # Cambiado de Perfil a perfil
         try:
             user_id = session.get('user_id')
@@ -121,6 +122,13 @@ def main():
                 return render_template('profile.html', user=None, error="Usuario no encontrado")
         except Exception as e:
             return render_template('profile.html', user=None, error=str(e))
+
+    @app.route('/get-current-user')
+    @login_required
+    def get_current_user():
+        return jsonify({
+            'user_id': session.get('user_id')
+        })
 
     return app  # Retornamos la app en lugar de ejecutarla
 
