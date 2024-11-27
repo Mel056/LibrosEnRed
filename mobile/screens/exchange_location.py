@@ -1,4 +1,3 @@
-# screens/exchange_location.py
 from kivy.metrics import dp
 from kivymd.app import MDApp
 from kivy_garden.mapview import MapView, MapSource

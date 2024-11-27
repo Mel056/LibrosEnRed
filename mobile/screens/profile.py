@@ -1,4 +1,3 @@
-# screens/profile.py
 from kivy.uix.screenmanager import Screen
 from kivy.uix.scrollview import ScrollView
 from kivy.metrics import dp

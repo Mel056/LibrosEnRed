@@ -1,4 +1,3 @@
-# screens/map.py
 from kivy.uix.screenmanager import Screen
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
@@ -30,7 +29,3 @@ class MapScreen(Screen):
         layout.add_widget(back_btn)
         
         self.add_widget(layout)
-
-# screens/main.py - No changes needed, just remove mapview imports if present
-
-# main.py - No changes needed, just remove mapview imports if present

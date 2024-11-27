@@ -1,7 +1,7 @@
 from faker import Faker
 import mysql.connector
 from random import uniform, choice, randint
-from datetime import datetime, timedelta
+from datetime import timedelta
 from dotenv import load_dotenv
 import os
 

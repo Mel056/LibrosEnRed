@@ -11,13 +11,11 @@ from werkzeug.utils import secure_filename
 
 load_dotenv()
 
-# Configuración de AWS S3
 S3_BUCKET_NAME = os.getenv("S3_BUCKET_NAME")
 S3_REGION = os.getenv("S3_REGION")
 S3_ACCESS_KEY = os.getenv("S3_ACCESS_KEY")
 S3_SECRET_KEY = os.getenv("S3_SECRET_KEY")
 
-# Clave Fernet desde el archivo .env
 DB_HOST = os.getenv("DB_HOST")
 DB_USER = os.getenv("DB_USER")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
@@ -67,10 +65,6 @@ def upload_profile_photo(user_id):
     if not user:
         return jsonify({"error": "User not found"}), 404
 
-    # Debug para ver qué viene en la request
-    print("Files in request:", request.files)
-    print("Form data:", request.form)
-    
     # Verificar si hay archivo en la solicitud
     if 'file' not in request.files:
         return jsonify({
@@ -114,11 +108,7 @@ def upload_profile_photo(user_id):
         }), 500
 
     # Obtener la URL pública
-    file_url = s3_client.generate_presigned_url(
-            'get_object',
-            Params={'Bucket': S3_BUCKET_NAME, 'Key': filename},
-            ExpiresIn=3600  # URL válido por 1 hora
-        )
+    file_url = f"https://{S3_BUCKET_NAME}.s3.{S3_REGION}.amazonaws.com/{filename}"
 
     # Guardar URL en el perfil del usuario
     query = "UPDATE Users SET profile_photo = %s WHERE id = %s"
@@ -222,7 +212,7 @@ def login_user():
     # Devolvemos información adicional útil para la sesión del usuario
     return jsonify({
         "message": "Login successful",
-        "user_id": user['id'],  # Cambiado de id_users a id
+        "user_id": user['id'],
         "username": user['username'],
         "email": user['email'],
         "profile_photo": user['profile_photo'],
@@ -422,12 +412,12 @@ def create_book():
     result = execute_query(query, (
         data['name'],
         data['author'],
-        data.get('photo'),  # Opcional
-        data.get('description'),  # Opcional
-        data.get('availability_status', True),  # Por defecto True
+        data.get('photo'),
+        data.get('description'),
+        data.get('availability_status', True),
         data['genre'],
         data['owner_id'],
-        0.00  # Rating inicial
+        0.00
     ))
     
     if "error" in result:

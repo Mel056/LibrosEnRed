@@ -4,7 +4,6 @@ from kivy.clock import Clock
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.label import MDLabel, MDIcon
-from kivy.properties import StringProperty
 from kivy.core.window import Window
 
 class SuccessScreen(MDScreen):

@@ -1,4 +1,3 @@
-# screens/login.py
 import requests
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
@@ -112,6 +111,3 @@ class LoginScreen(MDScreen):
             self.manager.current = 'register'
         except Exception as e:
             print(f"Error al navegar: {e}")
-
-# Nota: Este código asume que tienes kivymd instalado
-# Necesitarás instalar: pip install kivymd requests
