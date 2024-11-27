@@ -11,13 +11,28 @@
 </head>
 
 <body>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style_details.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style_footer.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style_home.css')}}">
+</head>
+
+<body>
     <nav>
         <i id="logo" class="fa-solid fa-book nav-icon"></i>
         <ul>
-            <li><a href="{{ url_for('home') }}"><i class="fa-solid fa-home nav-icon"></i> Inicio</a></li>
+            <li><a href="{{url_for('Home')}}"><i class="fa-solid fa-home nav-icon"></i> Inicio</a></li>
             <li><a href="#"><i class="fa-solid fa-mobile nav-icon"></i> App</a></li>
-            <li><a href="{{ url_for('perfil') }}"><i class="fa-solid fa-user nav-icon"></i>Perfil</a></li>
+            <li><a href="{{url_for('Cargar')}}"><i class="fa-solid fa-upload nav-icon"></i> Cargar</a></li>
+            <li><a href="{{url_for('Perfil')}}"><i class="fa-solid fa-user nav-icon"></i>Perfil</a></li>
         </ul>
+        <button class="cta-button"> <a class="links" href="{{url_for('Login')}}">Sign In</a></button>
         <div class="search-container">
             <input type="text" id="searchInput" class="search-input" placeholder="Search..." />
             <button id="searchButton" class="search-button">
@@ -25,6 +40,21 @@
             </button>
         </div>
     </nav>
+
+    <main id="book-details-container">
+    </main>
+
+    <div id="map-container">
+        <button class="close-map-btn" onclick="closeMaps()">Cerrar</button>
+        <iframe id="map" frameborder="0" allowfullscreen></iframe>
+    </div>
+
+    {% include 'footer.html' %}
+    <script src="{{ url_for('static', filename='js/script_details.js') }}"></script>
+
+</body>
+
+</html>
 
     <main id="book-details-container">
     </main>

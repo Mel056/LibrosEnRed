@@ -1,5 +1,5 @@
-const pathname = window.location.pathname; 
-const bookId = pathname.split('/')[2]; 
+const pathname = window.location.pathname;
+const bookId = pathname.split('/')[2];
 
 if (bookId) {
     cargarDetallesLibro(bookId);
@@ -14,18 +14,50 @@ async function cargarDetallesLibro(bookId) {
             throw new Error('Error en la carga de datos');
         }
         const libro = await response.json();
+        console.log(libro);
 
-        // Asignar los datos a los elementos del HTML
-        const portada = document.getElementById('photo');
-        portada.src = libro.photo || 'placeholder.jpg';
+        const container = document.getElementById('book-details-container');
+        container.innerHTML = ''; 
 
-        document.getElementById('name_book').textContent = libro.title || 'Título no disponible';
-        document.getElementById('author').textContent = libro.author || 'Autor desconocido';
-        document.getElementById('genre').textContent = libro.genre || 'Género no especificado';
-        document.getElementById('availability_status').textContent = libro.status || 'Estado no disponible';
-        document.getElementById('description').textContent = libro.description || 'Sin descripción disponible';
+        const bookDetailsHTML = `
+        <main>
+            <div class="book-container">
+                <div class="book-cover">
+                    <img id="photo" src="${libro.photo || 'placeholder.jpg'}" alt="Portada del libro">
+                </div>
+                <div class="book-details">
+                    <h1 id="name_book">${libro.title || 'Título no disponible'}</h1>
+                    <h2 id="author">${libro.author || 'Autor desconocido'}</h2>
+                    
+                    <div class="book-genres">
+                        <span id="genre">${libro.genre || 'Género no especificado'}</span>
+                    </div>
+                    
+                    <div class="book-description">
+                        <p id="description">${libro.description || 'Sin descripción disponible'}</p>
+                    </div>
+                    
+                    ${libro.status === 'Disponible' ? `
+                    <button id="reserve-btn" class="exchange-button">Reservar</button>
+                    ` : `
+                    <p class="unavailable"><strong>Estado:</strong> No disponible</p>
+                    `}
+                </div>
+            </div>
+        </main>
+        `;
+
+        container.innerHTML = bookDetailsHTML;
+    
     } catch (error) {
         console.error('Error al cargar los detalles del libro:', error);
+
+        const container = document.getElementById('book-details-container');
+        container.innerHTML = `
+            <div class="error-message">
+                <p>No se pudieron cargar los detalles del libro. Por favor, intente nuevamente más tarde.</p>
+                <button onclick="window.location.reload()">Reintentar</button>
+            </div>
+        `;
     }
 }
-
