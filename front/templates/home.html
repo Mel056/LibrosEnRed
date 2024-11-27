@@ -6,7 +6,7 @@
             <div class="carousel">
                 {% for genero in generos %}
                     <div class="categoria">
-                        <button class="button-genero"><a class="links" href="{{url_for('genero', genero=genero)}}">{{ genero }}</a></button>
+                        <button class="button-genero"><a class="links" href="{{url_for('genero', cat=genero)}}">{{ genero }}</a></button>
                     </div>
                 {% endfor %}
             </div>

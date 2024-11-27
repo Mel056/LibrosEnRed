@@ -26,7 +26,15 @@ def main():
         generos = {"Fiction", "Non-Fiction", "Mystery", "Science Fiction", 
                   "Fantasy", "Romance", "Thriller", "Horror", "Biography",
                   "Historical Fiction", "Young Adult", "Children's"}
-        return render_template('home.html', generos=generos)
+        try:
+            response = requests.get(f'http://localhost:5001/books')
+            if response.status_code == 200:
+                libros = response.json()
+                return render_template('home.html', libros=libros, generos=generos)
+            else:
+                return render_template('home.html', libros=None, generos=generos, error="Libros no encontrados")
+        except Exception as e:
+            return render_template('home.html', libros=None, error=str(e))
 
     @app.route('/login', methods=['GET', 'POST'])
     def login():  # Cambiado de Login a login
@@ -69,10 +77,18 @@ def main():
         session.clear()
         return redirect(url_for('login'))  # Cambiado de Login a login
 
-    @app.route('/home/<genero>')
+    @app.route('/home/<cat>')
     @login_required
-    def genero(genero):  # Cambiado de Genero a genero
-        return render_template('base.html')
+    def genero(cat):  # Cambiado de Genero a genero
+        try:
+            response = requests.get(f'http://localhost:5001/books?genre={cat}')
+            if response.status_code == 200:
+                libros = response.json()
+                return render_template('base.html', libros=libros)
+            else:
+                return render_template('base.html', libros=None , error="Libros no encontrados")
+        except Exception as e:
+            return render_template('base.html', libros=None, error=str(e))
 
     @app.route('/detalle/<int:idLibro>')
     @login_required

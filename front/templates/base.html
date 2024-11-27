@@ -36,6 +36,29 @@
             <button role="button" id="flecha-izquierda-libros" class="flecha-izquierda-libros"><i class="fas fa-angle-left"></i></button>
             <div class="contenedor-carousel-libros">
                 <div class="carousel-libros" id="carousel-libros">
+                    {% for libro in libros %}
+                        <div class="contenedor-flip">
+                            <div class="flip-libro">
+                                <div class="libro-frente">
+                                    <img src="{{ libro.photo }}" alt="${libro.name}">
+                                </div>
+                                <div class="libro-atras">
+                                    <h3>{{ libro.name }}</h3>
+                                    <p>Autor: {{ libro.author }}</p>
+                                    <p>Género: {{ libro.genre }}</p>
+                                    {% if libro.availability_status == 0 %}
+                                        <p>Estado: Disponible</p>
+                                    {% else %}
+                                        <p>Estado: No disponible</p>
+                                    {% endif %}
+                                    <p>Propietario: {{ libro.owner_username }}</p>
+                                    <button class="button">
+                                        <a href="{{url_for('detalle',idLibro=libro.id)}}">Ver más</a>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>    
             </div>
             <button role="button" id="flecha-derecha-libros" class="flecha-derecha-libros"><i class="fas fa-angle-right"></i></button>
