@@ -28,7 +28,7 @@ async function cargarLibros() {
                             <p>Estado: ${libro.availability_status ? 'Disponible' : 'No disponible'}</p>
                             <p>Propietario: ${libro.owner_username}</p>
                             <button class="button">
-                                <a href="/Detalle/${libro.id}">Ver más</a>
+                                <a href="/detalle/${libro.id}">Ver más</a>
                             </button>
                         </div>
                     </div>

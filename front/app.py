@@ -1,49 +1,103 @@
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, session, jsonify
+from functools import wraps
+import requests
+
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
+            return redirect(url_for('login'))  # Cambiado de 'Login' a 'login'
+        return f(*args, **kwargs)
+    return decorated_function
 
 def main():
     app = Flask(__name__)
+    
+    app.secret_key = 'tu_clave_secreta_aqui'
+
 
     @app.route('/')
-    def Home():
-        generos = {"Acción", "Arte", "Autoayuda", "Aventuras", "Biografías", "Cocina",
-                   "Contemporáneo", "Cs. Ficción", "Distopía", "Divulgativos", "Drama",
-                   "Fantasía", "Historia", "Infantil", "Manuales", "Memorias", "Paranormal",
-                   "Poesía", "Romance", "Salud", "Suspenso", "Terror"}
+    def index():
+        return redirect(url_for('login'))
+
+    @app.route('/home')
+    @login_required
+    def home():  # Cambiado de Home a home
+        generos = {"Fiction", "Non-Fiction", "Mystery", "Science Fiction", 
+                  "Fantasy", "Romance", "Thriller", "Horror", "Biography",
+                  "Historical Fiction", "Young Adult", "Children's"}
         return render_template('home.html', generos=generos)
 
     @app.route('/login', methods=['GET', 'POST'])
-    def Login():
+    def login():  # Cambiado de Login a login
+        if 'user_id' in session:
+            return redirect(url_for('home'))  # Cambiado de Home a home
+        
+        if request.method == 'POST':
+            try:
+                data = request.get_json()
+                username = data.get('username')
+                password = data.get('password')
 
+                response = requests.post('http://localhost:5001/login', 
+                    json={
+                        'username': username,
+                        'password': password
+                    })
+                
+                if response.status_code == 200:
+                    data = response.json()
+                    session['user_id'] = data['user_id']
+                    session['username'] = data['username']
+                    session['email'] = data.get('email')
+                    session['profile_photo'] = data.get('profile_photo')
+                    return jsonify({'success': True}), 200
+                else:
+                    return jsonify({'error': 'Credenciales inválidas'}), 401
+                    
+            except Exception as e:
+                return jsonify({'error': str(e)}), 500
+                
         return render_template('login.html')
-
-
 
     @app.route('/register', methods=['GET'])
-    def register_page():
+    def register():  # Cambiado de register_page a register
         return render_template('login.html')
     
+    @app.route('/logout')
+    def logout():
+        session.clear()
+        return redirect(url_for('login'))  # Cambiado de Login a login
 
     @app.route('/home/<genero>')
-    def Genero(genero):
+    @login_required
+    def genero(genero):  # Cambiado de Genero a genero
         return render_template('base.html')
 
-
     @app.route('/detalle/<int:idLibro>')
-    def Detalle(idLibro):
-        return render_template('detalle.html', idLibro=idLibro)
+    @login_required
+    def detalle(idLibro):  # Cambiado de Detalle a detalle
+        try:
+            response = requests.get(f'http://localhost:5001/books?id={idLibro}')  # Cambiado request.get a requests.get
+            if response.status_code == 200:
+                book_data = response.json()[0]  
+                return render_template('detalle.html', libro=book_data)
+            else:
+                return render_template('detalle.html', libro=None, error="Libro no encontrado")
+        except Exception as e:
+            return render_template('detalle.html', libro=None, error=str(e))
 
     @app.route('/cargar_libro')
-    def Cargar():
+    @login_required
+    def cargar():  # Cambiado de Cargar a cargar
         return render_template('cargar_libro.html')
 
-
     @app.route('/perfil')
-    def Perfil():
+    @login_required
+    def perfil():  # Cambiado de Perfil a perfil
         try:
-            #Integrar autenticacion de sesion   
-            user_id = 1  
-            response = request.get(f'http://localhost:5001/users?id={user_id}')
-
+            user_id = session.get('user_id')
+            response = requests.get(f'http://localhost:5001/users?id={user_id}')  # Cambiado request.get a requests.get
             if response.status_code == 200:
                 user_data = response.json()[0] 
                 return render_template('profile.html', user=user_data)
@@ -52,10 +106,8 @@ def main():
         except Exception as e:
             return render_template('profile.html', user=None, error=str(e))
 
+    return app  # Retornamos la app en lugar de ejecutarla
 
-
+if __name__ == "__main__":
+    app = main()
     app.run(debug=True)
-
-
-if "__main__" == __name__:
-    main()
