@@ -33,27 +33,29 @@ flechaIzquierdaLibros.addEventListener('click', () => {
 // Función para cargar los libros
 async function cargarLibros() {
     try {
+        // Modificado para traer todos los libros sin límite
         const response = await fetch('http://localhost:5001/books');
-        const libros = await response.json();
+        const data = await response.json();
         const carouselContainer = document.getElementById('carousel-libros');
 
         carouselContainer.innerHTML = '';
 
         // Generar HTML para cada libro
-        libros.forEach(libro => {
+        data.forEach(libro => {
             const libroHTML = `
                 <div class="contenedor-flip">
                     <div class="flip-libro">
                         <div class="libro-frente">
-                            <img src="${libro.photo}" alt="${libro.name_book}">
+                            <img src="${libro.photo || '/path/to/default/image.jpg'}" alt="${libro.name}">
                         </div>
                         <div class="libro-atras">
-                            <h3>${libro.name_book}</h3>
-                            <p>${libro.author}</p>
-                            <p>${libro.genre}</p>
-                            <p>${libro.status}</p>
+                            <h3>${libro.name}</h3>
+                            <p>Autor: ${libro.author}</p>
+                            <p>Género: ${libro.genre}</p>
+                            <p>Estado: ${libro.availability_status ? 'Disponible' : 'No disponible'}</p>
+                            <p>Propietario: ${libro.owner_username}</p>
                             <button class="button">
-                                <a href="/Detalle/${libro.id_books}">Ver más</a>
+                                <a href="/Detalle/${libro.id}">Ver más</a>
                             </button>
                         </div>
                     </div>
@@ -66,6 +68,12 @@ async function cargarLibros() {
 
     } catch (error) {
         console.error('Error al cargar los libros:', error);
+        const carouselContainer = document.getElementById('carousel-libros');
+        carouselContainer.innerHTML = `
+            <div class="error-message">
+                <p>No se pudieron cargar los libros. Por favor, intente nuevamente más tarde.</p>
+            </div>
+        `;
     }
 }
 

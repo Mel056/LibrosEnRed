@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
     editProfileForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
-        const userId = 1; // Integrar login 
         const newUsername = document.getElementById('username').value;
         const newProfilePhoto = document.getElementById('googlePhotosLink').value;
 
@@ -44,9 +43,9 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('No se han realizado cambios');
             return;
         }
-
+        // Integrar login 
         try {
-            const response = await fetch(`http://localhost:5001/users/${userId}`, {
+            const response = await fetch(`http://localhost:5001/users/1`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',

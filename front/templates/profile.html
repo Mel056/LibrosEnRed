@@ -39,16 +39,8 @@
         </header>
         <section id="comments">
             <textarea name="comment_area" id="comment_area"></textarea>
-            <button id="comments_button"><a href="{{url_for('Detalle',idLibro='idLibro')}}">Comentar </a></button>
+            <button id="comments_button"><a href="#">Comentar </a></button>
             <span id="separacion">Comentarios</span>
-            <span class="comment">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt fugiat quia autem,
-                repellendus doloremque imped</span>
-            <span class="comment">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt fugiat quia autem,
-                repellendus doloremque imped</span>
-            <span class="comment">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt fugiat quia autem,
-                repellendus doloremque imped</span>
-            <span class="comment">Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt fugiat quia autem,
-                repellendus doloremque imped</span>
         </section>
         <section class="footer">
             <span>Puntua este perfil</span>
@@ -84,12 +76,11 @@
             </div>
         </div>
     </main>
-
-    <script src="{{url_for('static', filename='js/script_home.js')}}"></script>
     <script src="{{url_for('static', filename='js/script_details.js')}}"></script>
-    <script src="{{url_for('static', filename='js/script_base.js')}}"></script>
+    <script src="{{url_for('static', filename='js/script_books_profile.js')}}"></script>
     <script src="{{url_for('static', filename='js/script_profile.js')}}"></script>
     <script src="{{ url_for('static', filename='js/script_edit_profile.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script_comments.js') }}"></script>
 </body>
 
 </html>

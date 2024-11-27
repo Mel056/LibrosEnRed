@@ -9,25 +9,30 @@ async function cargarLibros() {
 
         // Generar HTML para cada libro
         libros.forEach(libro => {
+            const photoUrl = libro.photo
+                ? (libro.photo.startsWith('http')
+                    ? libro.photo
+                    : `http://localhost:5001/uploads/${libro.photo}`)
+                : '/path/to/default/image.jpg';
+
             const libroHTML = `
-           <div class="libros">
                 <div class="contenedor-flip">
                     <div class="flip-libro">
                         <div class="libro-frente">
-                            <img src="${libro.photo}" alt="${libro.name_book}">
+                            <img src="${libro.photo}" alt="${libro.name}" onerror="this.onerror=null; this.src='/path/to/default/image.jpg';">
                         </div>
                         <div class="libro-atras">
-                            <h3>${libro.name_book}</h3>
+                            <h3>${libro.name}</h3>
                             <p>Autor: ${libro.author}</p>
                             <p>Género: ${libro.genre}</p>
-                            <p>Estado: ${libro.status}</p>
+                            <p>Estado: ${libro.availability_status ? 'Disponible' : 'No disponible'}</p>
+                            <p>Propietario: ${libro.owner_username}</p>
                             <button class="button">
-                                <a href="/detalle/${libro.id_books}">Ver más</a>
+                                <a href="/Detalle/${libro.id}">Ver más</a>
                             </button>
                         </div>
                     </div>
                 </div>
-            </div>
             `;
             carouselContainer.innerHTML += libroHTML;
         });
@@ -37,21 +42,6 @@ async function cargarLibros() {
     } catch (error) {
         console.error('Error al cargar los libros:', error);
     }
-}
-
-// Función para inicializar el carousel
-function inicializarCarousel() {
-    const flechaIzquierda = document.getElementById('flecha-izquierda-libros');
-    const flechaDerecha = document.getElementById('flecha-derecha-libros');
-    const carousel = document.querySelector('.carousel-libros');
-
-    flechaDerecha.addEventListener('click', () => {
-        carousel.scrollLeft += carousel.offsetWidth;
-    });
-
-    flechaIzquierda.addEventListener('click', () => {
-        carousel.scrollLeft -= carousel.offsetWidth;
-    });
 }
 
 document.addEventListener('DOMContentLoaded', cargarLibros);
