@@ -448,20 +448,70 @@ def delete_user(user_id):
 
 @app.route('/books', methods=['POST'])
 def create_book():
-    data = request.get_json()
-    
+    # Verificar si hay archivo en la solicitud
+    if 'photo' in request.files:
+        file = request.files['photo']
+        # Validar formato del archivo
+        if file.filename != '' and allowed_file(file.filename):
+            # Asegurar el nombre del archivo
+            filename = secure_filename(file.filename)
+            try:
+                # Subir a S3
+                s3_client.upload_fileobj(
+                    file,
+                    S3_BUCKET_NAME,
+                    filename,
+                    ExtraArgs={"ContentType": file.content_type}
+                )
+                # Generar URL de la foto
+                photo_url = f"https://{S3_BUCKET_NAME}.s3.{S3_REGION}.amazonaws.com/{filename}"
+            except Exception as e:
+                return jsonify({
+                    "error": "Failed to upload photo to S3",
+                    "detail": str(e)
+                }), 500
+        else:
+            photo_url = None
+    else:
+        photo_url = None
+
+    # Obtener datos del formulario
+    try:
+        name = request.form.get('name')
+        author = request.form.get('author')
+        owner_id = request.form.get('owner_id')
+        genre = request.form.get('genre')
+        description = request.form.get('description')
+        availability_status = request.form.get('availability_status', 'true').lower() == 'true'
+    except Exception as e:
+        return jsonify({
+            "error": "Failed to parse form data",
+            "detail": str(e)
+        }), 400
+
     # Verificar campos requeridos
-    required_fields = ['name', 'author', 'owner_id', 'genre']
-    missing_fields = [field for field in required_fields if field not in data]
-    if missing_fields:
-        return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
+    if not all([name, author, owner_id, genre]):
+        return jsonify({
+            "error": "Missing required fields",
+            "detail": "name, author, owner_id, and genre are required"
+        }), 400
+
+    # Verificar que el owner_id es un número
+    try:
+        owner_id = int(owner_id)
+    except ValueError:
+        return jsonify({
+            "error": "Invalid owner_id",
+            "detail": "owner_id must be a number"
+        }), 400
         
     # Verificar que el propietario existe
     check_owner = "SELECT id FROM Users WHERE id = %s"
-    owner = execute_query(check_owner, (data['owner_id'],), fetch_one=True)
+    owner = execute_query(check_owner, (owner_id,), fetch_one=True)
     if not owner:
         return jsonify({"error": "Owner not found"}), 404
 
+    # Crear el libro
     query = """
         INSERT INTO Books (
             name,
@@ -477,13 +527,13 @@ def create_book():
     """
     
     result = execute_query(query, (
-        data['name'],
-        data['author'],
-        data.get('photo'),
-        data.get('description'),
-        data.get('availability_status', True),
-        data['genre'],
-        data['owner_id'],
+        name,
+        author,
+        photo_url,
+        description,
+        availability_status,
+        genre,
+        owner_id,
         0.00
     ))
     
@@ -492,7 +542,8 @@ def create_book():
         
     return jsonify({
         "message": "Book created successfully",
-        "book_id": result.get('last_id')
+        "book_id": result.get('last_id'),
+        "photo_url": photo_url
     }), 201
 
 @app.route('/books', methods=['GET'])
