@@ -345,7 +345,6 @@ class LocationSelectScreen(MDScreen):
         }
         
         try:
-            print('registration_data:', registration_data)
             response = requests.post(
                 'http://localhost:5001/register',
                 json=registration_data,
