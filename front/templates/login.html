@@ -1,50 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/style_login.css')}}">
-
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style_login.css') }}">
 </head>
-
 <body>
-    <div id="container" class="container">
+    <div id="container" class="container sign-in">
         <div class="row">
+            <!-- Sign Up Column -->
             <div class="col align-items-center flex-col sign-up">
                 <div class="form-wrapper align-items-center">
                     <form id="registerForm" class="form sign-up">
-                        <div class="form sign-up">
-                            <div class="input-group">
-                                <i class='bx bxs-user'></i>
-                                <input type="text" id="registerUsername" placeholder="Nombre de usuario" required>
-                            </div>
-                            <div class="input-group">
-                                <i class='bx bx-mail-send'></i>
-                                <input type="email" id="registerEmail" placeholder="Correo electrónico" required>
-                            </div>
-                            <div class="input-group">
-                                <i class='bx bxs-lock-alt'></i>
-                                <input type="password" id="registerPassword" placeholder="Contraseña" required>
-                            </div>
-                            <div class="input-group">
-                                <i class='bx bxs-lock-alt'></i>
-                                <input type="password" id="confirmPassword" placeholder="Confirmar contraseña" required>
-                            </div>
-                            <button type="submit">Registrarse</button>
+                        <div class="input-group">
+                            <i class='bx bxs-user'></i>
+                            <input type="text" id="registerUsername" placeholder="Nombre de usuario" required>
+                        </div>
+                        <div class="input-group">
+                            <i class='bx bx-mail-send'></i>
+                            <input type="email" id="registerEmail" placeholder="Correo electrónico" required>
+                        </div>
+                        <div class="input-group">
+                            <i class='bx bxs-lock-alt'></i>
+                            <input type="password" id="registerPassword" placeholder="Contraseña" required>
+                        </div>
+                        <div class="input-group">
+                            <i class='bx bxs-lock-alt'></i>
+                            <input type="password" id="confirmPassword" placeholder="Confirmar contraseña" required>
+                        </div>
+                        <button type="submit">Registrarse</button>
+                        <p>
+                            <span>Iniciar</span>
+                            <b onclick="toggle()" class="pointer">sesion</b>
+                        </p>
                     </form>
-                    <p>
-                        <span>Iniciar</span>
-                        <b onclick="toggle()" class="pointer">sesion</b>
-                    </p>
                 </div>
             </div>
-        </div>
-        <div class="col align-items-center flex-col sign-in">
-            <div class="form-wrapper align-items-center">
-                <form id="loginForm" class="form sign-in">
-                    <div class="form sign-in">
+
+            <!-- Sign In Column -->
+            <div class="col align-items-center flex-col sign-in">
+                <div class="form-wrapper align-items-center">
+                    <form id="loginForm" class="form sign-in">
                         <div class="input-group">
                             <i class='bx bxs-user'></i>
                             <input type="text" id="loginUsername" placeholder="Nombre de usuario" required>
@@ -53,37 +51,33 @@
                             <i class='bx bxs-lock-alt'></i>
                             <input type="password" id="loginPassword" placeholder="Contraseña" required>
                         </div>
-                        <button>
-                            Iniciar sesion
-                        </button>
-                </form>
-                <p>
-                    <span>Registrate</span>
-                    <b onclick="toggle()" class="pointer">Aqui</b>
-                </p>
+                        <button type="submit">Iniciar sesion</button>
+                        <p>
+                            <span>Registrate</span>
+                            <b onclick="toggle()" class="pointer">Aqui</b>
+                        </p>
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="form-wrapper">
-        </div>
-    </div>
-    </div>
-    <div class="row content-row">
-        <div class="col align-items-center flex-col">
-            <div class="text sign-in">
-                <h2>Bienvenido</h2>
+
+        <!-- Content Row -->
+        <div class="row content-row">
+            <div class="col align-items-center flex-col">
+                <div class="text sign-in">
+                    <h2>Bienvenido</h2>
+                </div>
+                <div class="img sign-in"></div>
             </div>
-            <div class="img sign-in"></div>
-        </div>
-        <div class="col align-items-center flex-col">
-            <div class="img sign-up">
-            </div>
-            <div class="text sign-up">
-                <h2>Unete a nosotros</h2>
+            <div class="col align-items-center flex-col">
+                <div class="img sign-up"></div>
+                <div class="text sign-up">
+                    <h2>Unete a nosotros</h2>
+                </div>
             </div>
         </div>
     </div>
-    </div>
+
     <script src="{{ url_for('static', filename='js/script_login.js') }}"></script>
 </body>
-
 </html>

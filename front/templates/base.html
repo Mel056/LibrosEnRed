@@ -14,12 +14,12 @@
     <nav>
         <i id="logo" class="fa-solid fa-book nav-icon"></i>
         <ul>
-            <li><a href="{{url_for('Home')}}"><i class="fa-solid fa-home nav-icon"></i> Inicio</a></li>
+            <li><a href="{{url_for('home')}}"><i class="fa-solid fa-home nav-icon"></i> Inicio</a></li>
             <li><a href="#"><i class="fa-solid fa-mobile nav-icon"></i> App</a></li>
-            <li><a href="{{url_for('Cargar')}}"><i class="fa-solid fa-upload nav-icon"></i> Cargar</a></li>
-            <li><a href="{{url_for('Perfil')}}"><i class="fa-solid fa-user nav-icon"></i>Perfil</a></li>
+            <li><a href="{{url_for('cargar')}}"><i class="fa-solid fa-upload nav-icon"></i> Cargar</a></li>
+            <li><a href="{{url_for('perfil')}}"><i class="fa-solid fa-user nav-icon"></i>Perfil</a></li>
         </ul>
-        <button class="cta-button"> <a class="links" href="{{url_for('Login')}}">Sign In</a></button>
+        <button class="cta-button"> <a class="links" href="{{url_for('logout')}}">Sign Out</a></button>
         <div class="search-container">
             <input type="text" id="searchInput" class="search-input" placeholder="Search..." />
             <button id="searchButton" class="search-button">
