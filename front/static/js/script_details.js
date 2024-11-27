@@ -16,61 +16,42 @@ async function cargarDetallesLibro(bookId) {
         const libro = await response.json();
         console.log(libro);
 
-        // Get the book-details-container
         const container = document.getElementById('book-details-container');
+        container.innerHTML = ''; 
 
-        // Clear any existing content
-        container.innerHTML = '';
-
-        // Create the book details HTML structure
         const bookDetailsHTML = `
-            <div class="book-details">
-                <div class="book-image">
-                    <img id="photo" src="${libro.photo || 'placeholder.jpg'}" alt="Portada del libro" class="book-cover">
+        <main>
+            <div class="book-container">
+                <div class="book-cover">
+                    <img id="photo" src="${libro.photo || 'placeholder.jpg'}" alt="Portada del libro">
                 </div>
-                
-                <div class="book-info">
-                    <h1 id="name_book" class="book-title">${libro.title || 'Título no disponible'}</h1>
+                <div class="book-details">
+                    <h1 id="name_book">${libro.title || 'Título no disponible'}</h1>
+                    <h2 id="author">${libro.author || 'Autor desconocido'}</h2>
                     
-                    <div class="book-metadata">
-                        <p>
-                            <strong>Autor:</strong> 
-                            <span id="author">${libro.author || 'Autor desconocido'}</span>
-                        </p>
-                        <p>
-                            <strong>Género:</strong> 
-                            <span id="genre">${libro.genre || 'Género no especificado'}</span>
-                        </p>
-                        <p>
-                            <strong>Disponibilidad:</strong> 
-                            <span id="availability_status" 
-                                  class="${libro.status === 'Disponible' ? 'available' : 'unavailable'}">
-                                ${libro.status || 'Estado no disponible'}
-                            </span>
-                        </p>
+                    <div class="book-genres">
+                        <span id="genre">${libro.genre || 'Género no especificado'}</span>
                     </div>
                     
                     <div class="book-description">
-                        <h2>Descripción</h2>
                         <p id="description">${libro.description || 'Sin descripción disponible'}</p>
                     </div>
                     
                     ${libro.status === 'Disponible' ? `
-                    <div class="book-actions">
-                        <button class="btn-reserve">Reservar</button>
-                    </div>
-                    ` : ''}
+                    <button id="reserve-btn" class="exchange-button">Reservar</button>
+                    ` : `
+                    <p class="unavailable"><strong>Estado:</strong> No disponible</p>
+                    `}
                 </div>
             </div>
+        </main>
         `;
 
-        // Insert the generated HTML into the container
         container.innerHTML = bookDetailsHTML;
-
+    
     } catch (error) {
         console.error('Error al cargar los detalles del libro:', error);
 
-        // Error handling HTML
         const container = document.getElementById('book-details-container');
         container.innerHTML = `
             <div class="error-message">

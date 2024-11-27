@@ -482,11 +482,11 @@ def create_book():
 
     # Obtener datos del formulario
     try:
-        name = request.form.get('nombre')
-        author = request.form.get('autor')
+        name = request.form.get('name')
+        author = request.form.get('author')
         owner_id = int(request.form.get('owner_id'))
-        genre = request.form.get('genero')
-        description = request.form.get('descripcion')
+        genre = request.form.get('genre')
+        description = request.form.get('description')
         availability_status = request.form.get('availability_status', 'True').lower() == 'True'
     except Exception as e:
         return jsonify({
