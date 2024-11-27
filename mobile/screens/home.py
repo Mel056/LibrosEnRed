@@ -241,19 +241,11 @@ class HomeScreen(Screen):
             radius=20, 
             size=(dp(100), dp(50))
         )
-        qrscanner_btn = RoundedButton(
-            text="QR",
-            background_color=(.1, .02, .3, 1), 
-            radius=20, 
-            size=(dp(100), dp(50))
-        )
         
         profile_btn.bind(on_press=lambda x: setattr(self.manager, 'current', 'profile'))
-        qrscanner_btn.bind(on_press=lambda x: setattr(self.manager, 'current', 'qrscanner'))
         
         title_bar.add_widget(title_label)
         top_bar.add_widget(profile_btn)
-        top_bar.add_widget(qrscanner_btn)
         
         # Books list
         self.scroll_layout = ScrollView()

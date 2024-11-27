@@ -5,7 +5,6 @@ from kivy.core.window import Window
 from screens.login import LoginScreen
 from screens.home import HomeScreen
 from screens.map import MapScreen
-from screens.qrscanner import QRCodeScanner
 from screens.register import RegisterScreen
 from screens.location import LocationSelectScreen
 from screens.success import SuccessScreen
@@ -28,7 +27,6 @@ class LibrosEnRedApp(MDApp):
         sm.add_widget(HomeScreen(name='home'))
         sm.add_widget(MapScreen(name='map'))
         sm.add_widget(LocationSelectScreen(name='location_select'))
-        sm.add_widget(QRCodeScanner(name='qrscanner'))
         sm.add_widget(RegisterScreen(name='register'))
         sm.add_widget(SuccessScreen(name='success'))
         sm.add_widget(BookDetailScreen(name='book_detail'))
