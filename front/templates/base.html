@@ -43,15 +43,14 @@
                                     <img src="{{ libro.photo }}" alt="${libro.name}">
                                 </div>
                                 <div class="libro-atras">
-                                    <h3>{{ libro.name }}</h3>
-                                    <p>Autor: {{ libro.author }}</p>
-                                    <p>Género: {{ libro.genre }}</p>
+                                    <h3>{{ libro.name }}.</h3>
+                                    <p>De {{ libro.author }}.</p>
+                                    <p>Género: {{ libro.genre }}.</p>
                                     {% if libro.availability_status == 0 %}
-                                        <p>Estado: Disponible</p>
+                                        <p>Estado: Disponible.</p>
                                     {% else %}
-                                        <p>Estado: No disponible</p>
+                                        <p>Estado: No disponible.</p>
                                     {% endif %}
-                                    <p>Propietario: {{ libro.owner_username }}</p>
                                     <button class="button">
                                         <a href="{{url_for('detalle',idLibro=libro.id)}}">Ver más</a>
                                     </button>
