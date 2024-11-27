@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request,redirect
+from flask import Flask, render_template, url_for, request, redirect
 
 def main():
     app = Flask(__name__)
@@ -13,6 +13,7 @@ def main():
 
     @app.route('/login', methods=['GET', 'POST'])
     def Login():
+
         return render_template('login.html')
 
 

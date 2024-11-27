@@ -7,12 +7,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+document.addEventListener('DOMContentLoaded', () => {
+    const mainSection = document.querySelector('#comments');
+
+    mainSection.addEventListener('wheel', (event) => {
+        event.preventDefault();
+        mainSection.scrollTop += event.deltaY * 0.5;
+    });
+});
+
+
 async function cargarPerfil() {
     try {
         // Integrar autenticación de sesión
-        const userId = 1;
 
-        const response = await fetch(`http://localhost:5001/users?id=${userId}`);
+        const response = await fetch(`http://localhost:5001/users?id=1`);
 
         if (!response.ok) {
             throw new Error('Error al obtener datos del perfil');
