@@ -6,8 +6,16 @@ from encrypt import encrypt_password, decrypt_password
 
 from dotenv import load_dotenv
 import os
+import boto3
+from werkzeug.utils import secure_filename
 
 load_dotenv()
+
+# Configuración de AWS S3
+S3_BUCKET_NAME = os.getenv("S3_BUCKET_NAME")
+S3_REGION = os.getenv("S3_REGION")
+S3_ACCESS_KEY = os.getenv("S3_ACCESS_KEY")
+S3_SECRET_KEY = os.getenv("S3_SECRET_KEY")
 
 # Clave Fernet desde el archivo .env
 DB_HOST = os.getenv("DB_HOST")
@@ -25,6 +33,15 @@ DB_CONFIG = {
     'database': DB_DATABASE
 }
 
+s3_client = boto3.client(
+    's3',
+    aws_access_key_id=S3_ACCESS_KEY,
+    aws_secret_access_key=S3_SECRET_KEY,
+    region_name=S3_REGION
+)
+
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
 def execute_query(query, params=None, fetch_one=False):
     try:
         connection = mysql.connector.connect(**DB_CONFIG)
@@ -39,6 +56,84 @@ def execute_query(query, params=None, fetch_one=False):
     finally:
         cursor.close()
         connection.close()
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+@app.route('/upload/profile-photo/<int:user_id>', methods=['POST'])
+def upload_profile_photo(user_id):
+    # Verificar si el usuario existe
+    user = execute_query("SELECT id FROM Users WHERE id = %s", (user_id,), fetch_one=True)
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    # Debug para ver qué viene en la request
+    print("Files in request:", request.files)
+    print("Form data:", request.form)
+    
+    # Verificar si hay archivo en la solicitud
+    if 'file' not in request.files:
+        return jsonify({
+            "error": "No file provided",
+            "detail": "Make sure to use 'file' as the key name in form-data",
+            "received_keys": list(request.files.keys())
+        }), 400
+
+    file = request.files['file']
+
+    # Validar formato del archivo
+    if file.filename == '':
+        return jsonify({
+            "error": "No selected file",
+            "detail": "Filename is empty"
+        }), 400
+
+    if not allowed_file(file.filename):
+        return jsonify({
+            "error": "Invalid file type",
+            "detail": f"Allowed extensions are: {ALLOWED_EXTENSIONS}",
+            "received_file": file.filename
+        }), 400
+
+    # Asegurar el nombre del archivo
+    filename = secure_filename(file.filename)
+
+    # Subir a S3
+    try:
+        s3_client.upload_fileobj(
+            file,
+            S3_BUCKET_NAME,
+            filename,
+            ExtraArgs={"ContentType": file.content_type}
+        )
+
+    except Exception as e:
+        return jsonify({
+            "error": "Failed to upload to S3",
+            "detail": str(e)
+        }), 500
+
+    # Obtener la URL pública
+    file_url = s3_client.generate_presigned_url(
+            'get_object',
+            Params={'Bucket': S3_BUCKET_NAME, 'Key': filename},
+            ExpiresIn=3600  # URL válido por 1 hora
+        )
+
+    # Guardar URL en el perfil del usuario
+    query = "UPDATE Users SET profile_photo = %s WHERE id = %s"
+    result = execute_query(query, (file_url, user_id))
+    
+    if "error" in result:
+        return jsonify({
+            "error": "Failed to update user profile",
+            "detail": result["error"]
+        }), 500
+
+    return jsonify({
+        "message": "Profile photo uploaded successfully",
+        "file_url": file_url
+    }), 200
 
 @app.route('/register', methods=['POST'])
 def register_user():
