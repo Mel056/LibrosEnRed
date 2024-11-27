@@ -125,6 +125,73 @@ def upload_profile_photo(user_id):
         "file_url": file_url
     }), 200
 
+@app.route('/upload/book-photo/<int:book_id>', methods=['POST'])
+def upload_book_photo(book_id):
+    # Verificar si el libro existe
+    book = execute_query("SELECT id FROM Books WHERE id = %s", (book_id,), fetch_one=True)
+    if not book:
+        return jsonify({"error": "Book not found"}), 404
+
+    # Verificar si hay archivo en la solicitud
+    if 'file' not in request.files:
+        return jsonify({
+            "error": "No file provided",
+            "detail": "Make sure to use 'file' as the key name in form-data",
+            "received_keys": list(request.files.keys())
+        }), 400
+
+    file = request.files['file']
+
+    # Validar formato del archivo
+    if file.filename == '':
+        return jsonify({
+            "error": "No selected file",
+            "detail": "Filename is empty"
+        }), 400
+
+    if not allowed_file(file.filename):
+        return jsonify({
+            "error": "Invalid file type",
+            "detail": f"Allowed extensions are: {ALLOWED_EXTENSIONS}",
+            "received_file": file.filename
+        }), 400
+
+    # Asegurar el nombre del archivo
+    filename = secure_filename(file.filename)
+
+    # Subir a S3
+    try:
+        s3_client.upload_fileobj(
+            file,
+            S3_BUCKET_NAME,
+            filename,
+            ExtraArgs={"ContentType": file.content_type}
+        )
+
+    except Exception as e:
+        return jsonify({
+            "error": "Failed to upload to S3",
+            "detail": str(e)
+        }), 500
+
+    # Obtener la URL pública
+    file_url = f"https://{S3_BUCKET_NAME}.s3.{S3_REGION}.amazonaws.com/{filename}"
+
+    # Guardar URL en la foto del libro
+    query = "UPDATE Books SET photo = %s WHERE id = %s"
+    result = execute_query(query, (file_url, book_id))
+    
+    if "error" in result:
+        return jsonify({
+            "error": "Failed to update book photo",
+            "detail": result["error"]
+        }), 500
+
+    return jsonify({
+        "message": "Book photo uploaded successfully",
+        "file_url": file_url
+    }), 200
+
 @app.route('/register', methods=['POST'])
 def register_user():
     data = request.get_json()
