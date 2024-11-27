@@ -76,6 +76,13 @@
                         </select>
                     </fieldset>
                 </div>
+                
+                <div class="owner_id">
+                    <fieldset>
+                        <input type="hidden" name="owner_id" id="owner_id" value="10">                   
+                     </fieldset>
+                </div>
+
                 <div class="descripcion-form">
                     <fieldset>
                         <textarea name="descripcion" class="form-control" id="descripcion" placeholder="Descripción del libro" required></textarea>  
@@ -83,7 +90,7 @@
                 </div>
                 <div class="portada-form">
                     <fieldset>        
-                        <input type="text" name="portada" id="portada" placeholder="URL Imagen" autocomplete="on" required>        
+                        <input type="file" name="photo" id="photo" accept="image/*" required>        
                     </fieldset>        
                 </div>
     
@@ -101,37 +108,27 @@
     <script>
     document.getElementById('bookForm').addEventListener('submit', function(event) {
         event.preventDefault();
-    
-        const formData = new FormData(this);
-        const data = {
-            name_book: formData.get('nombre'),
-            genre: formData.get('genero'),
-            author: formData.get('autor'),
-            status: 1, // LO SETEEE COMO 1 QUE ESTARIA DISPONIBLE SIEMPRE QUE SE SUBA.
-            descripcion: formData.get('descripcion'),
-            photo: formData.get('portada') // LO PUSE COMO TEXTO - NO OLVIDAR DE VER ESTO!
-        };
-    
+
+        const formData = new FormData(this); // Esto incluye automáticamente el archivo
+
+        // No es necesario crear un objeto data, ya que FormData maneja todo
         fetch('http://127.0.0.1:5001/books', {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'  
-            },
-            body: JSON.stringify(data)  
+            body: formData  // Enviar el FormData directamente
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error ('Network response was not ok');
+                throw new Error('Network response was not ok');
             }
             return response.json();
         })
         .then(data => {
             console.log('Completado:', data);
-            // LOGICA PARA IMPLEMENTAR DESPUES
-     })
+            // Lógica para implementar después
+        })
         .catch((error) => {
             console.error('Error:', error);
-            // LOGICA PARA IMPLEMENTAR DESPUES
+            // Lógica para implementar después
         });
     });
     </script>
