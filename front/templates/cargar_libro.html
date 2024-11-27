@@ -124,11 +124,12 @@
         })
         .then(data => {
             console.log('Completado:', data);
-            // Lógica para implementar después
+            alert('Carga de libro exitosa');
+            window.location.href = "{{url_for('home')}}";
         })
         .catch((error) => {
             console.error('Error:', error);
-            // Lógica para implementar después
+            alert('Error al cargar el libro. Verifique los datos cargados');
         });
     });
     </script>
