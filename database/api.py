@@ -778,5 +778,64 @@ def request_exchange():
         }
     }), 201
 
+@app.route('/users/comments', methods=['POST'])
+def add_user_comment():
+    data = request.get_json()
+    
+    # Verificar campos requeridos
+    required_fields = ['receiver_id', 'commenter_id', 'comment']
+    missing_fields = [field for field in required_fields if field not in data]
+    if missing_fields:
+        return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
+
+    # Verificar que el usuario que recibirá el comentario existe
+    receiver_query = "SELECT id FROM Users WHERE id = %s"
+    receiver = execute_query(receiver_query, (data['receiver_id'],), fetch_one=True)
+    if not receiver:
+        return jsonify({"error": "Receiver user not found"}), 404
+
+    # Verificar que el usuario que comenta existe
+    commenter_query = "SELECT id, username FROM Users WHERE id = %s"
+    commenter = execute_query(commenter_query, (data['commenter_id'],), fetch_one=True)
+    if not commenter:
+        return jsonify({"error": "Commenter user not found"}), 404
+
+    # Verificar que el usuario no se comente a sí mismo
+    if data['receiver_id'] == data['commenter_id']:
+        return jsonify({"error": "Users cannot comment on their own profile"}), 400
+
+    # Insertar el comentario
+    insert_query = """
+        INSERT INTO UserComments (
+            receiver_id,
+            commenter_id,
+            comment,
+            created_at
+        ) VALUES (%s, %s, %s, CURRENT_TIMESTAMP)
+    """
+    
+    result = execute_query(insert_query, (
+        data['receiver_id'],
+        data['commenter_id'],
+        data['comment']
+    ))
+    
+    if "error" in result:
+        return jsonify(result), 400
+
+    return jsonify({
+        "message": "Comment added successfully",
+        "comment_details": {
+            "comment_id": result.get('last_id'),
+            "receiver_id": data['receiver_id'],
+            "commenter": {
+                "id": commenter['id'],
+                "username": commenter['username']
+            },
+            "comment": data['comment'],
+            "created_at": "now"  # La base de datos maneja el timestamp real
+        }
+    }), 201
+
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
