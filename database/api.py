@@ -449,9 +449,9 @@ def delete_user(user_id):
 @app.route('/books', methods=['POST'])
 def create_book():
 
-    print("Datos recibidos:", request.form)  # Agrega esta línea
+    print("Datos recibidos:", request.form)  # DATOS RECIBIDOS
 
-    print("Archivos recibidos:", request.files)  # Agrega esta línea    
+    print("Archivos recibidos:", request.files)  # ARCHIVOS RECIBIDOS
     
     # Verificar si hay archivo en la solicitud
     if 'photo' in request.files:
