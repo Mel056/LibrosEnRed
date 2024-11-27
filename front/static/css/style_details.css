@@ -37,6 +37,7 @@ main {
     box-shadow: none; 
     margin-top: 20px; 
     margin-left: 50px;
+    color: #ffffff;
 }
 
 .book-details h1 {
@@ -44,6 +45,7 @@ main {
     font-size: 20px;
     color: #ffffff;
     text-decoration: underline;
+    color: #ffffff;
 }
 
 .book-details h2 {
@@ -54,7 +56,8 @@ main {
 
 .book-details .book-description {
     margin-top: 15px;
-    line-height: 1.6; 
+    line-height: 1.6;
+    color: #ffffff;
 }
 
 .exchange-button {
