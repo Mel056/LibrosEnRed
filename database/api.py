@@ -791,7 +791,6 @@ def get_book_rating(book_id):
        "ratings_detail": result['ratings_detail']
    }), 200
 
-
 @app.route('/exchange/request', methods=['POST'])
 def request_exchange():
     data = request.get_json()

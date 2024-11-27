@@ -94,7 +94,10 @@ def main():
     @login_required
     def detalle(idLibro):  # Cambiado de Detalle a detalle
         try:
+            print('id libro', idLibro)
             response = requests.get(f'http://localhost:5001/books?id={idLibro}')  # Cambiado request.get a requests.get
+            print(response.json())
+            print(response.status_code)
             if response.status_code == 200:
                 book_data = response.json()[0]  
                 return render_template('detalle.html', libro=book_data)

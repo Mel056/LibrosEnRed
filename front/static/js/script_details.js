@@ -13,7 +13,8 @@ async function cargarDetallesLibro(bookId) {
         if (!response.ok) {
             throw new Error('Error en la carga de datos');
         }
-        const libro = await response.json();
+        const libroJSON = await response.json();
+        const libro = libroJSON[0]
         console.log(libro);
 
         const container = document.getElementById('book-details-container');
@@ -23,21 +24,21 @@ async function cargarDetallesLibro(bookId) {
         <main>
             <div class="book-container">
                 <div class="book-cover">
-                    <img id="photo" src="${libro.photo || 'placeholder.jpg'}" alt="Portada del libro">
+                    <img id="photo" src="${libro['photo'] || 'placeholder.jpg'}" alt="Portada del libro">
                 </div>
                 <div class="book-details">
-                    <h1 id="name_book">${libro.title || 'Título no disponible'}</h1>
-                    <h2 id="author">${libro.author || 'Autor desconocido'}</h2>
+                    <h1 id="name_book">${libro['title'] || 'Título no disponible'}</h1>
+                    <h2 id="author">${libro['author'] || 'Autor desconocido'}</h2>
                     
                     <div class="book-genres">
-                        <span id="genre">${libro.genre || 'Género no especificado'}</span>
+                        <span id="genre">${libro['genre'] || 'Género no especificado'}</span>
                     </div>
                     
                     <div class="book-description">
-                        <p id="description">${libro.description || 'Sin descripción disponible'}</p>
+                        <p id="description">${libro['description'] || 'Sin descripción disponible'}</p>
                     </div>
                     
-                    ${libro.status === 'Disponible' ? `
+                    ${libro['status'] === 'Disponible' ? `
                     <button id="reserve-btn" class="exchange-button">Reservar</button>
                     ` : `
                     <p class="unavailable"><strong>Estado:</strong> No disponible</p>
