@@ -11,10 +11,11 @@ from screens.success import SuccessScreen
 from screens.book_detail import BookDetailScreen
 from screens.profile import ProfileScreen
 from screens.exchange_location import ExchangeLocationScreen
+from screens.profile import ProfileScreen
 
 
 # Set window size for desktop testing
-Window.size = (360, 640)
+Window.size = (360, 600)
 
 class LibrosEnRedApp(MDApp):
     def __init__(self, **kwargs):
@@ -32,6 +33,7 @@ class LibrosEnRedApp(MDApp):
         sm.add_widget(BookDetailScreen(name='book_detail'))
         sm.add_widget(ProfileScreen(name='profile'))
         sm.add_widget(ExchangeLocationScreen(name='exchange_location'))
+        sm.add_widget(ProfileScreen(name='profile'))
         return sm
 
 if __name__ == '__main__':
