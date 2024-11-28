@@ -508,7 +508,7 @@ def create_book():
         owner_id = int(request.form.get('owner_id'))
         genre = request.form.get('genre')
         description = request.form.get('description')
-        availability_status = request.form.get('availability_status', 'True').lower() == 'True'
+        availability_status = request.form.get('availability_status', 'true').lower() == 'true'
     except Exception as e:
         return jsonify({
             "error": "Failed to parse form data",
