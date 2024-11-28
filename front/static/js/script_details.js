@@ -27,7 +27,7 @@ async function cargarDetallesLibro(bookId) {
                     <img id="photo" src="${libro['photo'] || 'placeholder.jpg'}" alt="Portada del libro">
                 </div>
                 <div class="book-details">
-                    <h1 id="name_book">${libro['title'] || 'Título no disponible'}</h1>
+                    <h1 id="name_book">${libro['name'] || 'Título no disponible'}</h1>
                     <h2 id="author">${libro['author'] || 'Autor desconocido'}</h2>
                     
                     <div class="book-genres">
