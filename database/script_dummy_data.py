@@ -126,61 +126,61 @@ REAL_BOOKS = [
 REAL_USERS = [
     {
         "username": "martin_lopez",
-        "email": "martinlopes@gmail.com",
+        "email": "martinlopez@gmail.com",
         "name": "Martín López",
         "profile_photo": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=500"
     },
     {
         "username": "laura_garcia",
-        "email": "lauragarci@gmail.com",
+        "email": "lauragarcia@gmail.com",
         "name": "Laura García",
         "profile_photo": "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=500"
     },
     {
         "username": "carlos_rodriguez",
-        "email": "carlosrodrigue@gmail.com",
+        "email": "carlosrodriguez@gmail.com",
         "name": "Carlos Rodríguez",
         "profile_photo": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500"
     },
     {
         "username": "ana_martinez",
-        "email": "anamartine@gmail.com",
+        "email": "anamartinez@gmail.com",
         "name": "Ana Martínez",
         "profile_photo": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=500"
     },
     {
         "username": "diego_sanchez",
-        "email": "diegosanchz@gmail.com",
+        "email": "diegosanchez@gmail.com",
         "name": "Diego Sánchez",
         "profile_photo": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500"
     },
     {
         "username": "valeria_torres",
-        "email": "valerit@gmail.com",
+        "email": "valeriat@gmail.com",
         "name": "Valeria Torres",
         "profile_photo": "https://images.unsplash.com/photo-1524250502761-1ac6f2e30d43?w=500"
     },
     {
         "username": "pablo_fernandez",
-        "email": "pablofernanez@gmail.com",
+        "email": "pablofernandez@gmail.com",
         "name": "Pablo Fernández",
         "profile_photo": "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=500"
     },
     {
         "username": "lucia_romero",
-        "email": "luciaromeo@gmail.com",
+        "email": "luciaromero@gmail.com",
         "name": "Lucía Romero",
         "profile_photo": "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500"
     },
     {
         "username": "juan_perez",
-        "email": "juanpeez@gmail.com",
+        "email": "juanperez@gmail.com",
         "name": "Juan Pérez",
         "profile_photo": "https://images.unsplash.com/photo-1463453091185-61582044d556?w=500"
     },
     {
         "username": "sofia_gomez",
-        "email": "sofiagoez@gmail.com",
+        "email": "sofiagomez@gmail.com",
         "name": "Sofía Gómez",
         "profile_photo": "https://images.unsplash.com/photo-1521252659862-eec69941b071?w=500"
     }
