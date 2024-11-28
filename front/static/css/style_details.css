@@ -229,3 +229,73 @@ iframe {
 .star-rating input:checked~label:before {
     content: "★";
 }
+
+/* Agregar al CSS existente */
+.owner-message {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+.owner-message p {
+    margin: 0;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.exchange-button {
+    display: inline-block;
+    width: auto;
+    margin-top: 20px;
+    padding: 12px 25px;
+    font-size: 16px;
+    color: #ffffff;
+    background-color: #240046;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+}
+
+.exchange-button:hover {
+    background-color: #3c096c;
+    transform: translateY(-2px);
+}
+
+.exchange-button:active {
+    transform: translateY(0);
+}
+
+/* Asegurarse que el botón sea clickeable en toda su área */
+.request-exchange {
+    display: inline-block;
+}
+
+/* Mejorar el estilo del mensaje de error */
+.error-message {
+    background-color: rgba(255, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+.error-message button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #240046;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.error-message button:hover {
+    background-color: #3c096c;
+}

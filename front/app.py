@@ -92,19 +92,17 @@ def main():
 
     @app.route('/detalle/<int:idLibro>')
     @login_required
-    def detalle(idLibro):  # Cambiado de Detalle a detalle
+    def detalle(idLibro):
         try:
-            print('id libro', idLibro)
+            user_id = session.get('user_id')  # Obtener el user_id de la sesión
             response = requests.get(f'http://localhost:5001/books?id={idLibro}')
-            print(response.json())
-            print(response.status_code)
             if response.status_code == 200:
                 book_data = response.json()[0]  
-                return render_template('detalle.html', libro=book_data)
+                return render_template('detalle.html', libro=book_data, user_id=user_id)  # Pasar user_id
             else:
-                return render_template('detalle.html', libro=None, error="Libro no encontrado")
+                return render_template('detalle.html', libro=None, error="Libro no encontrado", user_id=user_id)
         except Exception as e:
-            return render_template('detalle.html', libro=None, error=str(e))
+            return render_template('detalle.html', libro=None, error=str(e), user_id=session.get('user_id'))
 
     @app.route('/cargar_libro')
     @login_required

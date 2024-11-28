@@ -835,11 +835,15 @@ def get_book_rating(book_id):
 def request_exchange():
     data = request.get_json()
     
-    # Verificar campos requeridos
-    required_fields = ['book_id', 'requesting_user_id']
-    missing_fields = [field for field in required_fields if field not in data]
-    if missing_fields:
-        return jsonify({"error": f"Missing fields: {', '.join(missing_fields)}"}), 400
+    # Verificar campos requeridos y convertir a int
+    try:
+        book_id = int(data.get('book_id'))
+        requesting_user_id = int(data.get('requesting_user_id'))
+    except (ValueError, TypeError):
+        return jsonify({"error": "Invalid book_id or requesting_user_id format"}), 400
+    
+    if not all([book_id, requesting_user_id]):
+        return jsonify({"error": "Missing required fields"}), 400
 
     # Verificar que el libro exista y obtener la información del dueño
     book_query = """
@@ -853,7 +857,7 @@ def request_exchange():
         JOIN Users u ON b.owner_id = u.id
         WHERE b.id = %s
     """
-    book_result = execute_query(book_query, (data['book_id'],), fetch_one=True)
+    book_result = execute_query(book_query, (book_id,), fetch_one=True)
     
     if not book_result:
         return jsonify({"error": "Book not found"}), 404
@@ -863,13 +867,13 @@ def request_exchange():
 
     # Verificar que el solicitante exista
     requester_query = "SELECT id, username FROM Users WHERE id = %s"
-    requester = execute_query(requester_query, (data['requesting_user_id'],), fetch_one=True)
+    requester = execute_query(requester_query, (requesting_user_id,), fetch_one=True)
     
     if not requester:
         return jsonify({"error": "Requesting user not found"}), 404
 
     # Verificar que el solicitante no sea el mismo dueño
-    if data['requesting_user_id'] == book_result['owner_id']:
+    if requesting_user_id == book_result['owner_id']:
         return jsonify({"error": "Cannot request exchange with yourself"}), 400
 
     # Verificar si ya existe una solicitud pendiente
@@ -881,14 +885,14 @@ def request_exchange():
     """
     existing_request = execute_query(
         check_existing_query, 
-        (data['book_id'], data['requesting_user_id']),
+        (book_id, requesting_user_id),
         fetch_one=True
     )
     
     if existing_request:
         return jsonify({"error": "An exchange request already exists for this book"}), 409
 
-    # Crear el intercambio como completado directamente
+    # Crear el intercambio
     exchange_query = """
         INSERT INTO BookExchanges (
             book_id,
@@ -898,13 +902,18 @@ def request_exchange():
         ) VALUES (%s, %s, %s, 'completed')
     """
     result = execute_query(exchange_query, (
-        data['book_id'],
-        data['requesting_user_id'],
+        book_id,
+        requesting_user_id,
         book_result['owner_id']
     ))
     
-    if "error" in result:
+    if isinstance(result, dict) and "error" in result:
         return jsonify(result), 400
+
+    # Obtener el ID del intercambio recién creado
+    last_id_query = "SELECT LAST_INSERT_ID() as last_id"
+    last_id_result = execute_query(last_id_query, fetch_one=True)
+    exchange_id = last_id_result['last_id']
 
     # Actualizar el owner_id y estado del libro
     update_book_query = """
@@ -913,12 +922,12 @@ def request_exchange():
             owner_id = %s
         WHERE id = %s
     """
-    execute_query(update_book_query, (data['requesting_user_id'], data['book_id']))
+    execute_query(update_book_query, (requesting_user_id, book_id))
 
     return jsonify({
         "message": "Exchange completed successfully",
         "exchange_details": {
-            "exchange_id": result.get('last_id'),
+            "exchange_id": exchange_id,
             "book": {
                 "id": book_result['id'],
                 "name": book_result['book_name']
@@ -934,7 +943,6 @@ def request_exchange():
             "status": "completed"
         }
     }), 201
-
 
 
 @app.route('/users/comments', methods=['POST'])
