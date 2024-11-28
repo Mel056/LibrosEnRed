@@ -202,6 +202,10 @@ nav li a {
 
 .sidebar #separacion {
     background-color: rgb(123, 44, 191);
+    text-align: center;
+    margin-left: 40px;
+    margin: 40px;
+    border-radius: 15px;
 }
 
 .sidebar .comment {

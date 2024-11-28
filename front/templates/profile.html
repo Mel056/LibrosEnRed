@@ -37,11 +37,16 @@
                 alt="profile_photo">
             <div id="Maps"></div>
         </header>
+        {% if request.path == '/perfil' %}
+        <span id="separacion">Comentarios</span>
+        {% else %}
         <section id="comments">
             <textarea name="comment_area" id="comment_area"></textarea>
             <button id="comments_button"><a href="#">Comentar </a></button>
             <span id="separacion">Comentarios</span>
         </section>
+        {% endif %}
+
         <section class="footer">
             <span>Puntua este perfil</span>
             <div class="star-rating">
@@ -51,6 +56,7 @@
                 <input type="radio" id="star4" name="rating" value="4"><label for="star4" class="star"></label>
                 <input type="radio" id="star5" name="rating" value="5"><label for="star5" class="star"></label>
             </div>
+            {% if request.path == '/perfil' %}
             <button id="Edit_profile">Editar perfil</button>
             <div id="editProfileModal" class="modal">
                 <div class="modal-content">
@@ -68,6 +74,8 @@
                     </form>
                 </div>
             </div>
+            {% endif %}
+
         </section>
     </section>
     <main class="main">

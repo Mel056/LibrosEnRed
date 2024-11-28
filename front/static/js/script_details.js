@@ -17,9 +17,17 @@ async function cargarDetallesLibro(bookId) {
         const libro = libroJSON[0]
         console.log(libro);
 
-        const container = document.getElementById('book-details-container');
-        container.innerHTML = ''; 
+        const OWNER_ID = libro['owner_id'];
 
+        const container = document.getElementById('book-details-container');
+        container.innerHTML = '';
+
+        const userResponse = await fetch(`http://localhost:5001/users?id=${OWNER_ID}`);
+        if (!userResponse.ok) {
+            throw new Error('Error al cargar los datos del usuario');
+        }
+        const usuarioJSON = await userResponse.json();
+        const usuario = usuarioJSON[0];
         const bookDetailsHTML = `
         <main>
             <div class="book-container">
@@ -43,13 +51,16 @@ async function cargarDetallesLibro(bookId) {
                     <div class="book-genres">
                         <span id="genre">${libro['genre'] || 'Género no especificado'}</span>
                     </div>
+                    <div class="book-owner">
+                        <p id="link_perfil">Publicado por: <a href="/visit/${usuario['id']}">${usuario['username'] || 'Usuario desconocido'}</a></p>
+                    </div>
                 </div>
             </div>
         </main>
         `;
 
         container.innerHTML = bookDetailsHTML;
-    
+
     } catch (error) {
         console.error('Error al cargar los detalles del libro:', error);
 

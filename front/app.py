@@ -131,6 +131,27 @@ def main():
                 return render_template('profile.html', user=user_data, libros=None, error="Libros no encontrados", user_id=user_id)
         except Exception as e:
             return render_template('profile.html', user=None, libros=None, error=str(e))
+        
+    @app.route('/visit/<int:user_id>')
+    @login_required
+    def visit_book_owner(user_id):
+        try:
+            response = requests.get(f'http://localhost:5001/books?owner_id={user_id}')
+            user_response = requests.get(f'http://localhost:5001/users?id={user_id}')
+
+            if user_response.status_code == 200:
+                user_data = user_response.json()[0]
+            else:
+                user_data = None
+
+            if response.status_code == 200:
+                libros = response.json()
+                return render_template('profile.html', user=user_data, libros=libros, user_id=user_id)
+            else:
+                return render_template('profile.html', user=user_data, libros=None, error="Libros no encontrados", user_id=user_id)
+        except Exception as e:
+            return render_template('profile.html', user=None, libros=None, error=str(e))
+
 
     @app.route('/get-current-user')
     @login_required
