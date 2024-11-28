@@ -2,6 +2,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
+from kivymd.uix.label import MDLabel
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.image import AsyncImage
@@ -9,39 +10,38 @@ from kivy.core.window import Window
 from kivy.metrics import dp
 from kivy.uix.anchorlayout import AnchorLayout
 from kivy.graphics import Color, Rectangle, RoundedRectangle
-from kivy.uix.image import Image
-from kivy.graphics.texture import Texture
 from kivy.uix.behaviors import ButtonBehavior
 from kivymd.app import MDApp
-import qrcode
+from kivy.clock import Clock
 import requests
 
 class RoundedButton(Button):
     def __init__(self, background_color=(0.2, 0.6, 0.8, 1), radius=15, **kwargs):
         super().__init__(**kwargs)
 
-        self.background_normal = ''  # Remove default background
-        self.background_color = (0, 0, 0, 0)  # Transparent background
+        self.background_normal = '' 
+        self.background_color = (0, 0, 0, 0) 
 
-        # Customizable button size
-        self.size_hint = (None, None)
-        self.size = kwargs.get('size', (dp(150), dp(50)))  # Default size if not provided
+        self.size_hint = (1, None)
+        self.size = kwargs.get('size', (dp(150), dp(50)))
 
-        # Customizing with rounded corners and border
         with self.canvas.before:
-            # Button background color
             Color(*background_color)
-            self.rect = RoundedRectangle(size=self.size, pos=self.pos, radius=[dp(radius)])  # Rounded corners
+            self.rect = RoundedRectangle(size=self.size, pos=self.pos, radius=[dp(radius)])
 
         self.bind(pos=self.update_canvas, size=self.update_canvas)
 
     def update_canvas(self, *args):
-        # Update the position and size of the button and border
         self.rect.pos = self.pos
         self.rect.size = self.size
         self.border.pos = self.pos
         self.border.size = self.size
 
+
+from kivymd.uix.label import MDLabel
+from kivy.uix.boxlayout import BoxLayout
+from kivy.metrics import dp
+from kivy.uix.label import Label
 
 class StarRating(BoxLayout):
     def __init__(self, rating, **kwargs):
@@ -50,14 +50,21 @@ class StarRating(BoxLayout):
         self.size_hint_y = None
         self.height = dp(30)
         self.spacing = dp(5)
-        
+        rating = min(rating, 5)
+
         for i in range(5):
-            star = Label(
-                text='★' if i < rating else '☆',
-                color=(1, 0.8, 0, 1) if i < rating else (0.7, 0.7, 0.7, 1),
-                size_hint=(None, None),
-                size=(dp(20), dp(20))
-            )
+            if i < rating:
+                star = MDLabel(
+                    text="\U00002B50",
+                    font_size=dp(24),
+                    color=(1, 1, 0, 1)
+                )
+            else:
+                star = MDLabel(
+                    text="\u2606",
+                    font_size=dp(24),
+                    color=(1, 1, 0, 0.5)
+                )
             self.add_widget(star)
 
 
@@ -92,27 +99,55 @@ class BookCard(ButtonBehavior, BoxLayout):
             allow_stretch=True,
             keep_ratio=True,
             size_hint=(None, None),
-            size=(dp(120), dp(160))
+            height = dp(120),
+            width = dp(160)
         )
         
         image_container.add_widget(self.image)
         
-        # Book info
+         # Book info
         title_label = Label(
             text=title,
+            text_size=(None, None),
             font_size=dp(18),
             bold=True,
+            size_hint_x=1,
             size_hint_y=None,
             height=dp(30),
             color=(1, 1, 1, 1)
         )
         
+        self.bind(
+            width=lambda instance, value: setattr(
+                title_label, "text_size", (value - self.padding[0] * 2, None)
+            )
+        )
+
+        title_label.bind(
+            texture_size=lambda instance, value: setattr(
+                instance, "height", value[1]
+            )
+        )
+        
         author_label = Label(
             text=f"por {author}",
             font_size=dp(14),
-            size_hint_y=None,
+            size_hint_y=None,   
+            size_hint_x=1,
             height=dp(25),
             color=(1, 1, 1, 1)
+        )
+        
+        self.bind(
+            width=lambda instance, value: setattr(
+                author_label, "text_size", (value - self.padding[0] * 2, None)
+            )
+        )
+
+        author_label.bind(
+            texture_size=lambda instance, value: setattr(
+                instance, "height", value[1]
+            )
         )
         
         description_label = Label(
@@ -125,18 +160,20 @@ class BookCard(ButtonBehavior, BoxLayout):
             color=(1, 1, 1, 1)
         )
         
-        # Star rating
-        rating_widget = StarRating(rating)
-        
-        # Exchange button
-        self.exchange_btn = RoundedButton(            
-            text="Solicitar Intercambio",
-            background_color=(.09, .01, .2, 1), 
-            radius=20, 
-            size=(dp(200), dp(40))
+        self.bind(
+            width=lambda instance, value: setattr(
+                description_label, "text_size", (value - self.padding[0] * 2, None)
+            )
+        )
+
+        description_label.bind(
+            texture_size=lambda instance, value: setattr(
+                instance, "height", value[1]
+            )
         )
         
-        self.exchange_btn.bind(on_press=self.generate_qr_code)
+        # Star rating
+        rating_widget = StarRating(rating)
         
         # Add all widgets
         self.add_widget(image_container)
@@ -144,11 +181,12 @@ class BookCard(ButtonBehavior, BoxLayout):
         self.add_widget(author_label)
         self.add_widget(rating_widget)
         self.add_widget(description_label)
-        self.add_widget(self.exchange_btn)
-        
-        # QR code display
-        self.qr_image = Image()
-        self.add_widget(self.qr_image)
+            
+        for child in self.children:
+            child.bind(height=self.update_height)
+
+        Clock.schedule_once(self.update_height, 0.1)  
+
 
         # Bind the on_press event
         self.bind(on_press=self.on_card_press)
@@ -165,29 +203,19 @@ class BookCard(ButtonBehavior, BoxLayout):
             screen_manager.current = 'book_detail'
             detail_screen = screen_manager.get_screen('book_detail')
             detail_screen.load_book_data(self.book_data['id'])
-        
-    def generate_qr_code(self, instance):
-        user_id = "1234"
-        book_id = "1234"
+    
+    def update_height(self, *args):
+        if isinstance(self.padding, (list, tuple)):
+            vertical_padding = self.padding[1] + self.padding[3]
+        else:
+            vertical_padding = self.padding * 2
 
-        if not user_id or not book_id:
-            return
+        total_height = sum(child.height for child in reversed(self.children)) + \
+                    self.spacing * (len(self.children) - 1) + \
+                    vertical_padding
+        self.height = total_height
 
-        # Combine user ID and book ID
-        qr_data = f"UserID: {user_id}, BookID: {book_id}"
 
-        # Generate QR code
-        qr = qrcode.make(qr_data)
-
-        # Convert QR code to a Kivy texture
-        qr_image = qr.convert('RGB')
-        qr_image_data = qr_image.tobytes()
-        texture = Texture.create(size=qr_image.size, colorfmt='rgb')
-        texture.blit_buffer(qr_image_data, bufferfmt='ubyte', colorfmt='rgb')
-        texture.flip_vertical()
-
-        # Display QR code in the Image widget
-        self.qr_image.texture = texture
 
 class HomeScreen(Screen):
     def __init__(self, **kwargs):
