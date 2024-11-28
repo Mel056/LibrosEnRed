@@ -48,7 +48,7 @@ body {
 }
 
 .search-button {
-    background-color: #3c096c;
+    background-color: #671faa;
     border: none;
     border-radius: 20px;
     color: #fff;
@@ -61,7 +61,6 @@ body {
 }
 
 .search-button:hover {
-    background-color: #3c096c;
     transform: scale(1.05);
 }
 
@@ -113,13 +112,13 @@ nav li a {
     font-size: 20px;
 }
 
-.links {
+.links, .button-genero {
     text-decoration: none;
     color: white;
     font-weight: 700;
 }
 
-.cta-button {
+.sign-out, .button-genero {
     background-color: #671faa;
     padding: 12px 25px;
     border-width: 3px;
@@ -127,23 +126,18 @@ nav li a {
     border-color: white;
     cursor: pointer;
     font-size: 16px;
+    border-style: solid;
+}
+
+.sign-out {
     margin: 20px;
     left: 72%;
     position: absolute;
-    border-style: solid;
 }
 
 /* Estilos carousel de categorias */
 .button-genero {
-    background-color: #531092;
-    padding: 12px 25px;
-    border-width: 3px;
-    border-radius: 60px;
-    border-color: white;
-    cursor: pointer;
-    font-size: 16px;
     margin-left: 5px;
-    border-style: solid;
     width: 250px;
 }
 
