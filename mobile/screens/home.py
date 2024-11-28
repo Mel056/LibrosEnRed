@@ -42,6 +42,7 @@ from kivymd.uix.label import MDLabel
 from kivy.uix.boxlayout import BoxLayout
 from kivy.metrics import dp
 from kivy.uix.label import Label
+from kivymd.uix.label import MDIcon
 
 class StarRating(BoxLayout):
     def __init__(self, rating, **kwargs):
@@ -54,16 +55,20 @@ class StarRating(BoxLayout):
 
         for i in range(5):
             if i < rating:
-                star = MDLabel(
-                    text="\U00002B50",
-                    font_size=dp(24),
-                    color=(1, 1, 0, 1)
+                star = MDIcon(
+                    icon="star",  # Estrella llena
+                    theme_text_color="Custom",
+                    text_color=(1, 0.8, 0, 1),  # Color amarillo dorado
+                    size_hint=(None, None),
+                    size=(dp(24), dp(24))
                 )
             else:
-                star = MDLabel(
-                    text="\u2606",
-                    font_size=dp(24),
-                    color=(1, 1, 0, 0.5)
+                star = MDIcon(
+                    icon="star-outline",  # Estrella vacía
+                    theme_text_color="Custom",
+                    text_color=(0.7, 0.7, 0.7, 1),  # Color gris
+                    size_hint=(None, None),
+                    size=(dp(24), dp(24))
                 )
             self.add_widget(star)
 

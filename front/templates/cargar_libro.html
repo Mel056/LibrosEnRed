@@ -33,6 +33,9 @@
                 </form>
                 <div id="results" class="results"></div>
             </div>
+        <div class="search-container">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search..." />
+        </div>
     </nav>
 
     <h2 class="cargar-libro">Cargar un libro</h2>
@@ -110,10 +113,9 @@
     
     <script src="{{url_for('static', filename='js/script_home.js')}}"></script>
     
-    <script>
-    document.getElementById('bookForm').addEventListener('submit', function(event) {
-        event.preventDefault();
+    <script src="{{url_for('static', filename='js/cargar_libro.js')}}"></script>
 
+<<<<<<< HEAD
         const formData = new FormData(this); // Esto incluye automáticamente el archivo
 
         // No es necesario crear un objeto data, ya que FormData maneja todo
@@ -139,6 +141,8 @@
     });
     </script>
     <script src="{{url_for('static', filename='js/search.js')}}"></script>
+=======
+>>>>>>> c5ee9783cb0947613d95328e8a363460bdf26f97
     </body>
     
     </html>
