@@ -49,7 +49,7 @@
                                     <h3>{{ libro.name }}.</h3>
                                     <p>De {{ libro.author }}.</p>
                                     <p>Género: {{ libro.genre }}.</p>
-                                    {% if libro.availability_status == 0 %}
+                                    {% if libro.availability_status == 1 %}
                                         <p>Estado: Disponible.</p>
                                     {% else %}
                                         <p>Estado: No disponible.</p>
