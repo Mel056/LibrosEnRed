@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const newUsername = document.getElementById('username').value;
         const newProfilePhoto = document.getElementById('googlePhotosLink').value;
 
+
         const updateData = {};
 
         if (newUsername.trim() !== '') {

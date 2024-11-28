@@ -95,7 +95,7 @@ def main():
     def detalle(idLibro):  # Cambiado de Detalle a detalle
         try:
             print('id libro', idLibro)
-            response = requests.get(f'http://localhost:5001/books?id={idLibro}')  # Cambiado request.get a requests.get
+            response = requests.get(f'http://localhost:5001/books?id={idLibro}')
             print(response.json())
             print(response.status_code)
             if response.status_code == 200:
@@ -113,18 +113,24 @@ def main():
 
     @app.route('/perfil')
     @login_required
-
-    def perfil():  # Cambiado de Perfil a perfil
+    def perfil():
         try:
             user_id = session.get('user_id')
-            response = requests.get(f'http://localhost:5001/users?id={user_id}')  # Cambiado request.get a requests.get
-            if response.status_code == 200:
-                user_data = response.json()[0] 
-                return render_template('profile.html', user=user_data)
+            response = requests.get(f'http://localhost:5001/books?owner_id={user_id}')
+            user_response = requests.get(f'http://localhost:5001/users?id={user_id}')
+            
+            if user_response.status_code == 200:
+                user_data = user_response.json()[0]
             else:
-                return render_template('profile.html', user=None, error="Usuario no encontrado")
+                user_data = None
+
+            if response.status_code == 200:
+                libros = response.json()
+                return render_template('profile.html', user=user_data, libros=libros, user_id=user_id)
+            else:
+                return render_template('profile.html', user=user_data, libros=None, error="Libros no encontrados", user_id=user_id)
         except Exception as e:
-            return render_template('profile.html', user=None, error=str(e))
+            return render_template('profile.html', user=None, libros=None, error=str(e))
 
     @app.route('/get-current-user')
     @login_required

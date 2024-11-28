@@ -10,10 +10,9 @@
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&amp;display=swap">
     <link rel="stylesheet" href="{{url_for('static',filename='css/style_profile.css')}}">
-    <link rel="stylesheet" href="{{url_for('static',filename='css/style_footer.css')}}">
 </head>
 
-<body>
+<body data-user-id="{{ user_id }}">
     <header>
         <nav>
             <i id="logo" class="fa-solid fa-book nav-icon"></i>
@@ -36,6 +35,7 @@
             <img id="Profile"
                 src="{{ user.profile_photo if user and user.profile_photo else url_for('static', filename='images/Perfil.jpg') }}"
                 alt="profile_photo">
+            <div id="Maps"></div>
         </header>
         <section id="comments">
             <textarea name="comment_area" id="comment_area"></textarea>
@@ -72,11 +72,35 @@
     </section>
     <main class="main">
         <div class="contenedor-carousel-libros">
-            <div class="carousel-libros" id="carousel-libros">
+            <div class="carousel-libros" id="carousel-libros" name="carousel-libros">
+                {% for libro in libros %}
+                {% if libro.owner_id == user_id %}
+                <div class="contenedor-flip">
+                    <div class="flip-libro">
+                        <div class="libro-frente">
+                            <img src="{{ libro.photo }}" alt="${libro.name}">
+                        </div>
+                        <div class="libro-atras">
+                            <h3>{{ libro.name }}.</h3>
+                            <p>De {{ libro.author }}.</p>
+                            <p>Género: {{ libro.genre }}.</p>
+                            {% if libro.availability_status == 0 %}
+                            <p>Estado: Disponible.</p>
+                            {% else %}
+                            <p>Estado: No disponible.</p>
+                            {% endif %}
+                            <button class="button">
+                                <a href="{{url_for('detalle',idLibro=libro.id)}}">Ver más</a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% endfor %}
             </div>
         </div>
     </main>
-    <script src="{{url_for('static', filename='js/script_details.js')}}"></script>
     <script src="{{url_for('static', filename='js/script_books_profile.js')}}"></script>
     <script src="{{url_for('static', filename='js/script_profile.js')}}"></script>
     <script src="{{ url_for('static', filename='js/script_edit_profile.js') }}"></script>

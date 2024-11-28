@@ -173,7 +173,8 @@ nav li a {
     list-style-type: none;
     padding: 5px;
     margin-top: 10px;
-    font-size: 2vh;
+    font-size: 3vh;
+    color: #8e24aa;
 }
 
 .sidebar #comments {

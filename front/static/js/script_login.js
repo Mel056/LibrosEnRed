@@ -74,7 +74,7 @@ async function makeRequest(url, method, data = null) {
 
 function initializeForms() {
     console.log('Initializing forms...');
-    
+
     const registerForm = document.getElementById('registerForm');
     const loginForm = document.getElementById('loginForm');
     const container = document.getElementById('container');
@@ -183,7 +183,7 @@ function initializeForms() {
 }
 
 // Esta función debe estar disponible globalmente para el onclick
-window.toggle = function() {
+window.toggle = function () {
     console.log('Toggle called');
     const container = document.getElementById('container');
     if (container) {

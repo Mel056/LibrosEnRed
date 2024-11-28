@@ -9,6 +9,7 @@ import os
 import boto3
 from werkzeug.utils import secure_filename
 
+
 load_dotenv()
 
 S3_BUCKET_NAME = os.getenv("S3_BUCKET_NAME")
@@ -16,13 +17,17 @@ S3_REGION = os.getenv("S3_REGION")
 S3_ACCESS_KEY = os.getenv("S3_ACCESS_KEY")
 S3_SECRET_KEY = os.getenv("S3_SECRET_KEY")
 
+
 DB_HOST = os.getenv("DB_HOST")
 DB_USER = os.getenv("DB_USER")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_DATABASE = os.getenv("DB_DATABASE")
 
+
+
 app = Flask(__name__)
 CORS(app)  # Esto habilita CORS para todas las rutas
+
 
 DB_CONFIG = {
     'host': DB_HOST,
@@ -31,12 +36,16 @@ DB_CONFIG = {
     'database': DB_DATABASE
 }
 
+
+
 s3_client = boto3.client(
     's3',
     aws_access_key_id=S3_ACCESS_KEY,
     aws_secret_access_key=S3_SECRET_KEY,
     region_name=S3_REGION
 )
+
+
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
@@ -55,8 +64,12 @@ def execute_query(query, params=None, fetch_one=False):
         cursor.close()
         connection.close()
 
+
+
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
 
 @app.route('/upload/profile-photo/<int:user_id>', methods=['POST'])
 def upload_profile_photo(user_id):
@@ -125,6 +138,8 @@ def upload_profile_photo(user_id):
         "file_url": file_url
     }), 200
 
+
+
 @app.route('/upload/book-photo/<int:book_id>', methods=['POST'])
 def upload_book_photo(book_id):
     # Verificar si el libro existe
@@ -192,6 +207,8 @@ def upload_book_photo(book_id):
         "file_url": file_url
     }), 200
 
+
+
 @app.route('/register', methods=['POST'])
 def register_user():
     data = request.get_json()
@@ -242,6 +259,7 @@ def register_user():
     return jsonify({"message": "User registered successfully"}), 201
 
 
+
 @app.route('/login', methods=['POST'])
 def login_user():
     data = request.get_json()
@@ -285,6 +303,8 @@ def login_user():
         "profile_photo": user['profile_photo'],
         "average_rating": float(user['average_rating']) if user['average_rating'] else 0.00
     }), 200
+
+
 
 @app.route('/users', methods=['GET'])
 def get_users():
@@ -368,6 +388,8 @@ def get_users():
             
     return jsonify(result), 200
 
+
+
 @app.route('/users/<int:user_id>', methods=['PATCH'])
 def update_user(user_id):
     data = request.get_json()
@@ -427,6 +449,8 @@ def update_user(user_id):
         "updated_fields": list(data.keys())
     }), 200
 
+
+
 @app.route('/users/<int:user_id>', methods=['DELETE'])
 def delete_user(user_id):
     # Verificar que el usuario existe antes de eliminarlo
@@ -445,6 +469,8 @@ def delete_user(user_id):
         return jsonify(result), 400
         
     return jsonify({"message": "User deleted successfully"}), 200
+
+
 
 @app.route('/books', methods=['POST'])
 def create_book():
@@ -546,6 +572,8 @@ def create_book():
         "photo_url": photo_url
     }), 201
 
+
+
 @app.route('/books', methods=['GET'])
 def get_books():
    book_id = request.args.get('id')
@@ -613,6 +641,8 @@ def get_books():
 
    return jsonify(result), 200
 
+
+
 @app.route('/books/<int:book_id>', methods=['PATCH'])
 def update_book(book_id):
    data = request.get_json()
@@ -660,6 +690,8 @@ def update_book(book_id):
        "updated_fields": list(data.keys())
    }), 200
 
+
+
 @app.route('/books/<int:book_id>', methods=['DELETE'])
 def delete_book(book_id):
    # Verificar que el libro existe
@@ -677,6 +709,8 @@ def delete_book(book_id):
        return jsonify(result), 400
        
    return jsonify({"message": "Book deleted successfully"}), 200
+
+
 
 @app.route('/rating/books', methods=['POST'])
 def rate_book():
@@ -746,6 +780,8 @@ def rate_book():
        "rating": data['rating']
    }), 200
 
+
+
 @app.route('/books/<int:book_id>/rating', methods=['GET'])
 def get_book_rating(book_id):
    # Verificar que el libro existe
@@ -790,6 +826,8 @@ def get_book_rating(book_id):
        "total_ratings": result['total_ratings'],
        "ratings_detail": result['ratings_detail']
    }), 200
+
+
 
 @app.route('/exchange/request', methods=['POST'])
 def request_exchange():
@@ -895,6 +933,8 @@ def request_exchange():
         }
     }), 201
 
+
+
 @app.route('/users/comments', methods=['POST'])
 def add_user_comment():
     data = request.get_json()
@@ -953,6 +993,8 @@ def add_user_comment():
             "created_at": "now"  # La base de datos maneja el timestamp real
         }
     }), 201
+
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
