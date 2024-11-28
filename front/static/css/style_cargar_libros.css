@@ -10,6 +10,7 @@
     margin: 20px 0; 
 }
 
+
 /*STYLE FORM*/
 
 body {
@@ -82,7 +83,7 @@ input[type="file"] {
 /*BOTON ENVIAR FORM*/
 
 .btn {
-	border: none;
+	border-radius: 10px;
 	font-family: 'Lato';
 	font-size: inherit;
 	color: inherit;

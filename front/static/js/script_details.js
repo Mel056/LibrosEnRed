@@ -26,23 +26,23 @@ async function cargarDetallesLibro(bookId) {
                 <div class="book-cover">
                     <img id="photo" src="${libro['photo'] || 'placeholder.jpg'}" alt="Portada del libro">
                 </div>
+                
                 <div class="book-details">
-                    <h1 id="name_book">${libro['name'] || 'Título no disponible'}</h1>
-                    <h2 id="author">${libro['author'] || 'Autor desconocido'}</h2>
-                    
-                    <div class="book-genres">
-                        <span id="genre">${libro['genre'] || 'Género no especificado'}</span>
+                    <h1 id="author">${libro['author'] || 'Autor desconocido'}</h1>
+
+                    <h2 id="name_book">${libro['name'] || 'Título no disponible'}</h2>
+
+                    <div class="availability-status">
+                        <button class="status-button">${libro['availability_status'] === 1 ? 'Disponible' : 'No disponible'}</button>
                     </div>
                     
                     <div class="book-description">
                         <p id="description">${libro['description'] || 'Sin descripción disponible'}</p>
                     </div>
-                    
-                    ${libro['status'] === 'Disponible' ? `
-                    <button id="reserve-btn" class="exchange-button">Reservar</button>
-                    ` : `
-                    <p class="unavailable"><strong>Estado:</strong> No disponible</p>
-                    `}
+
+                    <div class="book-genres">
+                        <span id="genre">${libro['genre'] || 'Género no especificado'}</span>
+                    </div>
                 </div>
             </div>
         </main>

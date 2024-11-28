@@ -20,7 +20,7 @@
             <li><a href="{{url_for('cargar')}}"><i class="fa-solid fa-upload nav-icon"></i> Cargar</a></li>
             <li><a href="{{url_for('perfil')}}"><i class="fa-solid fa-user nav-icon"></i>Perfil</a></li>
         </ul>
-        <button class="cta-button"> <a class="links" href="{{url_for('logout')}}">Sign In</a></button>
+        <button class="sign-out"> <a class="links" href="{{url_for('logout')}}">Sign Out</a></button>
         <div class="search-container">
             <input type="text" id="searchInput" class="search-input" placeholder="Search..." />
             <button id="searchButton" class="search-button">
@@ -28,6 +28,14 @@
             </button>
         </div>
     </nav>
+
+    <div class="star-rating">
+        <input type="radio" id="star1" name="rating" value="1"><label for="star1" class="star"></label>
+        <input type="radio" id="star2" name="rating" value="2"><label for="star2" class="star"></label>
+        <input type="radio" id="star3" name="rating" value="3"><label for="star3" class="star"></label>
+        <input type="radio" id="star4" name="rating" value="4"><label for="star4" class="star"></label>
+        <input type="radio" id="star5" name="rating" value="5"><label for="star5" class="star"></label>
+    </div>
 
     <main id="book-details-container">
     </main>
