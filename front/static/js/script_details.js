@@ -54,6 +54,12 @@ async function cargarDetallesLibro(bookId) {
                     <div class="book-owner">
                         <p id="link_perfil">Publicado por: <a href="/visit/${usuario['id']}">${usuario['username'] || 'Usuario desconocido'}</a></p>
                     </div>
+                    
+                    <div class="request-exchange">
+
+                    <button class="exchange-button">Solicitar intercambio</button>
+
+                    </div>
                 </div>
             </div>
         </main>

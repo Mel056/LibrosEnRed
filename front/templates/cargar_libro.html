@@ -25,9 +25,6 @@
         <button class="sign-out"> <a class="links" href="{{url_for('logout')}}">Sign Out</a></button>
         <div class="search-container">
             <input type="text" id="searchInput" class="search-input" placeholder="Search..." />
-            <button id="searchButton" class="search-button">
-                <i class="fa-solid fa-search"></i>
-            </button>
         </div>
     </nav>
 
@@ -106,34 +103,8 @@
     
     <script src="{{url_for('static', filename='js/script_home.js')}}"></script>
     
-    <script>
-    document.getElementById('bookForm').addEventListener('submit', function(event) {
-        event.preventDefault();
+    <script src="{{url_for('static', filename='js/cargar_libro.js')}}"></script>
 
-        const formData = new FormData(this); // Esto incluye automáticamente el archivo
-
-        // No es necesario crear un objeto data, ya que FormData maneja todo
-        fetch('http://127.0.0.1:5001/books', {
-            method: 'POST',
-            body: formData  // Enviar el FormData directamente
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Completado:', data);
-            alert('Carga de libro exitosa');
-            window.location.href = "{{url_for('home')}}";
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-            alert('Error al cargar el libro. Verifique los datos cargados');
-        });
-    });
-    </script>
     </body>
     
     </html>
