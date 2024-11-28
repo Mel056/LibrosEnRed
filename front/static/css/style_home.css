@@ -248,7 +248,7 @@ nav li a {
 .libros .contenedor-carousel-libros .carousel-libros {
     display: flex;
     flex-wrap: nowrap;
-    justify-content: space-between;
+    justify-content:space-evenly;
 }
 
 .main-content {
