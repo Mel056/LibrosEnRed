@@ -24,7 +24,7 @@ class LibrosEnRedApp(MDApp):
 
     def build(self):
         sm = ScreenManager()
-        # sm.add_widget(LoginScreen(name='login'))
+        sm.add_widget(LoginScreen(name='login'))
         sm.add_widget(HomeScreen(name='home'))
         sm.add_widget(MapScreen(name='map'))
         sm.add_widget(LocationSelectScreen(name='location_select'))
