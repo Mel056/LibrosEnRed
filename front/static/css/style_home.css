@@ -53,12 +53,9 @@ body {
     background-color: #671faa;
     border: none;
     border-radius: 20px;
-    color: #fff;
     cursor: pointer;
-    font-size: 16px;
     padding: 10px 20px;
-    margin-left: 10px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-left: 5px;
     border: 1px solid transparent;
 }
 
@@ -75,6 +72,7 @@ body {
     padding: 10px;
     z-index: 700;
     background-color: white;
+    visibility: hidden;
 }
 
 nav {

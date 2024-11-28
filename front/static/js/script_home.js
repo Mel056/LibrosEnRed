@@ -30,7 +30,7 @@ document.getElementById('search-form').addEventListener('submit', async function
     const name = document.getElementById('name').value.trim();
 
     if (!name) {
-        alert("Por favor, ingresa un nombre de libro para buscar.");
+        alert("Por favor, ingresa el nombre de un libro para buscar.");
         return;
     }
 
@@ -63,4 +63,9 @@ document.getElementById('search-form').addEventListener('submit', async function
     } catch (err) {
         alert(`Hubo un error: ${err.message}`);
     }
+});
+
+document.getElementById('searchButton').addEventListener('click', function () {
+    const resultados = document.getElementById('results');
+    resultados.style.visibility = 'visible';
 });
