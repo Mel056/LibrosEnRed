@@ -41,12 +41,6 @@ body {
     transition: width 0.4s ease-in-out, padding 0.4s ease-in-out;
     font-size: 16px;
     color: #333;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.search-input.open {
-    width: 250px;
-    padding: 10px;
 }
 
 .search-button {
@@ -69,10 +63,21 @@ body {
 
 .results {
     width: 250px;
-    padding: 10px;
     z-index: 700;
     background-color: white;
     visibility: hidden;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.results .detalle-libro {
+    text-decoration: none;
+    color: white;
+    font-weight: 700;
+    background-color: #671faa;
+    align-items: center;
+    border-radius: 20px;
+    cursor: pointer;
 }
 
 nav {
