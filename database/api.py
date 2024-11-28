@@ -581,6 +581,7 @@ def get_books():
    author = request.args.get('author') 
    availability_status = request.args.get('availability_status')
    owner_id = request.args.get('owner_id')
+   name = request.args.get('name')
    limit = request.args.get('limit', 100, type=int)
    offset = request.args.get('offset', 0, type=int)
 
@@ -602,6 +603,9 @@ def get_books():
    if owner_id:
        filters.append("b.owner_id = %s")
        params.append(owner_id)
+   if name:
+       filters.append("b.name = %s")
+       params.append(name)
 
    # Construir consulta con información adicional
    query = """
