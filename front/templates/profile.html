@@ -21,11 +21,15 @@
                 <li><a href="#"><i class="fa-solid fa-mobile nav-icon"></i> App</a></li>
                 <li><a href="{{url_for('cargar')}}"><i class="fa-solid fa-upload nav-icon"></i> Cargar</a></li>
             </ul>
+            <button class="sign-out"> <a class="links" href="{{url_for('logout')}}">Sign Out</a></button>
             <div class="search-container">
-                <input type="text" id="searchInput" class="search-input" placeholder="Search..." />
-                <button id="searchButton" class="search-button">
-                    <i class="fa-solid fa-search"></i>
-                </button>
+                <form id="search-form">
+                    <input type="text" id="name" name="name" class="search-input" placeholder="Search..." />
+                    <button id="searchButton" class="search-button">
+                        <i class="fa-solid fa-search"></i>
+                    </button>
+                </form>
+                <div id="results" class="results"></div>
             </div>
         </nav>
     </header>
@@ -113,6 +117,7 @@
     <script src="{{url_for('static', filename='js/script_profile.js')}}"></script>
     <script src="{{ url_for('static', filename='js/script_edit_profile.js') }}"></script>
     <script src="{{ url_for('static', filename='js/script_comments.js') }}"></script>
+    <script src="{{url_for('static', filename='js/search.js')}}"></script>
 </body>
 
 </html>

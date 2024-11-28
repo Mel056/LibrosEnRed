@@ -23,12 +23,16 @@
             <li><a href="{{url_for('perfil')}}"><i class="fa-solid fa-user nav-icon"></i>Perfil</a></li>
         </ul>
         <button class="sign-out"> <a class="links" href="{{url_for('logout')}}">Sign Out</a></button>
-        <div class="search-container">
-            <input type="text" id="searchInput" class="search-input" placeholder="Search..." />
-            <button id="searchButton" class="search-button">
-                <i class="fa-solid fa-search"></i>
-            </button>
-        </div>
+        <button class="sign-out"> <a class="links" href="{{url_for('logout')}}">Sign Out</a></button>
+            <div class="search-container">
+                <form id="search-form">
+                    <input type="text" id="name" name="name" class="search-input" placeholder="Search..." />
+                    <button id="searchButton" class="search-button">
+                        <i class="fa-solid fa-search"></i>
+                    </button>
+                </form>
+                <div id="results" class="results"></div>
+            </div>
     </nav>
 
     <h2 class="cargar-libro">Cargar un libro</h2>
@@ -134,6 +138,7 @@
         });
     });
     </script>
+    <script src="{{url_for('static', filename='js/search.js')}}"></script>
     </body>
     
     </html>

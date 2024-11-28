@@ -33,50 +33,56 @@ a {
 .search-container {
     position: absolute;
     display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    left: 75%;
+    top: 25%;
+}
+
+.results {
+    width: 250px;
+    z-index: 500;
+    background-color: white;
+    visibility: hidden;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.results .detalle-libro {
+    text-decoration: none;
+    color: white;
+    font-weight: 700;
+    background-color: #671faa;
     align-items: center;
-    left: 71%;
+    border-radius: 20px;
+    cursor: pointer;
 }
 
 .search-input {
-    width: 0;
-    padding: 0;
+    width: 250px;
+    padding: 10px;
     border: 1px solid #ddd;
     border-radius: 20px;
     background-color: #fff;
     transition: width 0.4s ease-in-out, padding 0.4s ease-in-out;
     font-size: 16px;
-    color: #5A189A;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.search-input.open {
-    width: 250px;
-    padding: 10px;
+    color: #333;
 }
 
 .search-button {
-    background-color: #3c096c;
+    background-color: #671faa;
     border: none;
     border-radius: 20px;
-    color: #fff;
     cursor: pointer;
-    font-size: 16px;
     padding: 10px 20px;
-    margin-left: 10px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-left: 5px;
     border: 1px solid transparent;
-}
-
-.search-button:hover {
-    background-color: #3c096c;
-    transform: scale(1.05);
 }
 
 .search-container i {
     position: absolute;
     right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
+    top: 20px;
     color: #fff;
     font-size: 18px;
 }
@@ -89,7 +95,6 @@ nav {
     height: 80px;
     position: sticky;
     top: 0;
-    overflow: hidden;
 }
 
 nav ul {
@@ -123,6 +128,23 @@ nav li a {
     text-decoration: none;
     color: white;
     font-weight: 700;
+}
+
+.sign-out, .button-genero {
+    background-color: #671faa;
+    padding: 12px 25px;
+    border-width: 3px;
+    border-radius: 60px;
+    border-color: white;
+    cursor: pointer;
+    font-size: 16px;
+    border-style: solid;
+}
+
+.sign-out {
+    margin: 20px;
+    left: 64%;
+    position: absolute;
 }
 
 .cta-button {
@@ -221,7 +243,7 @@ nav li a {
 .modal {
     display: none;
     position: fixed;
-    z-index: 1000;
+    z-index: 700;
     left: 0;
     top: 0;
     width: 100%;
